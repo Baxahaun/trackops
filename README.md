@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/trackops-logo.svg" alt="TrackOps" width="140" />
+  <img src="docs/assets/TrackOps.webp" alt="TrackOps" width="400" />
 </p>
 
 <h1 align="center">TrackOps</h1>
