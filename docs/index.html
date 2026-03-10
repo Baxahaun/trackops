@@ -335,18 +335,17 @@
     <div class="hero-content">
       <div class="hero-badge">
         <span class="dot"></span>
-        <span class="es">Open Source &middot; MIT License</span>
-        <span class="en">Open Source &middot; MIT License</span>
+        <span>Open Source &middot; MIT License &middot; 0 deps</span>
       </div>
       <h1>
-        <span class="es">Control operativo<br/>para <span class="accent">vibecoders</span>.</span>
-        <span class="en">Operational control<br/>for <span class="accent">vibecoders</span>.</span>
+        <span class="es">La IA es r&aacute;pida.<br/><span class="accent">El caos tambi&eacute;n.</span></span>
+        <span class="en">AI is fast.<br/><span class="accent">So is chaos.</span></span>
       </h1>
       <p class="es">
-        Seguimiento de tareas, docs auto-generados, dashboard local y metodolog&iacute;a de desarrollo con IA &mdash; todo desde un CLI. Cero dependencias.
+        TrackOps es el motor operativo open-source que act&uacute;a como puente entre t&uacute; y tus agentes de IA. T&uacute; gestionas el proyecto visualmente. Tu IA lee archivos Markdown hiper-estructurados para saber exactamente qu&eacute; hacer.
       </p>
       <p class="en">
-        Task tracking, auto-generated docs, local dashboard, and AI development methodology &mdash; all from one CLI. Zero dependencies.
+        TrackOps is the open-source operational engine that bridges you and your AI agents. You manage the project visually. Your AI reads hyper-structured Markdown files to know exactly what to do.
       </p>
       <div class="hero-actions">
         <a href="https://github.com/Baxahaun/trackops" class="btn btn-primary" target="_blank">
@@ -354,15 +353,30 @@
           <span class="en">View on GitHub</span>
           &rarr;
         </a>
-        <a href="https://www.npmjs.com/package/trackops" class="btn btn-outline" target="_blank">
-          npm &middot; trackops
+        <a href="#quickstart" class="btn btn-outline">
+          <span class="es">Inicio R&aacute;pido</span>
+          <span class="en">Quick Start</span>
         </a>
       </div>
     </div>
   </section>
 
+  <!-- PROBLEM/SOLUTION -->
+  <section style="padding: 0 2rem 4rem;">
+    <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+      <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8;">
+        <span class="es">Escribir c&oacute;digo con Cursor, Copilot o agentes aut&oacute;nomos es incre&iacute;blemente r&aacute;pido. Pero a medida que el proyecto crece, <strong style="color: var(--text-primary);">la IA pierde el contexto</strong>, olvida las prioridades y el proyecto se convierte en una pesadilla de mantenimiento.</span>
+        <span class="en">Writing code with Cursor, Copilot, or autonomous agents is incredibly fast. But as the project grows, <strong style="color: var(--text-primary);">AI loses context</strong>, forgets priorities, and the project becomes a maintenance nightmare.</span>
+      </p>
+      <p style="color: var(--accent-ink); font-size: 1.2rem; font-weight: 700; margin-top: 1.5rem;">
+        <span class="es">La IA se encarga del c&oacute;digo. TrackOps se encarga del proyecto.</span>
+        <span class="en">AI handles the code. TrackOps handles the project.</span>
+      </p>
+    </div>
+  </section>
+
   <!-- TERMINAL -->
-  <section class="terminal-section">
+  <section class="terminal-section" id="quickstart">
     <div class="terminal">
       <div class="terminal-bar">
         <span class="terminal-dot red"></span>
@@ -392,55 +406,56 @@
     <div class="section-inner">
       <div class="section-header">
         <div class="label">
-          <span class="es">Funciones</span>
-          <span class="en">Features</span>
+          <span class="es">Por qu&eacute; TrackOps</span>
+          <span class="en">Why TrackOps</span>
         </div>
         <h2>
-          <span class="es">Todo lo que necesitas.<br/>Nada que no.</span>
-          <span class="en">Everything you need.<br/>Nothing you don't.</span>
+          <span class="es">Se volver&aacute; indispensable<br/>en tu flujo.</span>
+          <span class="en">It will become essential<br/>in your workflow.</span>
         </h2>
       </div>
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">&#9745;</div>
-          <h3 class="es">Seguimiento de Tareas</h3>
-          <h3 class="en">Task Tracking</h3>
-          <p class="es">Estados, prioridades, fases, dependencias. Ciclo completo: pending &rarr; start &rarr; review &rarr; complete.</p>
-          <p class="en">States, priorities, phases, dependencies. Full lifecycle: pending &rarr; start &rarr; review &rarr; complete.</p>
+          <div class="feature-icon">&zap;</div>
+          <h3 class="es">Adopci&oacute;n en 10 Segundos</h3>
+          <h3 class="en">10-Second Adoption</h3>
+          <p class="es">Un solo comando: <code style="color:var(--accent-ink)">npx trackops init</code>. Cero configuraci&oacute;n, cero dependencias, cero bases de datos.</p>
+          <p class="en">One command: <code style="color:var(--accent-ink)">npx trackops init</code>. Zero config, zero dependencies, zero databases.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">&#128196;</div>
-          <h3 class="es">Docs Auto-Generados</h3>
-          <h3 class="en">Auto-Generated Docs</h3>
-          <p class="es">task_plan.md, progress.md y findings.md se regeneran desde project_control.json en cada sync.</p>
-          <p class="en">task_plan.md, progress.md, and findings.md regenerated from project_control.json on every sync.</p>
+          <div class="feature-icon">&target;</div>
+          <h3 class="es">Contexto Determinista</h3>
+          <h3 class="en">Deterministic Context</h3>
+          <p class="es">No dejes que la IA adivine. TrackOps sincroniza la verdad absoluta de tu proyecto en Markdown que las IAs entienden nativamente.</p>
+          <p class="en">Don't let AI guess. TrackOps syncs the absolute truth of your project into Markdown that AIs understand natively.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">&#128202;</div>
-          <h3 class="es">Dashboard Local</h3>
-          <h3 class="en">Local Dashboard</h3>
-          <p class="es">Interfaz web para visualizar tareas, cambiar fases, crear tareas y monitorear el proyecto.</p>
-          <p class="en">Web UI to visualize tasks, switch phases, create tasks, and monitor project health.</p>
+          <div class="feature-icon">&dashboard;</div>
+          <h3 class="es">Dashboard Local Premium</h3>
+          <h3 class="en">Premium Local Dashboard</h3>
+          <p class="es">Interfaz web profesional en tu terminal. Sin telemetr&iacute;a, sin nube, 100% privado.</p>
+          <p class="en">Professional web UI in your terminal. No telemetry, no cloud, 100% private.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">&#128279;</div>
-          <h3 class="es">Git Hooks</h3>
-          <h3 class="en">Git Hooks</h3>
-          <p class="es">Captura autom&aacute;tica del estado del repo en cada commit, checkout y merge.</p>
-          <p class="en">Automatic repo state capture on every commit, checkout, and merge.</p>
+          <div class="feature-icon">&branch;</div>
+          <h3 class="es">Git Nativo</h3>
+          <h3 class="en">Native Git</h3>
+          <p class="es">TrackOps sabe cu&aacute;ndo haces commit, merge o checkout, capturando la salud del repo autom&aacute;ticamente.</p>
+          <p class="en">TrackOps knows when you commit, merge, or checkout, capturing repo health automatically.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">&#127968;</div>
-          <h3 class="es">Multi-Proyecto</h3>
-          <h3 class="en">Multi-Project</h3>
-          <p class="es">Registra m&uacute;ltiples proyectos y alterna entre ellos desde el dashboard.</p>
-          <p class="en">Register multiple projects and switch between them from the dashboard.</p>
+          <div class="feature-icon">&layers;</div>
+          <h3 class="es">Framework ETAPA</h3>
+          <h3 class="en">ETAPA Framework</h3>
+          <p class="es">Metodolog&iacute;a de desarrollo con IA en 5 fases: Estrategia, Tests, Arquitectura, Pulido, Automatizaci&oacute;n.</p>
+          <p class="en">AI development methodology in 5 phases: Strategy, Tests, Architecture, Polish, Automation.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">&#127760;</div>
-          <h3>i18n</h3>
-          <p class="es">Espa&ntilde;ol por defecto + Ingl&eacute;s. Totalmente configurable por proyecto.</p>
-          <p class="en">Spanish (default) + English. Fully configurable per project.</p>
+          <div class="feature-icon">&puzzle;</div>
+          <h3 class="es">Ecosistema de Skills</h3>
+          <h3 class="en">Skills Ecosystem</h3>
+          <p class="es">Plugins modulares que dotan a tu proyecto de capacidades automatizadas.</p>
+          <p class="en">Modular plugins that give your project automated capabilities.</p>
         </div>
       </div>
     </div>
@@ -552,6 +567,12 @@
       <a href="https://www.npmjs.com/package/trackops" class="btn btn-outline" target="_blank">
         npm &middot; trackops
       </a>
+    </div>
+    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-secondary); max-width: 600px; margin-left: auto; margin-right: auto;">
+      <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7;">
+        <span class="es">TrackOps es y siempre ser&aacute; <strong style="color: var(--text-primary);">libre, gratuito y de c&oacute;digo abierto</strong> (MIT). Si te ha ayudado, <a href="https://github.com/Baxahaun/trackops" style="color: var(--accent-ink);">dale una estrella en GitHub</a> y comp&aacute;rtelo con tu equipo.</span>
+        <span class="en">TrackOps is and will always be <strong style="color: var(--text-primary);">free and open-source</strong> (MIT). If it helped you, <a href="https://github.com/Baxahaun/trackops" style="color: var(--accent-ink);">star us on GitHub</a> and share it with your team.</span>
+      </p>
     </div>
   </section>
 
