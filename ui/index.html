@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ops Control | Multi-project Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <p class="eyebrow">Project Operations Mesh</p>
+          <h1>Ops Control Center</h1>
+          <p id="focusSummary" class="subtle">Cargando entorno operativo...</p>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="project-switcher">
+            <label class="sr-only" for="projectSelect">Proyecto activo</label>
+            <select id="projectSelect"></select>
+          </div>
+          <div id="runtimeBadge" class="runtime-badge">Runtime</div>
+          <button id="refreshButton" class="ghost-button" type="button">Refrescar</button>
+          <button id="syncButton" class="primary-button" type="button">Sincronizar</button>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Navegacion del dashboard">
+        <button class="tab-button is-active" data-tab="overview" type="button">Overview</button>
+        <button class="tab-button" data-tab="board" type="button">Board</button>
+        <button class="tab-button" data-tab="execution" type="button">Execution</button>
+        <button class="tab-button" data-tab="insights" type="button">Insights</button>
+      </nav>
+
+      <main class="tab-shell">
+        <section id="tab-overview" class="tab-panel is-active">
+          <details class="panel panel-details" open>
+            <summary class="details-summary">
+              <div>
+                <p class="eyebrow">Workspace</p>
+                <h2 id="projectName">Proyecto</h2>
+              </div>
+              <span id="phaseBadge" class="phase-badge">Fase</span>
+            </summary>
+            <div class="details-body">
+              <div class="summary-grid" id="summaryGrid"></div>
+              <div class="overview-grid">
+                <article class="panel inset-panel">
+                  <div class="panel-head compact">
+                    <div>
+                      <p class="eyebrow">Entrega</p>
+                      <h3>Foco y siguiente paso</h3>
+                    </div>
+                  </div>
+                  <div class="stack-list">
+                    <div class="task-snippet">
+                      <p class="label">Objetivo de entrega</p>
+                      <p id="deliveryTarget" class="value-text">Cargando...</p>
+                    </div>
+                    <div>
+                      <p class="label">Proximo movimiento</p>
+                      <div id="nextTaskCard"></div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="panel inset-panel">
+                  <div class="panel-head compact">
+                    <div>
+                      <p class="eyebrow">Portfolio</p>
+                      <h3>Proyectos registrados</h3>
+                    </div>
+                  </div>
+                  <div class="stack-list">
+                    <div id="projectList" class="stack-list"></div>
+                    <form id="registerProjectForm" class="stack-form">
+                      <label for="registerRootInput">Registrar un proyecto ya instalado</label>
+                      <div class="inline-form">
+                        <input id="registerRootInput" type="text" placeholder="C:\\Ruta\\Proyecto" />
+                        <button class="ghost-button" type="submit">Registrar</button>
+                      </div>
+                    </form>
+                    <form id="installProjectForm" class="stack-form">
+                      <label for="installRootInput">Instalar sistema ops en otro proyecto</label>
+                      <div class="inline-form">
+                        <input id="installRootInput" type="text" placeholder="C:\\Ruta\\NuevoProyecto" />
+                        <button class="primary-button" type="submit">Instalar</button>
+                      </div>
+                    </form>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </details>
+
+          <div class="overview-grid">
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Charts</p>
+                  <h2>Evolucion y desempeno</h2>
+                </div>
+              </summary>
+              <div class="details-body charts-grid">
+                <div class="chart-card">
+                  <p class="label">Progreso por fase</p>
+                  <div id="phaseChart"></div>
+                </div>
+                <div class="chart-card">
+                  <p class="label">Distribucion por estado</p>
+                  <div id="statusChart"></div>
+                </div>
+                <div class="chart-card">
+                  <p class="label">Actividad reciente</p>
+                  <div id="activityChart"></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Repo</p>
+                  <h2>Salud operativa</h2>
+                </div>
+                <span id="branchBadge" class="secondary-badge">branch</span>
+              </summary>
+              <div class="details-body">
+                <div id="repoOverview" class="stack-list"></div>
+                <div>
+                  <p class="label">Documentacion derivada</p>
+                  <div id="docsList" class="tag-row"></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Decisions</p>
+                  <h2>Externos y bloqueos</h2>
+                </div>
+              </summary>
+              <div class="details-body">
+                <div id="decisionList" class="stack-list"></div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="tab-board" class="tab-panel" hidden>
+          <div class="split-grid">
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Task Board</p>
+                  <h2>Tablero operativo</h2>
+                </div>
+                <button id="newTaskButton" class="ghost-button" type="button">Nueva tarea</button>
+              </summary>
+              <div class="details-body">
+                <div id="board" class="board-grid" aria-label="Tablero de tareas"></div>
+              </div>
+            </details>
+
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Task Studio</p>
+                  <h2 id="editorTitle">Nueva tarea</h2>
+                </div>
+                <button id="resetTaskButton" class="ghost-button" type="button">Limpiar</button>
+              </summary>
+              <div class="details-body">
+                <div class="action-strip" id="taskActionStrip" aria-label="Acciones rapidas de tarea">
+                  <button type="button" class="chip-button" data-task-action="start">Iniciar</button>
+                  <button type="button" class="chip-button" data-task-action="review">Revision</button>
+                  <button type="button" class="chip-button" data-task-action="complete">Completar</button>
+                  <button type="button" class="chip-button" data-task-action="block">Bloquear</button>
+                  <button type="button" class="chip-button" data-task-action="pending">Pendiente</button>
+                </div>
+
+                <form id="taskForm" class="task-form">
+                  <div class="field">
+                    <label for="taskTitle">Titulo</label>
+                    <input id="taskTitle" name="title" type="text" required />
+                  </div>
+
+                  <div class="form-grid two-up">
+                    <div class="field">
+                      <label for="taskPhase">Fase</label>
+                      <select id="taskPhase" name="phase">
+                        <!-- Populated dynamically from API -->
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <label for="taskPriority">Prioridad</label>
+                      <select id="taskPriority" name="priority">
+                        <option value="P0">P0</option>
+                        <option value="P1">P1</option>
+                        <option value="P2">P2</option>
+                        <option value="P3">P3</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-grid two-up">
+                    <div class="field">
+                      <label for="taskStatus">Estado</label>
+                      <select id="taskStatus" name="status">
+                        <option value="pending">Pendiente</option>
+                        <option value="in_progress">En progreso</option>
+                        <option value="in_review">En revision</option>
+                        <option value="blocked">Bloqueada</option>
+                        <option value="completed">Completada</option>
+                        <option value="cancelled">Cancelada</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <label for="taskStream">Stream</label>
+                      <input id="taskStream" name="stream" type="text" placeholder="Operations" />
+                    </div>
+                  </div>
+
+                  <div class="field checkbox-field">
+                    <label for="taskRequired">
+                      <input id="taskRequired" name="required" type="checkbox" checked />
+                      Tarea requerida para entrega
+                    </label>
+                  </div>
+
+                  <div class="field">
+                    <label for="taskSummary">Resumen</label>
+                    <textarea id="taskSummary" name="summary" rows="3"></textarea>
+                  </div>
+
+                  <div class="field">
+                    <label for="taskDependsOn">Dependencias</label>
+                    <textarea id="taskDependsOn" name="dependsOn" rows="2"></textarea>
+                  </div>
+
+                  <div class="field">
+                    <label for="taskAcceptance">Criterios de aceptacion</label>
+                    <textarea id="taskAcceptance" name="acceptance" rows="3"></textarea>
+                  </div>
+
+                  <div class="field">
+                    <label for="taskBlocker">Bloqueador</label>
+                    <textarea id="taskBlocker" name="blocker" rows="2"></textarea>
+                  </div>
+
+                  <div class="field">
+                    <label for="taskNote">Nota de actualizacion</label>
+                    <textarea id="taskNote" name="note" rows="2"></textarea>
+                  </div>
+
+                  <div class="form-actions">
+                    <button class="primary-button" type="submit">Guardar tarea</button>
+                    <button id="duplicateTaskButton" class="ghost-button" type="button">Duplicar base</button>
+                  </div>
+                </form>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="tab-execution" class="tab-panel" hidden>
+          <div class="split-grid">
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Command Deck</p>
+                  <h2>Consola integrada</h2>
+                </div>
+                <span id="terminalStatus" class="secondary-badge">Lista</span>
+              </summary>
+              <div class="details-body">
+                <form id="commandForm" class="command-form">
+                  <label class="sr-only" for="commandInput">Comando</label>
+                  <input id="commandInput" name="command" type="text" spellcheck="false" autocomplete="off" placeholder="npm run ops:status" />
+                  <button class="primary-button" type="submit">Ejecutar</button>
+                </form>
+
+                <div id="commandPresets" class="preset-row" aria-label="Comandos rapidos"></div>
+                <div id="sessionList" class="session-list"></div>
+
+                <div class="terminal-surface">
+                  <pre id="terminalOutput">Selecciona o ejecuta un comando para ver la salida.</pre>
+                </div>
+              </div>
+            </details>
+
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Execution</p>
+                  <h2>Resumen del runtime</h2>
+                </div>
+              </summary>
+              <div class="details-body">
+                <div id="executionMetrics" class="stack-list"></div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="tab-insights" class="tab-panel" hidden>
+          <div class="overview-grid">
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Activity</p>
+                  <h2>Actividad reciente</h2>
+                </div>
+              </summary>
+              <div class="details-body">
+                <div id="activityList" class="stack-list"></div>
+              </div>
+            </details>
+
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Findings</p>
+                  <h2>Hallazgos abiertos</h2>
+                </div>
+              </summary>
+              <div class="details-body">
+                <div id="findingList" class="stack-list"></div>
+              </div>
+            </details>
+
+            <details class="panel panel-details" open>
+              <summary class="details-summary">
+                <div>
+                  <p class="eyebrow">Health</p>
+                  <h2>KPIs del proyecto</h2>
+                </div>
+              </summary>
+              <div class="details-body">
+                <div id="healthRail" class="stack-list"></div>
+              </div>
+            </details>
+          </div>
+        </section>
+      </main>
+
+      <div id="flash" class="flash" aria-live="polite"></div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

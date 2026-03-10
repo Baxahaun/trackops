@@ -1,0 +1,46 @@
+{
+  "name": "trackops",
+  "version": "1.0.0",
+  "description": "Operational project control with task management, doc generation, multi-project dashboard, and optional ETAPA methodology",
+  "main": "lib/control.js",
+  "bin": {
+    "trackops": "bin/trackops.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "locales/",
+    "ui/",
+    "templates/"
+  ],
+  "keywords": [
+    "project-management",
+    "task-management",
+    "dashboard",
+    "ops",
+    "etapa",
+    "methodology",
+    "cli",
+    "devops",
+    "tracking",
+    "agile"
+  ],
+  "author": {
+    "name": "Xavier Crespo Gríman",
+    "email": "crespoxac@gmail.com",
+    "url": "https://baxahaun.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Baxahaun/trackops.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Baxahaun/trackops/issues"
+  },
+  "homepage": "https://github.com/Baxahaun/trackops#readme",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  }
+}
