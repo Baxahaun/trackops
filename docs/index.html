@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TrackOps — Control operativo para proyectos con IA</title>
-  <meta name="description" content="CLI de control operativo para vibecoders. Seguimiento de tareas, docs auto-generados, dashboard local y metodología ETAPA. Cero dependencias." />
+  <meta name="description" content="CLI de control operativo para vibecoders. Seguimiento de tareas, docs auto-generados, dashboard local y metodología OPERA. Cero dependencias." />
   <meta property="og:title" content="TrackOps — Control operativo para proyectos con IA" />
   <meta property="og:description" content="CLI de control operativo para vibecoders. Cero dependencias." />
   <meta property="og:type" content="website" />
@@ -237,27 +237,27 @@
     .arch-layer.layer-2 { background: var(--bg-secondary); }
     .arch-layer.layer-3 { background: var(--bg-secondary); }
 
-    /* --- ETAPA --- */
-    .etapa { padding: 6rem 2rem; }
-    .etapa-grid {
+    /* --- OPERA --- */
+    .opera { padding: 6rem 2rem; }
+    .opera-grid {
       display: grid; grid-template-columns: repeat(5, 1fr);
       gap: 1rem; max-width: 900px; margin: 0 auto;
     }
-    .etapa-phase {
+    .opera-phase {
       background: var(--bg-secondary); border: 1px solid var(--border-secondary);
       border-radius: 12px; padding: 1.5rem 1rem; text-align: center;
       transition: all 0.3s;
     }
-    .etapa-phase:hover {
+    .opera-phase:hover {
       border-color: var(--accent-ring);
       transform: translateY(-2px);
     }
-    .etapa-phase .phase-letter {
+    .opera-phase .phase-letter {
       font-size: 2rem; font-weight: 900; color: var(--accent-ink);
       margin-bottom: 0.5rem;
     }
-    .etapa-phase h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .etapa-phase p { font-size: 0.75rem; color: var(--text-tertiary); }
+    .opera-phase h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .opera-phase p { font-size: 0.75rem; color: var(--text-tertiary); }
 
     /* --- CTA --- */
     .cta {
@@ -296,8 +296,8 @@
     /* --- RESPONSIVE --- */
     @media (max-width: 768px) {
       .nav-links { gap: 1rem; }
-      .etapa-grid { grid-template-columns: repeat(2, 1fr); }
-      .etapa-grid > :last-child { grid-column: span 2; }
+      .opera-grid { grid-template-columns: repeat(2, 1fr); }
+      .opera-grid > :last-child { grid-column: span 2; }
       .arch-layer .layer-num { display: none; }
     }
     @media (max-width: 480px) {
@@ -324,7 +324,7 @@
         <a href="#features" class="en">Features</a>
         <a href="#architecture" class="es">Arquitectura</a>
         <a href="#architecture" class="en">Architecture</a>
-        <a href="#etapa">ETAPA</a>
+        <a href="#opera">OPERA</a>
         <a href="https://github.com/Baxahaun/trackops" target="_blank">GitHub</a>
         <button class="lang-switch" onclick="toggleLang()" id="langBtn">EN</button>
       </div>
@@ -386,14 +386,14 @@
         <span class="terminal-title">~/mi-proyecto</span>
       </div>
       <div class="terminal-body">
-        <div><span class="prompt">$</span> <span class="cmd">npx trackops init --with-etapa</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">npx trackops init --with-opera</span></div>
         <div><span class="output">&check; Creado project_control.json</span></div>
         <div><span class="output">&check; Creado .githooks/</span></div>
-        <div><span class="output">&check; Metodolog&iacute;a ETAPA instalada (v1.0.0)</span></div>
+        <div><span class="output">&check; Metodolog&iacute;a OPERA instalada (v1.0.0)</span></div>
         <div>&nbsp;</div>
         <div><span class="prompt">$</span> <span class="cmd">npx trackops status</span></div>
         <div><span class="comment"># Mi Proyecto &mdash; Control Operativo</span></div>
-        <div><span class="comment"># Fase activa: E &mdash; Estrategia</span></div>
+        <div><span class="comment"># Fase activa: O &mdash; Orquestar</span></div>
         <div><span class="comment"># Tareas: 0 completadas, 0 en progreso, 1 pendiente</span></div>
         <div>&nbsp;</div>
         <div><span class="prompt">$</span> <span class="cmd">npx trackops dashboard</span></div>
@@ -446,10 +446,10 @@
         </div>
         <div class="feature-card">
           <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
-          <h3 class="es">Framework ETAPA</h3>
-          <h3 class="en">ETAPA Framework</h3>
-          <p class="es">Metodolog&iacute;a de desarrollo con IA en 5 fases: Estrategia, Tests, Arquitectura, Pulido, Automatizaci&oacute;n.</p>
-          <p class="en">AI development methodology in 5 phases: Strategy, Tests, Architecture, Polish, Automation.</p>
+          <h3 class="es">Framework OPERA</h3>
+          <h3 class="en">OPERA Framework</h3>
+          <p class="es">Metodolog&iacute;a de desarrollo con IA en 5 fases: Orquestar, Probar, Estructurar, Refinar, Automatizar.</p>
+          <p class="en">AI development methodology in 5 phases: Orchestrate, Prove, Establish, Refine, Automate.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z"/></svg></div>
@@ -484,7 +484,7 @@
         </div>
         <div class="arch-layer layer-2">
           <span class="layer-num">2</span>
-          <h3>ETAPA</h3>
+          <h3>OPERA</h3>
           <p class="es">Metodolog&iacute;a opcional de 5 fases. Agent hub, router, genesis, governance.</p>
           <p class="en">Optional 5-phase methodology. Agent hub, router, genesis, governance.</p>
         </div>
@@ -499,8 +499,8 @@
     </div>
   </section>
 
-  <!-- ETAPA -->
-  <section class="etapa" id="etapa">
+  <!-- OPERA -->
+  <section class="opera" id="opera">
     <div class="section-inner">
       <div class="section-header">
         <div class="label">
@@ -508,42 +508,43 @@
           <span class="en">Methodology</span>
         </div>
         <h2>
-          <span class="es">E.T.A.P.A. &mdash; Desarrollo con estructura.</span>
-          <span class="en">E.T.A.P.A. &mdash; Structured development.</span>
+          <span class="es">O.P.E.R.A. &mdash; Desarrollo con estructura.</span>
+          <span class="en">O.P.E.R.A. &mdash; Structured development.</span>
         </h2>
       </div>
-      <div class="etapa-grid">
-        <div class="etapa-phase">
-          <div class="phase-letter">E</div>
-          <h4 class="es">Estrategia</h4>
-          <h4 class="en">Strategy</h4>
+      <div class="opera-grid">
+        <div class="opera-phase">
+          <div class="phase-letter">O</div>
+          <h4 class="es">Orquestar</h4>
+          <h4 class="en">Orchestrate</h4>
           <p class="es">Visi&oacute;n, datos, reglas</p>
           <p class="en">Vision, data, rules</p>
         </div>
-        <div class="etapa-phase">
-          <div class="phase-letter">T</div>
-          <h4>Tests</h4>
+        <div class="opera-phase">
+          <div class="phase-letter">P</div>
+          <h4 class="es">Probar</h4>
+          <h4 class="en">Prove</h4>
           <p class="es">Conectividad</p>
           <p class="en">Connectivity</p>
         </div>
-        <div class="etapa-phase">
-          <div class="phase-letter">A</div>
-          <h4 class="es">Arquitectura</h4>
-          <h4 class="en">Architecture</h4>
+        <div class="opera-phase">
+          <div class="phase-letter">E</div>
+          <h4 class="es">Estructurar</h4>
+          <h4 class="en">Establish</h4>
           <p class="es">Construcci&oacute;n 3 capas</p>
           <p class="en">3-layer build</p>
         </div>
-        <div class="etapa-phase">
-          <div class="phase-letter">P</div>
-          <h4 class="es">Pulido</h4>
-          <h4 class="en">Polish</h4>
+        <div class="opera-phase">
+          <div class="phase-letter">R</div>
+          <h4 class="es">Refinar</h4>
+          <h4 class="en">Refine</h4>
           <p class="es">Refinamiento</p>
           <p class="en">Refinement</p>
         </div>
-        <div class="etapa-phase">
-          <div class="phase-letter">AU</div>
-          <h4 class="es">Automatizaci&oacute;n</h4>
-          <h4 class="en">Automation</h4>
+        <div class="opera-phase">
+          <div class="phase-letter">A</div>
+          <h4 class="es">Automatizar</h4>
+          <h4 class="en">Automate</h4>
           <p class="es">Despliegue</p>
           <p class="en">Deployment</p>
         </div>

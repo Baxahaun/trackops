@@ -58,15 +58,15 @@ function run() {
         require("../lib/registry").cmdList();
         break;
 
-      case "etapa": {
-        const etapa = require("../lib/etapa");
+      case "opera": {
+        const opera = require("../lib/opera");
         const sub = args[0];
         const root = config.resolveProjectRoot() || process.cwd();
-        if (sub === "install") etapa.cmdInstall(root, args.slice(1));
-        else if (sub === "status") etapa.cmdStatus(root);
-        else if (sub === "configure") etapa.cmdConfigure(root, args.slice(1));
-        else if (sub === "upgrade") etapa.cmdUpgrade(root);
-        else { console.log("Usage: trackops etapa <install|status|configure|upgrade>"); }
+        if (sub === "install") opera.cmdInstall(root, args.slice(1));
+        else if (sub === "status") opera.cmdStatus(root);
+        else if (sub === "configure") opera.cmdConfigure(root, args.slice(1));
+        else if (sub === "upgrade") opera.cmdUpgrade(root);
+        else { console.log("Usage: trackops opera <install|status|configure|upgrade>"); }
         break;
       }
 

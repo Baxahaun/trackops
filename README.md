@@ -50,7 +50,7 @@ TrackOps es un **motor operativo local de código abierto** que actúa como puen
 | **Dashboard local premium** | Interfaz web profesional que corre en tu terminal. Sin telemetría, sin nube, **100% privado**. |
 | **Integración Git nativa** | TrackOps sabe cuándo haces commit, merge o checkout, capturando la salud del repositorio de forma automática. |
 | **Portfolio multi-proyecto** | Registra todos tus proyectos y navega entre ellos desde un solo dashboard. |
-| **Framework ETAPA** | Metodología de desarrollo con agentes IA en 5 fases: Estrategia, Tests, Arquitectura, Pulido, Automatización. |
+| **Framework OPERA** | Metodología de desarrollo con agentes IA en 5 fases: Orquestar, Probar, Estructurar, Refinar, Automatizar. |
 | **Ecosistema de Skills** | Plugins modulares que dotan a tu proyecto de capacidades automatizadas: `trackops skill install <nombre>`. |
 
 <br/>
@@ -85,9 +85,9 @@ Diseñado para escalar desde un script de fin de semana hasta infraestructura em
 │  Plugins modulares para automatizar capacidades     │
 │  trackops skill install / list / remove / catalog   │
 ├─────────────────────────────────────────────────────┤
-│  Capa 2 · Framework ETAPA (opcional)                │
+│  Capa 2 · Framework OPERA (opcional)                │
 │  Enrutamiento de agentes y metodología estructurada │
-│  trackops etapa install / configure / status        │
+│  trackops opera install / configure / status        │
 ├─────────────────────────────────────────────────────┤
 │  Capa 1 · Motor Core (siempre activo)               │
 │  CLI + Servidor Web Local + Generador de Markdown   │
@@ -97,17 +97,17 @@ Diseñado para escalar desde un script de fin de semana hasta infraestructura em
 
 <br/>
 
-### Metodología ETAPA
+### Metodología OPERA
 
 Framework opcional de 5 fases para desarrollo estructurado con IA. Cada fase tiene un **Definition of Done** verificable:
 
 | Fase | Nombre | Foco | Entregable |
 |------|--------|------|------------|
-| **E** | Estrategia | Visión, datos, reglas de negocio | Schema JSON en `genesis.md` |
-| **T** | Tests | Conectividad y validación | Scripts de test pasando |
-| **A** | Arquitectura | Construcción en 3 capas | SOPs + tools + integración |
-| **P** | Pulido | Refinamiento y calidad | Outputs validados |
-| **AU** | Automatización | Despliegue y triggers | Triggers + smoke test |
+| **O** | Orquestar | Visión, datos, reglas de negocio | Schema JSON en `genesis.md` |
+| **P** | Probar | Conectividad y validación | Scripts de test pasando |
+| **E** | Estructurar | Construcción en 3 capas | SOPs + tools + integración |
+| **R** | Refinar | Refinamiento y calidad | Outputs validados |
+| **A** | Automatizar | Despliegue y triggers | Triggers + smoke test |
 
 Las fases son totalmente configurables por proyecto vía `project_control.json`.
 
@@ -120,7 +120,7 @@ Las fases son totalmente configurables por proyecto vía `project_control.json`.
 
 | Comando | Descripción |
 |---------|-------------|
-| `trackops init [--with-etapa] [--locale es\|en]` | Inicializar en el directorio actual |
+| `trackops init [--with-opera] [--locale es\|en]` | Inicializar en el directorio actual |
 | `trackops status` | Estado: foco, fase, tareas, bloqueadores, repo |
 | `trackops next` | Próximas tareas ejecutables priorizadas |
 | `trackops sync` | Regenerar task_plan.md, progress.md, findings.md |
@@ -133,14 +133,14 @@ Las fases son totalmente configurables por proyecto vía `project_control.json`.
 </details>
 
 <details>
-<summary><strong>ETAPA</strong></summary>
+<summary><strong>OPERA</strong></summary>
 
 | Comando | Descripción |
 |---------|-------------|
-| `trackops etapa install` | Instalar metodología ETAPA |
-| `trackops etapa status` | Estado de instalación e integridad |
-| `trackops etapa configure [--phases '...']` | Reconfigurar fases o idioma |
-| `trackops etapa upgrade` | Actualizar templates a la versión del paquete |
+| `trackops opera install` | Instalar metodología OPERA |
+| `trackops opera status` | Estado de instalación e integridad |
+| `trackops opera configure [--phases '...']` | Reconfigurar fases o idioma |
+| `trackops opera upgrade` | Actualizar templates a la versión del paquete |
 
 </details>
 
@@ -166,9 +166,9 @@ mi-proyecto/
 ├── task_plan.md               # Plan de tareas (auto-generado)
 ├── progress.md                # Diario de progreso (auto-generado)
 ├── findings.md                # Hallazgos (auto-generado)
-├── genesis.md                 # Constitución del proyecto (ETAPA)
-├── .agent/hub/                # Identidad del agente + router (ETAPA)
-└── .agents/skills/            # Skills instaladas (ETAPA)
+├── genesis.md                 # Constitución del proyecto (OPERA)
+├── .agent/hub/                # Identidad del agente + router (OPERA)
+└── .agents/skills/            # Skills instaladas (OPERA)
 ```
 
 <br/>
@@ -214,7 +214,7 @@ TrackOps is a **local, open-source operational engine** that acts as a bridge be
 | **Premium local dashboard** | Professional web interface running in your terminal. No telemetry, no cloud, **100% private**. |
 | **Native Git integration** | TrackOps knows when you commit, merge, or checkout, capturing repository health automatically. |
 | **Multi-project portfolio** | Register all your projects and navigate between them from a single dashboard. |
-| **ETAPA Framework** | AI development methodology in 5 phases: Strategy, Tests, Architecture, Polish, Automation. |
+| **OPERA Framework** | AI development methodology in 5 phases: Orchestrate, Prove, Establish, Refine, Automate. |
 | **Skills ecosystem** | Modular plugins that give your project automated capabilities: `trackops skill install <name>`. |
 
 <br/>
@@ -249,9 +249,9 @@ Designed to scale from a weekend script to enterprise infrastructure.
 │  Modular plugins for automated capabilities         │
 │  trackops skill install / list / remove / catalog   │
 ├─────────────────────────────────────────────────────┤
-│  Layer 2 · ETAPA Framework (optional)               │
+│  Layer 2 · OPERA Framework (optional)               │
 │  Agent routing and structured methodology           │
-│  trackops etapa install / configure / status        │
+│  trackops opera install / configure / status        │
 ├─────────────────────────────────────────────────────┤
 │  Layer 1 · Core Engine (always active)              │
 │  CLI + Local Web Server + Markdown Generator        │
@@ -261,17 +261,17 @@ Designed to scale from a weekend script to enterprise infrastructure.
 
 <br/>
 
-### ETAPA Methodology
+### OPERA Methodology
 
 Optional 5-phase framework for structured AI-assisted development. Each phase has a verifiable **Definition of Done**:
 
 | Phase | Name | Focus | Deliverable |
 |-------|------|-------|-------------|
-| **E** | Strategy | Vision, data, business rules | JSON schema in `genesis.md` |
-| **T** | Tests | Connectivity and validation | Passing test scripts |
-| **A** | Architecture | 3-layer build | SOPs + tools + integration |
-| **P** | Polish | Refinement and quality | Validated outputs |
-| **AU** | Automation | Deployment and triggers | Triggers + smoke test |
+| **O** | Orchestrate | Vision, data, business rules | JSON schema in `genesis.md` |
+| **P** | Prove | Connectivity and validation | Passing test scripts |
+| **E** | Establish | 3-layer build | SOPs + tools + integration |
+| **R** | Refine | Refinement and quality | Validated outputs |
+| **A** | Automate | Deployment and triggers | Triggers + smoke test |
 
 Phases are fully configurable per project via `project_control.json`.
 
@@ -284,7 +284,7 @@ Phases are fully configurable per project via `project_control.json`.
 
 | Command | Description |
 |---------|-------------|
-| `trackops init [--with-etapa] [--locale es\|en]` | Initialize in current directory |
+| `trackops init [--with-opera] [--locale es\|en]` | Initialize in current directory |
 | `trackops status` | State: focus, phase, tasks, blockers, repo |
 | `trackops next` | Next prioritized executable tasks |
 | `trackops sync` | Regenerate task_plan.md, progress.md, findings.md |
@@ -297,14 +297,14 @@ Phases are fully configurable per project via `project_control.json`.
 </details>
 
 <details>
-<summary><strong>ETAPA</strong></summary>
+<summary><strong>OPERA</strong></summary>
 
 | Command | Description |
 |---------|-------------|
-| `trackops etapa install` | Install ETAPA methodology |
-| `trackops etapa status` | Installation state and integrity |
-| `trackops etapa configure [--phases '...']` | Reconfigure phases or locale |
-| `trackops etapa upgrade` | Update templates to package version |
+| `trackops opera install` | Install OPERA methodology |
+| `trackops opera status` | Installation state and integrity |
+| `trackops opera configure [--phases '...']` | Reconfigure phases or locale |
+| `trackops opera upgrade` | Update templates to package version |
 
 </details>
 
@@ -330,9 +330,9 @@ my-project/
 ├── task_plan.md               # Task plan (auto-generated)
 ├── progress.md                # Progress log (auto-generated)
 ├── findings.md                # Findings library (auto-generated)
-├── genesis.md                 # Project constitution (ETAPA)
-├── .agent/hub/                # Agent identity + router (ETAPA)
-└── .agents/skills/            # Installed skills (ETAPA)
+├── genesis.md                 # Project constitution (OPERA)
+├── .agent/hub/                # Agent identity + router (OPERA)
+└── .agents/skills/            # Installed skills (OPERA)
 ```
 
 <br/>

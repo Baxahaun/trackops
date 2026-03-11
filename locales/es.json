@@ -126,11 +126,11 @@
   "init.defaultTaskTitle": "Configurar proyecto con trackops",
   "init.defaultTaskSummary": "Verificar estructura inicial, ajustar fases y confirmar integracion operativa.",
 
-  "etapa.installed": "Metodologia ETAPA instalada (v{version}).",
-  "etapa.alreadyInstalled": "ETAPA ya esta instalado en este proyecto (v{version}).",
-  "etapa.notInstalled": "ETAPA no esta instalado en este proyecto.",
-  "etapa.upgraded": "ETAPA actualizado a v{version}.",
-  "etapa.primitiveDetected": "Detectada instalacion ETAPA existente (sin gestion por Ops).",
+  "opera.installed": "Metodologia OPERA instalada (v{version}).",
+  "opera.alreadyInstalled": "OPERA ya esta instalado en este proyecto (v{version}).",
+  "opera.notInstalled": "OPERA no esta instalado en este proyecto.",
+  "opera.upgraded": "OPERA actualizado a v{version}.",
+  "opera.primitiveDetected": "Detectada instalacion OPERA existente (sin gestion por Ops).",
 
   "skill.installed": "Skill '{name}' instalada.",
   "skill.removed": "Skill '{name}' desinstalada.",

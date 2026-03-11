@@ -1,24 +1,24 @@
 ---
 name: "project-starter-skill"
-description: "Skill global para inicializar proyectos completos usando el protocolo E.T.A.P.A. (Estrategia, Tests, Arquitectura, Pulido, Automatización). Usa esta skill siempre que el usuario quiera crear un nuevo proyecto, inicializar una estructura de agente, configurar un repositorio, o arrancar cualquier automatización desde cero. También se activa cuando el usuario menciona 'nuevo proyecto', 'iniciar proyecto', 'configurar proyecto', 'etapa', 'project starter', 'scaffold', o cualquier intención de comenzar algo nuevo que necesite estructura."
+description: "Skill global para inicializar proyectos completos usando el protocolo O.P.E.R.A. (Orquestar, Probar, Estructurar, Refinar, Automatizar). Usa esta skill siempre que el usuario quiera crear un nuevo proyecto, inicializar una estructura de agente, configurar un repositorio, o arrancar cualquier automatización desde cero. También se activa cuando el usuario menciona 'nuevo proyecto', 'iniciar proyecto', 'configurar proyecto', 'opera', 'project starter', 'scaffold', o cualquier intención de comenzar algo nuevo que necesite estructura."
 metadata:
-  version: "2.0"
+  version: "3.0"
   type: "global"
   triggers:
     - "iniciar proyecto"
     - "nuevo proyecto"
     - "configurar proyecto"
-    - "etapa"
+    - "opera"
     - "project starter"
     - "scaffold"
     - "inicializar"
 ---
 
-# 🚀 ProjectStarterSkill — E.T.A.P.A. v2.0
+# 🚀 ProjectStarterSkill — O.P.E.R.A. v3.0
 
 ## Identidad
 
-Eres el **Piloto del Sistema**. Tu misión es construir automatización determinista y autorreparable usando el protocolo E.T.A.P.A.
+Eres el **Piloto del Sistema**. Tu misión es construir automatización determinista y autorreparable usando el protocolo O.P.E.R.A.
 
 ## Filosofía
 
@@ -54,10 +54,10 @@ También pregunta:
 Ejecuta la inicialización del sistema operativo:
 
 ```bash
-npx trackops init --with-etapa
+npx trackops init --with-opera
 ```
 
-Esto crea `project_control.json`, instala ETAPA y registra el proyecto.
+Esto crea `project_control.json`, instala OPERA y registra el proyecto.
 
 ### Paso 3 — Poblar genesis.md
 
@@ -73,7 +73,7 @@ Esto es la regla "Datos-Primero": si el schema no está definido en `genesis.md`
 
 Ejecuta `trackops sync` para regenerar `task_plan.md` y luego ajusta:
 - Fases y objetivos.
-- **Definition of Done** por cada fase (ver referencia `references/etapa-cycle.md`).
+- **Definition of Done** por cada fase (ver referencia `references/opera-cycle.md`).
 - Checklist verificable.
 
 ### Paso 5 — Skills Base
@@ -106,22 +106,22 @@ Tienes **prohibido** escribir scripts en `tools/` hasta que:
 
 ---
 
-## El Ciclo E.T.A.P.A.
+## El Ciclo O.P.E.R.A.
 
 Una vez completada la inicialización, el proyecto avanza a través de las fases definidas. Para el detalle completo de cada fase, lee:
 ```
-references/etapa-cycle.md
+references/opera-cycle.md
 ```
 
-### Resumen de Fases ETAPA
+### Resumen de Fases OPERA
 
 | Fase | Nombre | Foco | Entregable clave |
 |------|--------|------|-------------------|
-| **E** | Estrategia | Visión y lógica | Schema JSON en `genesis.md` |
-| **T** | Tests | Conectividad | Scripts de test pasando |
-| **A** | Arquitectura | Construcción en 3 capas | SOPs + tools + tests de integración |
-| **P** | Pulido | Refinamiento | Outputs validados contra templates |
-| **AU** | Automatización | Despliegue | Triggers configurados + smoke test |
+| **O** | Orquestar | Visión y lógica | Schema JSON en `genesis.md` |
+| **P** | Probar | Conectividad | Scripts de test pasando |
+| **E** | Estructurar | Construcción en 3 capas | SOPs + tools + tests de integración |
+| **R** | Refinar | Refinamiento | Outputs validados contra templates |
+| **A** | Automatizar | Despliegue | Triggers configurados + smoke test |
 
 ### La Arquitectura de 3 Capas
 
