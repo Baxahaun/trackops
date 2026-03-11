@@ -42,5 +42,14 @@
   "type": "commonjs",
   "engines": {
     "node": ">=18"
+  },
+  "scripts": {
+    "ops": "trackops",
+    "ops:help": "trackops help",
+    "ops:dashboard": "trackops dashboard",
+    "ops:status": "trackops status",
+    "ops:next": "trackops next",
+    "ops:sync": "trackops sync",
+    "ops:repo": "trackops refresh-repo"
   }
 }

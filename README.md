@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/TrackOps.webp" alt="TrackOps" width="400" />
+  <img src="docs/assets/logo.svg" alt="TrackOps Logo" width="96" height="96" />
 </p>
 
 <h1 align="center">TrackOps</h1>
@@ -51,7 +51,7 @@ TrackOps es un **motor operativo local de código abierto** que actúa como puen
 | **Integración Git nativa** | TrackOps sabe cuándo haces commit, merge o checkout, capturando la salud del repositorio de forma automática. |
 | **Portfolio multi-proyecto** | Registra todos tus proyectos y navega entre ellos desde un solo dashboard. |
 | **Framework OPERA** | Metodología de desarrollo con agentes IA en 5 fases: Orquestar, Probar, Estructurar, Refinar, Automatizar. |
-| **Ecosistema de Skills** | Plugins modulares que dotan a tu proyecto de capacidades automatizadas: `trackops skill install <nombre>`. |
+| **Ecosistema de Skills** | Integración nativa a un click con el marketplace **skills.sh**. Habilidades y agentes modulares que dotan a tu proyecto de capacidades automatizadas avanzadas e IA pre-entrenada para tu workflow. |
 
 <br/>
 

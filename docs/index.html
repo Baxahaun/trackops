@@ -1,612 +1,699 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrackOps — Control operativo para proyectos con IA</title>
-  <meta name="description" content="CLI de control operativo para vibecoders. Seguimiento de tareas, docs auto-generados, dashboard local y metodología OPERA. Cero dependencias." />
-  <meta property="og:title" content="TrackOps — Control operativo para proyectos con IA" />
-  <meta property="og:description" content="CLI de control operativo para vibecoders. Cero dependencias." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://baxahaun.github.io/trackops" />
-  <link rel="icon" type="image/webp" href="assets/TrackOps.webp" />
-  <meta property="og:image" content="https://baxahaun.github.io/trackops/assets/TrackOps.webp" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackOps — Orchestration Engine</title>
+    <meta name="description" content="TrackOps es el motor operativo que actúa como puente entre Vibe Coders y agentes autónomos. Gestiona proyectos con archivos Markdown hiper-estructurados, CLI de alta precisión y metodología OPERA.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0A0F1E',
+                        slate: '#1E293B',
+                        charcoal: '#111111',
+                        accent: '#6366F1',
+                        premium: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    borderRadius: {
+                        'super': '3rem',
+                    }
+                }
+            }
+        }
+    </script>
 
-    :root {
-      --bg-primary: #FFFFFF;
-      --bg-secondary: #F8FAFC;
-      --bg-tertiary: #F1F5F9;
-      --bg-elevated: #E2E8F0;
-      --text-primary: #0F172A;
-      --text-secondary: #475569;
-      --text-tertiary: #94A3B8;
-      --accent: #6366F1;
-      --accent-hover: #4F46E5;
-      --accent-ink: #6366F1;
-      --accent-warm: #818CF8;
-      --accent-subtle: rgba(99, 102, 241, 0.08);
-      --accent-ring: rgba(99, 102, 241, 0.25);
-      --accent-glow: rgba(99, 102, 241, 0.15);
-      --border-primary: rgba(15, 23, 42, 0.08);
-      --border-secondary: rgba(15, 23, 42, 0.05);
-      --success: #10B981;
-      --error: #EF4444;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    }
+    <style>
+        /* Textura visual: Ruido global */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
 
-    html { scroll-behavior: smooth; }
+        /* Comportamiento del Navbar */
+        #navbar {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            color: #0A0F1E !important;
+            border: 1px solid rgba(10, 15, 30, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            transform: translateY(10px);
+            width: calc(100% - 4rem) !important;
+        }
 
-    body {
-      font-family: var(--font-sans);
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+        /* Botón Magnético Premium */
+        .btn-magnetic {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            isolation: isolate;
+        }
+        
+        .btn-magnetic .btn-bg {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0A0F1E;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
 
-    /* --- NAV --- */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-secondary);
-      padding: 0 2rem;
-    }
-    .nav-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-    }
-    .nav-brand {
-      display: flex; align-items: center; gap: 0.75rem;
-      text-decoration: none; color: var(--text-primary);
-      font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em;
-    }
-    .nav-brand img { width: 32px; height: 32px; }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-    .nav-links a {
-      color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;
-      font-weight: 500; transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text-primary); }
-    .lang-switch {
-      background: var(--bg-tertiary); border: 1px solid var(--border-primary);
-      color: var(--text-secondary); padding: 0.35rem 0.75rem; border-radius: 6px;
-      font-size: 0.8rem; cursor: pointer; font-family: var(--font-sans);
-      transition: all 0.2s;
-    }
-    .lang-switch:hover { color: var(--text-primary); border-color: var(--accent); }
+        .btn-magnetic:hover .btn-bg {
+            transform: translateY(-100%);
+        }
 
-    /* --- HERO --- */
-    .hero {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 6rem 2rem 4rem; position: relative;
-    }
-    .hero::before {
-      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 600px; height: 600px; border-radius: 50%;
-      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-      opacity: 0.15; pointer-events: none;
-    }
-    .hero-content {
-      max-width: 800px; text-align: center; position: relative; z-index: 1;
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--accent-subtle); border: 1px solid var(--accent-ring);
-      color: var(--accent-ink); padding: 0.4rem 1rem; border-radius: 100px;
-      font-size: 0.85rem; font-weight: 600; margin-bottom: 2rem;
-    }
-    .hero-badge .dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--success);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 900; line-height: 1.05; letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
-    }
-    .hero h1 .accent { color: var(--accent-ink); }
-    .hero p {
-      font-size: 1.2rem; color: var(--text-secondary);
-      max-width: 600px; margin: 0 auto 2.5rem;
-    }
-    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.85rem 1.75rem; border-radius: 10px; font-size: 0.95rem;
-      font-weight: 600; text-decoration: none; transition: all 0.2s;
-      cursor: pointer; border: none; font-family: var(--font-sans);
-    }
-    .btn-primary {
-      background: var(--accent); color: #ffffff;
-      box-shadow: 0 4px 24px var(--accent-glow);
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover); transform: translateY(-1px);
-      box-shadow: 0 6px 32px var(--accent-glow);
-    }
-    .btn-outline {
-      background: transparent; color: var(--text-primary);
-      border: 1px solid var(--border-primary);
-    }
-    .btn-outline:hover {
-      border-color: var(--accent); color: var(--accent-ink);
-    }
+        .btn-magnetic span, .btn-magnetic i {
+            transition: color 0.4s ease;
+        }
 
-    /* --- TERMINAL --- */
-    .terminal-section { padding: 2rem 2rem 6rem; }
-    .terminal {
-      max-width: 700px; margin: 0 auto;
-      background: #111111; border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px; overflow: hidden;
-      box-shadow: 0 8px 48px rgba(0,0,0,0.18);
-    }
-    .terminal-bar {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.75rem 1rem; background: #1A1A1A;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .terminal-dot.red { background: #EF4444; }
-    .terminal-dot.yellow { background: #FBBF24; }
-    .terminal-dot.green { background: #10B981; }
-    .terminal-title {
-      flex: 1; text-align: center; font-size: 0.75rem;
-      color: #6B6B6B; font-family: var(--font-mono);
-    }
-    .terminal-body {
-      padding: 1.5rem; font-family: var(--font-mono); font-size: 0.85rem;
-      line-height: 1.8; color: #A3A3A3;
-    }
-    .terminal-body .prompt { color: #818CF8; }
-    .terminal-body .cmd { color: #EDEDED; }
-    .terminal-body .comment { color: #6B6B6B; }
-    .terminal-body .output { color: var(--success); }
+        .btn-magnetic:hover span, .btn-magnetic:hover i {
+            color: #FFFFFF;
+        }
 
-    /* --- FEATURES --- */
-    .features { padding: 6rem 2rem; }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
-    .section-header {
-      text-align: center; margin-bottom: 4rem;
-    }
-    .section-header .label {
-      color: var(--accent); font-size: 0.85rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;
-    }
-    .section-header h2 {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800; letter-spacing: -0.02em;
-    }
-    .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-    .feature-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-secondary);
-      border-radius: 16px; padding: 2rem;
-      transition: all 0.3s;
-    }
-    .feature-card:hover {
-      border-color: var(--accent-ring);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-    }
-    .feature-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: var(--accent-subtle); display: flex; align-items: center;
-      justify-content: center; color: var(--accent); margin-bottom: 1rem;
-    }
-    .feature-card h3 {
-      font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;
-    }
-    .feature-card p {
-      color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;
-    }
+        /* Títulos */
+        .hero-title {
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-subtitle {
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            transform: translateY(-10px);
+        }
 
-    /* --- ARCHITECTURE --- */
-    .architecture { padding: 6rem 2rem; background: var(--bg-secondary); }
-    .arch-layers {
-      max-width: 700px; margin: 0 auto;
-      display: flex; flex-direction: column; gap: 0;
-    }
-    .arch-layer {
-      padding: 1.5rem 2rem; border: 1px solid var(--border-primary);
-      text-align: center; position: relative;
-    }
-    .arch-layer:first-child { border-radius: 16px 16px 0 0; }
-    .arch-layer:last-child { border-radius: 0 0 16px 16px; }
-    .arch-layer + .arch-layer { border-top: none; }
-    .arch-layer .layer-num {
-      position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%);
-      font-size: 2rem; font-weight: 900; color: var(--accent-ring);
-    }
-    .arch-layer h3 { font-weight: 700; margin-bottom: 0.25rem; }
-    .arch-layer p { color: var(--text-secondary); font-size: 0.85rem; }
-    .arch-layer.layer-1 { background: rgba(99, 102, 241, 0.06); border-color: var(--accent-ring); }
-    .arch-layer.layer-2 { background: var(--bg-secondary); }
-    .arch-layer.layer-3 { background: var(--bg-secondary); }
+        /* Ocultar scrollbar para elegancia */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0F1E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
 
-    /* --- OPERA --- */
-    .opera { padding: 6rem 2rem; }
-    .opera-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr);
-      gap: 1rem; max-width: 900px; margin: 0 auto;
-    }
-    .opera-phase {
-      background: var(--bg-secondary); border: 1px solid var(--border-secondary);
-      border-radius: 12px; padding: 1.5rem 1rem; text-align: center;
-      transition: all 0.3s;
-    }
-    .opera-phase:hover {
-      border-color: var(--accent-ring);
-      transform: translateY(-2px);
-    }
-    .opera-phase .phase-letter {
-      font-size: 2rem; font-weight: 900; color: var(--accent-ink);
-      margin-bottom: 0.5rem;
-    }
-    .opera-phase h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .opera-phase p { font-size: 0.75rem; color: var(--text-tertiary); }
-
-    /* --- CTA --- */
-    .cta {
-      padding: 6rem 2rem; text-align: center;
-      background: var(--bg-secondary);
-    }
-    .cta h2 {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      font-weight: 800; margin-bottom: 1rem;
-    }
-    .cta p {
-      color: var(--text-secondary); font-size: 1.1rem;
-      max-width: 500px; margin: 0 auto 2rem;
-    }
-    .cta-code {
-      display: inline-block; background: #111111;
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-      padding: 1rem 2rem; font-family: var(--font-mono);
-      font-size: 1.1rem; color: #818CF8; margin-bottom: 2rem;
-    }
-
-    /* --- FOOTER --- */
-    footer {
-      padding: 3rem 2rem; text-align: center;
-      border-top: 1px solid var(--border-secondary);
-    }
-    footer p {
-      color: var(--text-tertiary); font-size: 0.85rem;
-    }
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-    .footer-links {
-      display: flex; gap: 2rem; justify-content: center; margin-bottom: 1rem;
-    }
-
-    /* --- RESPONSIVE --- */
-    @media (max-width: 768px) {
-      .nav-links { gap: 1rem; }
-      .opera-grid { grid-template-columns: repeat(2, 1fr); }
-      .opera-grid > :last-child { grid-column: span 2; }
-      .arch-layer .layer-num { display: none; }
-    }
-    @media (max-width: 480px) {
-      .hero-actions { flex-direction: column; align-items: center; }
-      .nav-links a:not(.lang-switch) { display: none; }
-    }
-
-    /* --- i18n toggle --- */
-    [lang="en"] .es { display: none; }
-    [lang="es"] .en { display: none; }
-  </style>
+        /* Garantizar visibilidad de elementos animados por GSAP
+           Si ScrollTrigger no se dispara (elemento ya en viewport al cargar),
+           los elementos no quedarán en opacity:0 gracias a este fallback */
+        .gsap-feature,
+        .gsap-phase,
+        .gsap-reveal {
+            opacity: 1 !important;
+            transform: none;
+            transition: opacity 0.1s;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-navy text-white font-outfit antialiased selection:bg-accent selection:text-white">
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-inner">
-      <a href="#" class="nav-brand">
-        <img src="assets/TrackOps.webp" alt="TrackOps" />
-        TrackOps
-      </a>
-      <div class="nav-links">
-        <a href="#features" class="es">Funciones</a>
-        <a href="#features" class="en">Features</a>
-        <a href="#architecture" class="es">Arquitectura</a>
-        <a href="#architecture" class="en">Architecture</a>
-        <a href="#opera">OPERA</a>
-        <a href="https://github.com/Baxahaun/trackops" target="_blank">GitHub</a>
-        <button class="lang-switch" onclick="toggleLang()" id="langBtn">EN</button>
-      </div>
-    </div>
-  </nav>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:bg-accent focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">Saltar al contenido principal</a>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="dot"></span>
-        <span>Open Source &middot; MIT License &middot; 0 deps</span>
-      </div>
-      <h1>
-        <span class="es">La IA es r&aacute;pida.<br/><span class="accent">El caos tambi&eacute;n.</span></span>
-        <span class="en">AI is fast.<br/><span class="accent">So is chaos.</span></span>
-      </h1>
-      <p class="es">
-        TrackOps es el motor operativo open-source que act&uacute;a como puente entre t&uacute; y tus agentes de IA. T&uacute; gestionas el proyecto visualmente. Tu IA lee archivos Markdown hiper-estructurados para saber exactamente qu&eacute; hacer.
-      </p>
-      <p class="en">
-        TrackOps is the open-source operational engine that bridges you and your AI agents. You manage the project visually. Your AI reads hyper-structured Markdown files to know exactly what to do.
-      </p>
-      <div class="hero-actions">
-        <a href="https://github.com/Baxahaun/trackops" class="btn btn-primary" target="_blank">
-          <span class="es">Ver en GitHub</span>
-          <span class="en">View on GitHub</span>
-          &rarr;
-        </a>
-        <a href="#quickstart" class="btn btn-outline">
-          <span class="es">Inicio R&aacute;pido</span>
-          <span class="en">Quick Start</span>
-        </a>
-      </div>
-    </div>
-  </section>
+    <div class="noise-overlay"></div>
 
-  <!-- PROBLEM/SOLUTION -->
-  <section style="padding: 0 2rem 4rem;">
-    <div style="max-width: 700px; margin: 0 auto; text-align: center;">
-      <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8;">
-        <span class="es">Escribir c&oacute;digo con Cursor, Copilot o agentes aut&oacute;nomos es incre&iacute;blemente r&aacute;pido. Pero a medida que el proyecto crece, <strong style="color: var(--text-primary);">la IA pierde el contexto</strong>, olvida las prioridades y el proyecto se convierte en una pesadilla de mantenimiento.</span>
-        <span class="en">Writing code with Cursor, Copilot, or autonomous agents is incredibly fast. But as the project grows, <strong style="color: var(--text-primary);">AI loses context</strong>, forgets priorities, and the project becomes a maintenance nightmare.</span>
-      </p>
-      <p style="color: var(--accent-ink); font-size: 1.2rem; font-weight: 700; margin-top: 1.5rem;">
-        <span class="es">La IA se encarga del c&oacute;digo. TrackOps se encarga del proyecto.</span>
-        <span class="en">AI handles the code. TrackOps handles the project.</span>
-      </p>
-    </div>
-  </section>
+    <div class="fixed top-0 left-0 w-full flex justify-center z-50 pt-6 px-8 pointer-events-none">
+        <nav id="navbar" aria-label="Navegación principal" class="pointer-events-auto flex items-center justify-between px-8 py-4 w-full max-w-7xl rounded-full text-white bg-transparent border border-transparent">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2">
+                <i data-lucide="infinity" class="w-8 h-8 text-accent" aria-hidden="true"></i>
+                <span class="font-sans font-bold text-lg tracking-tight">TrackOps</span>
+            </a>
 
-  <!-- TERMINAL -->
-  <section class="terminal-section" id="quickstart">
-    <div class="terminal">
-      <div class="terminal-bar">
-        <span class="terminal-dot red"></span>
-        <span class="terminal-dot yellow"></span>
-        <span class="terminal-dot green"></span>
-        <span class="terminal-title">~/mi-proyecto</span>
-      </div>
-      <div class="terminal-body">
-        <div><span class="prompt">$</span> <span class="cmd">npx trackops init --with-opera</span></div>
-        <div><span class="output">&check; Creado project_control.json</span></div>
-        <div><span class="output">&check; Creado .githooks/</span></div>
-        <div><span class="output">&check; Metodolog&iacute;a OPERA instalada (v1.0.0)</span></div>
-        <div>&nbsp;</div>
-        <div><span class="prompt">$</span> <span class="cmd">npx trackops status</span></div>
-        <div><span class="comment"># Mi Proyecto &mdash; Control Operativo</span></div>
-        <div><span class="comment"># Fase activa: O &mdash; Orquestar</span></div>
-        <div><span class="comment"># Tareas: 0 completadas, 0 en progreso, 1 pendiente</span></div>
-        <div>&nbsp;</div>
-        <div><span class="prompt">$</span> <span class="cmd">npx trackops dashboard</span></div>
-        <div><span class="output">&check; Dashboard listo en http://localhost:3100</span></div>
-      </div>
-    </div>
-  </section>
+            <!-- Desktop links -->
+            <div class="hidden md:flex gap-8 font-outfit text-sm font-medium">
+                <a href="#filosofia" class="hover:opacity-60 transition-opacity">Filosofía</a>
+                <a href="#motor" class="hover:opacity-60 transition-opacity">Motor Core</a>
+                <a href="#integracion" class="hover:opacity-60 transition-opacity">Integración IA</a>
+                <a href="#opera" class="hover:opacity-60 transition-opacity">Framework OPERA</a>
+            </div>
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="label">
-          <span class="es">Por qu&eacute; TrackOps</span>
-          <span class="en">Why TrackOps</span>
-        </div>
-        <h2>
-          <span class="es">Se volver&aacute; indispensable<br/>en tu flujo.</span>
-          <span class="en">It will become essential<br/>in your workflow.</span>
-        </h2>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-          <h3 class="es">Adopci&oacute;n en 10 Segundos</h3>
-          <h3 class="en">10-Second Adoption</h3>
-          <p class="es">Un solo comando: <code style="color:var(--accent-ink)">npx trackops init</code>. Cero configuraci&oacute;n, cero dependencias, cero bases de datos.</p>
-          <p class="en">One command: <code style="color:var(--accent-ink)">npx trackops init</code>. Zero config, zero dependencies, zero databases.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-          <h3 class="es">Contexto Determinista</h3>
-          <h3 class="en">Deterministic Context</h3>
-          <p class="es">No dejes que la IA adivine. TrackOps sincroniza la verdad absoluta de tu proyecto en Markdown que las IAs entienden nativamente.</p>
-          <p class="en">Don't let AI guess. TrackOps syncs the absolute truth of your project into Markdown that AIs understand natively.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-          <h3 class="es">Dashboard Local Premium</h3>
-          <h3 class="en">Premium Local Dashboard</h3>
-          <p class="es">Interfaz web profesional en tu terminal. Sin telemetr&iacute;a, sin nube, 100% privado.</p>
-          <p class="en">Professional web UI in your terminal. No telemetry, no cloud, 100% private.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div>
-          <h3 class="es">Git Nativo</h3>
-          <h3 class="en">Native Git</h3>
-          <p class="es">TrackOps sabe cu&aacute;ndo haces commit, merge o checkout, capturando la salud del repo autom&aacute;ticamente.</p>
-          <p class="en">TrackOps knows when you commit, merge, or checkout, capturing repo health automatically.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
-          <h3 class="es">Framework OPERA</h3>
-          <h3 class="en">OPERA Framework</h3>
-          <p class="es">Metodolog&iacute;a de desarrollo con IA en 5 fases: Orquestar, Probar, Estructurar, Refinar, Automatizar.</p>
-          <p class="en">AI development methodology in 5 phases: Orchestrate, Prove, Establish, Refine, Automate.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02Z"/></svg></div>
-          <h3 class="es">Ecosistema de Skills</h3>
-          <h3 class="en">Skills Ecosystem</h3>
-          <p class="es">Plugins modulares que dotan a tu proyecto de capacidades automatizadas.</p>
-          <p class="en">Modular plugins that give your project automated capabilities.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+            <!-- Right: GitHub SVG + hamburguesa -->
+            <div class="flex gap-4 items-center">
+                <a href="https://github.com/Baxahaun/trackops" target="_blank" rel="noopener noreferrer" class="hover:opacity-60 transition-opacity" aria-label="Ver TrackOps en GitHub (abre en nueva pestaña)">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <!-- Hamburguesa — solo mobile -->
+                <button id="menu-toggle" type="button" class="md:hidden flex flex-col gap-1.5 p-1" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mobile-menu">
+                    <span class="w-5 h-0.5 bg-current transition-all duration-300 origin-center" id="burger-1"></span>
+                    <span class="w-5 h-0.5 bg-current transition-all duration-300" id="burger-2"></span>
+                    <span class="w-5 h-0.5 bg-current transition-all duration-300 origin-center" id="burger-3"></span>
+                </button>
+            </div>
+        </nav>
 
-  <!-- ARCHITECTURE -->
-  <section class="architecture" id="architecture">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="label">
-          <span class="es">Arquitectura</span>
-          <span class="en">Architecture</span>
+        <!-- Menú mobile -->
+        <div id="mobile-menu" class="hidden absolute top-[4.5rem] left-4 right-4 bg-[#0d1326]/95 backdrop-blur-xl rounded-2xl border border-white/10 p-6 pointer-events-auto shadow-2xl">
+            <div class="flex flex-col gap-1 font-outfit text-sm font-medium text-white">
+                <a href="#filosofia" class="hover:text-accent transition-colors py-3 border-b border-white/5 flex items-center justify-between" onclick="closeMobileMenu()">Filosofía <svg class="w-4 h-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+                <a href="#motor" class="hover:text-accent transition-colors py-3 border-b border-white/5 flex items-center justify-between" onclick="closeMobileMenu()">Motor Core <svg class="w-4 h-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+                <a href="#integracion" class="hover:text-accent transition-colors py-3 border-b border-white/5 flex items-center justify-between" onclick="closeMobileMenu()">Integración IA <svg class="w-4 h-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+                <a href="#opera" class="hover:text-accent transition-colors py-3 flex items-center justify-between" onclick="closeMobileMenu()">Framework OPERA <svg class="w-4 h-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+            </div>
         </div>
-        <h2>
-          <span class="es">Tres capas. Totalmente modular.</span>
-          <span class="en">Three layers. Fully modular.</span>
-        </h2>
-      </div>
-      <div class="arch-layers">
-        <div class="arch-layer layer-3">
-          <span class="layer-num">3</span>
-          <h3>Skills</h3>
-          <p class="es">Sistema de skills gestionadas (.md) para agentes IA. Instalar, listar, desinstalar.</p>
-          <p class="en">Managed skill system (.md) for AI agents. Install, list, uninstall.</p>
-        </div>
-        <div class="arch-layer layer-2">
-          <span class="layer-num">2</span>
-          <h3>OPERA</h3>
-          <p class="es">Metodolog&iacute;a opcional de 5 fases. Agent hub, router, genesis, governance.</p>
-          <p class="en">Optional 5-phase methodology. Agent hub, router, genesis, governance.</p>
-        </div>
-        <div class="arch-layer layer-1">
-          <span class="layer-num">1</span>
-          <h3 class="es">Motor Ops</h3>
-          <h3 class="en">Ops Engine</h3>
-          <p class="es">Siempre activo. Tareas, dashboard, registro, git hooks, docs auto-generados.</p>
-          <p class="en">Always active. Tasks, dashboard, registry, git hooks, auto-generated docs.</p>
-        </div>
-      </div>
     </div>
-  </section>
 
-  <!-- OPERA -->
-  <section class="opera" id="opera">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="label">
-          <span class="es">Metodolog&iacute;a</span>
-          <span class="en">Methodology</span>
+    <header id="main-content" class="relative min-h-[100dvh] w-full flex items-center pb-[10dvh] pt-[15dvh] px-8 md:px-16 lg:px-24 overflow-hidden">
+        
+        <div id="hero-canvas" class="absolute inset-0 z-0 opacity-20">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                        <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#FFFFFF" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+                <circle id="mouse-tracker" cx="50%" cy="50%" r="400" fill="url(#grad)" opacity="0.3"/>
+                <defs>
+                    <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#6366F1" stop-opacity="0.8"/>
+                        <stop offset="100%" stop-color="#0A0F1E" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+            </svg>
         </div>
-        <h2>
-          <span class="es">O.P.E.R.A. &mdash; Desarrollo con estructura.</span>
-          <span class="en">O.P.E.R.A. &mdash; Structured development.</span>
-        </h2>
-      </div>
-      <div class="opera-grid">
-        <div class="opera-phase">
-          <div class="phase-letter">O</div>
-          <h4 class="es">Orquestar</h4>
-          <h4 class="en">Orchestrate</h4>
-          <p class="es">Visi&oacute;n, datos, reglas</p>
-          <p class="en">Vision, data, rules</p>
-        </div>
-        <div class="opera-phase">
-          <div class="phase-letter">P</div>
-          <h4 class="es">Probar</h4>
-          <h4 class="en">Prove</h4>
-          <p class="es">Conectividad</p>
-          <p class="en">Connectivity</p>
-        </div>
-        <div class="opera-phase">
-          <div class="phase-letter">E</div>
-          <h4 class="es">Estructurar</h4>
-          <h4 class="en">Establish</h4>
-          <p class="es">Construcci&oacute;n 3 capas</p>
-          <p class="en">3-layer build</p>
-        </div>
-        <div class="opera-phase">
-          <div class="phase-letter">R</div>
-          <h4 class="es">Refinar</h4>
-          <h4 class="en">Refine</h4>
-          <p class="es">Refinamiento</p>
-          <p class="en">Refinement</p>
-        </div>
-        <div class="opera-phase">
-          <div class="phase-letter">A</div>
-          <h4 class="es">Automatizar</h4>
-          <h4 class="en">Automate</h4>
-          <p class="es">Despliegue</p>
-          <p class="en">Deployment</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <h2>
-      <span class="es">Empieza en 10 segundos.</span>
-      <span class="en">Get started in 10 seconds.</span>
-    </h2>
-    <p class="es">Un comando. Cero configuraci&oacute;n. Cero dependencias.</p>
-    <p class="en">One command. Zero config. Zero dependencies.</p>
-    <div class="cta-code">npx trackops init</div>
-    <br/><br/>
-    <div class="hero-actions">
-      <a href="https://github.com/Baxahaun/trackops" class="btn btn-primary" target="_blank">
-        GitHub &rarr;
-      </a>
-      <a href="https://www.npmjs.com/package/trackops" class="btn btn-outline" target="_blank">
-        npm &middot; trackops
-      </a>
-    </div>
-    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-secondary); max-width: 600px; margin-left: auto; margin-right: auto;">
-      <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7;">
-        <span class="es">TrackOps es y siempre ser&aacute; <strong style="color: var(--text-primary);">libre, gratuito y de c&oacute;digo abierto</strong> (MIT). Si te ha ayudado, <a href="https://github.com/Baxahaun/trackops" style="color: var(--accent-ink);">dale una estrella en GitHub</a> y comp&aacute;rtelo con tu equipo.</span>
-        <span class="en">TrackOps is and will always be <strong style="color: var(--text-primary);">free and open-source</strong> (MIT). If it helped you, <a href="https://github.com/Baxahaun/trackops" style="color: var(--accent-ink);">star us on GitHub</a> and share it with your team.</span>
-      </p>
-    </div>
-  </section>
+        <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col justify-end h-full">
+            <div class="max-w-4xl">
+                <div class="gsap-reveal mb-6 flex items-center gap-3">
+                    <span class="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true"></span>
+                    <span class="font-mono text-xs uppercase tracking-widest text-gray-300">Motor Operativo Local &middot; Open Source &middot; 0 Dependencias</span>
+                </div>
+                
+                <h1 class="gsap-reveal font-sans font-bold text-4xl md:text-7xl lg:text-8xl hero-title text-white">
+                    La IA es rápida.
+                </h1>
+                <p class="gsap-reveal font-serif italic font-semibold text-5xl md:text-8xl lg:text-9xl hero-subtitle text-gray-200 mt-2" aria-hidden="true">
+                    El caos también.
+                </p>
+                
+                <p class="gsap-reveal mt-10 text-lg md:text-xl text-gray-200 max-w-2xl font-outfit font-light leading-relaxed">
+                    TrackOps es el motor operativo local que erradica el caos de contexto. Tu IA &mdash;Cursor, Copilot o Claude&mdash; lee archivos Markdown hiper-estructurados y sabe exactamente qué hacer, sin alucinaciones, sin pérdida de estado.
+                </p>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-links">
-      <a href="https://github.com/Baxahaun/trackops">GitHub</a>
-      <a href="https://www.npmjs.com/package/trackops">npm</a>
-      <a href="https://github.com/Baxahaun/trackops/issues">Issues</a>
-    </div>
-    <p>
-      <span class="es">Creado por</span>
-      <span class="en">Created by</span>
-      <a href="https://baxahaun.com" target="_blank">Xavier Crespo Gr&iacute;man</a>
-      &middot;
-      <a href="https://baxahaun.com" target="_blank">Baxahaun AI Venture Studio</a>
-    </p>
-    <p style="margin-top: 0.5rem;">MIT License &copy; 2026</p>
-  </footer>
+                <div class="gsap-reveal mt-12 flex flex-wrap gap-4 items-center">
+                    <a href="docs/GUIDE.md" type="button" class="btn-magnetic border border-gray-600 rounded-full px-8 py-4 text-sm font-sans font-bold bg-white text-navy shadow-[0_0_30px_rgba(99,102,241,0.3)]">
+                        <div class="btn-bg"></div>
+                        <span>Documentación Completa</span>
+                    </a>
+                    <div class="rounded-full px-6 py-4 text-sm font-mono text-gray-100 bg-white/5 border border-white/20 flex items-center gap-3 backdrop-blur-sm" role="code" aria-label="Comando de instalación: npx trackops init --with-opera">
+                        <span class="text-accent" aria-hidden="true">$</span> npx trackops init --with-opera
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <script>
-    function toggleLang() {
-      const html = document.documentElement;
-      const btn = document.getElementById('langBtn');
-      if (html.lang === 'es') {
-        html.lang = 'en';
-        btn.textContent = 'ES';
-      } else {
-        html.lang = 'es';
-        btn.textContent = 'EN';
-      }
-    }
-  </script>
+    <section id="filosofia" class="relative z-20 bg-premium text-navy rounded-t-super -mt-10 px-8 py-24 md:px-16 lg:px-24 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                
+                <div class="flex flex-col justify-center">
+                    <h2 class="font-serif italic text-4xl md:text-5xl text-gray-500 mb-6">El contexto lo es todo</h2>
+                    <p class="font-sans font-bold text-3xl md:text-4xl leading-tight mb-8 text-navy">
+                        La IA se encarga del código.<br>TrackOps del proyecto.
+                    </p>
+                    <p class="font-outfit text-lg text-slate-700 leading-relaxed mb-6">
+                        Cursor, Copilot o Windsurf generan código a velocidad de vértigo. Pero cuando el proyecto crece, la IA pierde el hilo: olvida lo ya hecho, ignora las prioridades y empieza a contradecirse. El contexto se corrompe.
+                    </p>
+                    <p class="font-outfit text-lg text-slate-700 leading-relaxed">
+                        TrackOps mantiene una fuente de verdad determinista en archivos Markdown sincronizados. Cada <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> traduce el estado real del proyecto en instrucciones que cualquier agente puede consumir directamente. <span class="font-semibold text-navy">No dejes que tu IA adivine lo que tiene que hacer.</span>
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-super p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-slate-100 flex flex-col gap-6">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                        <span class="font-mono text-xs text-slate-500 uppercase tracking-widest">project_control.json (Fuente de verdad)</span>
+                        <div class="flex gap-2">
+                            <span class="w-3 h-3 rounded-full bg-slate-200"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-200"></span>
+                            <span class="w-3 h-3 rounded-full bg-slate-200"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="font-mono text-sm leading-loose text-slate-600">
+                        <div class="flex gap-4"><span class="text-slate-300">01</span><span class="text-accent">"meta": {</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">02</span><span class="ml-4">"projectName": "Orchestrator",</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">03</span><span class="ml-4">"focusPhase": "E",</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">04</span><span class="ml-4">"currentFocus": "Implementar auth JWT"</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">05</span><span class="text-accent">},</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">06</span><span class="text-accent">"tasks": [</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">07</span><span class="ml-4">{ "id": "T-001", "status": "in_progress", "priority": "P0" }</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">08</span><span class="text-accent">]</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="motor" class="bg-premium text-navy px-8 py-24 md:px-16 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20 max-w-3xl mx-auto">
+                <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4">Motor Local &middot; Sin Telemetría</p>
+                <h2 class="font-serif italic text-5xl md:text-6xl text-navy mb-6">Control Total, Privacidad Total</h2>
+                <p class="font-outfit text-slate-700 text-lg">Instalación en segundos. Sin cuentas, sin nube, sin dependencias. TrackOps vive dentro de tu repositorio y genera la documentación viva de tu proyecto tras cada interacción.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="gsap-feature bg-white border-2 border-slate-200 rounded-[2rem] p-8 shadow-sm">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-6" aria-hidden="true">
+                        <i data-lucide="terminal" class="w-6 h-6 text-white" aria-hidden="true"></i>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-3">CLI de Alta Precisión</h4>
+                    <p class="font-outfit text-slate-700 text-sm mb-6 leading-relaxed">
+                        Comandos semánticos para gestionar el estado del proyecto: tareas, bloqueadores, fases OPERA y sincronización documental.
+                    </p>
+                    <div class="bg-[#0A0F1E] rounded-xl p-4 font-mono text-xs" style="color: #e2e8f0">
+                        <p><span style="color: #818cf8">$</span> trackops status</p>
+                        <p><span style="color: #818cf8">$</span> trackops next</p>
+                        <p><span style="color: #818cf8">$</span> trackops task start T-001</p>
+                        <p><span style="color: #818cf8">$</span> trackops sync</p>
+                    </div>
+                </div>
+
+                <div class="gsap-feature bg-white border-2 border-slate-200 rounded-[2rem] p-8 relative overflow-hidden shadow-sm">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-6 relative z-10" aria-hidden="true">
+                        <i data-lucide="layout-dashboard" class="w-6 h-6 text-white" aria-hidden="true"></i>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-3 relative z-10">Dashboard Premium</h4>
+                    <p class="font-outfit text-slate-700 text-sm mb-6 leading-relaxed relative z-10">
+                        Una interfaz local en <code class="bg-slate-100 px-1 rounded text-navy font-mono">localhost:3737</code>. Sin telemetría. Sin nube. Control visual total sobre tareas, hallazgos y transiciones de fase.
+                    </p>
+                    <div class="bg-slate-100 rounded-xl p-4 font-mono text-xs relative z-10 border border-slate-300">
+                        <p class="text-navy font-bold">http://localhost:3737</p>
+                    </div>
+                </div>
+
+                <div class="gsap-feature bg-white border-2 border-slate-200 rounded-[2rem] p-8 shadow-sm">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-6" aria-hidden="true">
+                        <i data-lucide="git-branch" class="w-6 h-6 text-white" aria-hidden="true"></i>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-3">Git Hooks Nativos</h4>
+                    <p class="font-outfit text-slate-700 text-sm mb-6 leading-relaxed">
+                        Se registran solos en tu repositorio. TrackOps captura el estado del árbol de trabajo tras cada commit, garantizando coherencia total entre el código y la documentación.
+                    </p>
+                    <div class="font-mono text-sm text-slate-700 flex flex-col gap-3">
+                        <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-700 flex-shrink-0" aria-hidden="true"></i>
+                            <span class="text-emerald-800 font-medium">post-commit</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-700 flex-shrink-0" aria-hidden="true"></i>
+                            <span class="text-emerald-800 font-medium">post-checkout</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-700 flex-shrink-0" aria-hidden="true"></i>
+                            <span class="text-emerald-800 font-medium">post-merge</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="integracion" class="bg-navy text-white px-8 py-24 md:px-16 lg:px-24">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+            
+            <div class="lg:w-1/2">
+                <h2 class="font-serif italic text-4xl md:text-5xl text-gray-300 mb-6">Contexto Determinista para tu IA</h2>
+                <p class="font-sans font-bold text-3xl md:text-4xl leading-tight mb-8 text-white">
+                    Tu agente sabe exactamente qué hacer. Siempre.
+                </p>
+                <p class="font-outfit text-lg text-gray-300 leading-relaxed mb-6">
+                    Cada vez que ejecutas <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">trackops sync</code>, el motor traduce el estado del proyecto en tres archivos que Claude, Cursor o Copilot leen como contexto de sistema:
+                </p>
+                <ul class="flex flex-col gap-4 font-outfit text-gray-200 mt-8">
+                    <li class="flex items-start gap-4">
+                        <i data-lucide="map" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
+                        <div>
+                            <strong class="text-white block">task_plan.md</strong>
+                            <span class="text-sm">El mapa de trabajo actual. La IA ve qué está pendiente y qué debe hacer.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <i data-lucide="history" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
+                        <div>
+                            <strong class="text-white block">progress.md</strong>
+                            <span class="text-sm">El historial de lo ejecutado. Evita que la IA reescriba cosas terminadas.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <i data-lucide="book-open" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
+                        <div>
+                            <strong class="text-white block">findings.md</strong>
+                            <span class="text-sm">Hallazgos, decisiones técnicas previas y bloqueos resueltos.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="lg:w-1/2 bg-[#0d1326] p-8 rounded-super border border-white/5 w-full">
+                <div class="flex items-center gap-3 mb-6 pb-6 border-b border-white/5">
+                    <div class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                        <i data-lucide="bot" class="w-4 h-4 text-accent" aria-hidden="true"></i>
+                    </div>
+                    <span class="font-mono text-sm">Ejemplo .cursorrules / CLAUDE.md</span>
+                </div>
+                <pre class="font-mono text-xs text-gray-400 leading-loose overflow-x-auto whitespace-pre-wrap">
+<span class="text-accent">## Control Operativo</span>
+
+Antes de iniciar cualquier tarea:
+1. Lee `task_plan.md` para entender el estado.
+2. Lee `progress.md` para el contexto.
+3. Lee `findings.md` para conocer decisiones.
+4. Usa `trackops status` para confirmar.
+
+Al completar trabajo:
+1. Ejecuta `trackops task complete <id>`.
+2. Ejecuta `trackops sync` para actualizar.
+                </pre>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="opera" class="bg-premium text-navy px-8 py-32 md:px-16 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-24">
+                <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4">Metodología Opcional &middot; 5 Fases</p>
+                <h2 class="font-serif italic text-5xl md:text-6xl text-navy mb-4">Metodología O.P.E.R.A.</h2>
+                <p class="font-outfit text-slate-700 max-w-2xl mx-auto text-lg">
+                    OPERA es el protocolo de ejecución que convierte cualquier idea en un proyecto de IA predecible. Cinco fases con <em>Definition of Done</em> verificable: desde la visión hasta el despliegue continuo.
+                </p>
+                <div class="mt-8 font-mono text-sm text-slate-700 bg-white border-2 border-slate-300 inline-block px-4 py-2 rounded-lg font-semibold">
+                    npx trackops opera install
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="gsap-phase bg-white border-2 border-slate-300 rounded-[2rem] p-8 hover:border-accent transition-colors group shadow-sm">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-sans font-black text-4xl text-slate-300 group-hover:text-accent transition-colors leading-none">O</span>
+                        <svg viewBox="0 0 64 64" class="w-12 h-12 text-slate-700 group-hover:text-accent transition-colors flex-shrink-0">
+                            <rect width="64" height="64" rx="16" fill="currentColor" fill-opacity="0.08" />
+                            <circle cx="32" cy="32" r="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-dasharray="4 4"/>
+                            <circle cx="32" cy="32" r="6" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-2">Orquestar</h4>
+                    <p class="font-outfit text-sm text-slate-700 mb-4">Visión, datos y reglas de negocio.</p>
+                    <div class="mt-auto pt-4 border-t border-slate-200 font-mono text-xs text-slate-600">
+                        Entregable: <span class="text-accent block mt-1">genesis.md</span>
+                    </div>
+                </div>
+
+                <div class="gsap-phase bg-white border-2 border-slate-300 rounded-[2rem] p-8 hover:border-accent transition-colors group shadow-sm">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-sans font-black text-4xl text-slate-300 group-hover:text-accent transition-colors leading-none">P</span>
+                        <svg viewBox="0 0 64 64" class="w-12 h-12 text-slate-700 group-hover:text-accent transition-colors flex-shrink-0">
+                            <rect width="64" height="64" rx="16" fill="currentColor" fill-opacity="0.08" />
+                            <path d="M22 32 L28 38 L42 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-2">Probar</h4>
+                    <p class="font-outfit text-sm text-slate-700 mb-4">Conectividad, validación y viabilidad técnica.</p>
+                    <div class="mt-auto pt-4 border-t border-slate-200 font-mono text-xs text-slate-600">
+                        Entregable: <span class="text-accent block mt-1">Test scripts</span>
+                    </div>
+                </div>
+
+                <div class="gsap-phase bg-white border-2 border-slate-300 rounded-[2rem] p-8 hover:border-accent transition-colors group shadow-sm">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-sans font-black text-4xl text-slate-300 group-hover:text-accent transition-colors leading-none">E</span>
+                        <svg viewBox="0 0 64 64" class="w-12 h-12 text-slate-700 group-hover:text-accent transition-colors flex-shrink-0">
+                            <rect width="64" height="64" rx="16" fill="currentColor" fill-opacity="0.08" />
+                            <rect x="20" y="20" width="24" height="6" rx="2" fill="currentColor"/>
+                            <rect x="20" y="30" width="24" height="6" rx="2" fill="currentColor" opacity="0.6"/>
+                            <rect x="20" y="40" width="24" height="6" rx="2" fill="currentColor" opacity="0.3"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-2">Estructurar</h4>
+                    <p class="font-outfit text-sm text-slate-700 mb-4">Construcción core en 3 capas e integración de SOPs.</p>
+                    <div class="mt-auto pt-4 border-t border-slate-200 font-mono text-xs text-slate-600">
+                        Entregable: <span class="text-accent block mt-1">SOPs + Integración</span>
+                    </div>
+                </div>
+
+                <div class="gsap-phase bg-white border-2 border-slate-300 rounded-[2rem] p-8 hover:border-accent transition-colors group shadow-sm">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-sans font-black text-4xl text-slate-300 group-hover:text-accent transition-colors leading-none">R</span>
+                        <svg viewBox="0 0 64 64" class="w-12 h-12 text-slate-700 group-hover:text-accent transition-colors flex-shrink-0">
+                            <rect width="64" height="64" rx="16" fill="currentColor" fill-opacity="0.08" />
+                            <path d="M24 24 L40 40 M40 24 L24 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+                            <path d="M26 32 L30 36 L38 28" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-2">Refinar</h4>
+                    <p class="font-outfit text-sm text-slate-700 mb-4">Auditoría de calidad y validación de outputs de la IA.</p>
+                    <div class="mt-auto pt-4 border-t border-slate-200 font-mono text-xs text-slate-600">
+                        Entregable: <span class="text-accent block mt-1">Outputs validados</span>
+                    </div>
+                </div>
+
+                <div class="gsap-phase bg-white border-2 border-slate-300 rounded-[2rem] p-8 hover:border-accent transition-colors group shadow-sm">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="font-sans font-black text-4xl text-slate-300 group-hover:text-accent transition-colors leading-none">A</span>
+                        <svg viewBox="0 0 64 64" class="w-12 h-12 text-slate-700 group-hover:text-accent transition-colors flex-shrink-0">
+                            <rect width="64" height="64" rx="16" fill="currentColor" fill-opacity="0.08" />
+                            <path d="M32 18 L24 34 L32 34 L32 46 L40 30 L32 30 Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-2">Automatizar</h4>
+                    <p class="font-outfit text-sm text-slate-700 mb-4">Despliegue continuo, smoke tests y triggers.</p>
+                    <div class="mt-auto pt-4 border-t border-slate-200 font-mono text-xs text-slate-600">
+                        Entregable: <span class="text-accent block mt-1">Triggers + Deploy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white text-navy border-t border-slate-200 px-8 py-24 md:px-16 lg:px-24">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
+            <div class="md:w-1/2">
+                <h3 class="font-serif italic text-4xl text-navy mb-4">Ecosistema de Skills</h3>
+                <p class="font-outfit text-slate-700 mb-6 leading-relaxed">
+                    Las Skills son módulos de instrucciones especializadas que dotan a tu agente de protocolos específicos: commits semánticos, changelogs automáticos, inicialización de proyectos. Un comando. Instaladas. Activas.
+                </p>
+                <div class="bg-[#0A0F1E] rounded-xl p-4 font-mono text-xs inline-block mb-8 border border-slate-800" style="color: #e2e8f0">
+                    <p><span style="color: #64748b"># Instalar protocolo de commits semánticos</span></p>
+                    <p><span style="color: #818cf8">$</span><span> trackops skill install commiter</span></p>
+                </div>
+            </div>
+            <div class="md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="border-2 border-slate-200 p-6 rounded-2xl bg-white shadow-sm">
+                    <i data-lucide="git-commit" class="w-6 h-6 text-accent mb-3" aria-hidden="true"></i>
+                    <strong class="block text-navy font-sans text-sm mb-2">commiter</strong>
+                    <span class="text-sm text-slate-700">Protocolo para commits semánticos en formato convencional.</span>
+                </div>
+                <div class="border-2 border-slate-200 p-6 rounded-2xl bg-white shadow-sm">
+                    <i data-lucide="file-text" class="w-6 h-6 text-accent mb-3" aria-hidden="true"></i>
+                    <strong class="block text-navy font-sans text-sm mb-2">changelog-updater</strong>
+                    <span class="text-sm text-slate-700">Actualiza CHANGELOG.md tras cada hito importante.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-charcoal text-white rounded-t-super pt-24 pb-12 px-8 md:px-16 lg:px-24 mt-[-2rem] relative z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start border-b border-gray-800 pb-16 mb-8 gap-12">
+            <div class="max-w-md">
+                <div class="flex items-center gap-3 mb-6">
+                    <i data-lucide="infinity" class="w-8 h-8 text-accent" aria-hidden="true"></i>
+                    <span class="font-sans font-bold text-2xl tracking-tight">TrackOps</span>
+                </div>
+                <p class="font-serif italic text-3xl text-gray-300 mb-6">Tú orquestas.<br>Tu IA ejecuta.</p>
+                <button type="button" class="btn-magnetic border border-gray-700 rounded-full px-6 py-3 text-sm font-sans font-bold bg-transparent text-white hover:border-gray-500 transition-colors" aria-label="Comando de inicio: npx trackops init">
+                    <div class="btn-bg bg-white" aria-hidden="true"></div>
+                    <span class="group-hover:text-navy">npx trackops init</span>
+                </button>
+            </div>
+            
+            <div class="flex flex-wrap gap-12 font-outfit text-sm text-gray-400 mt-4 md:mt-0">
+                <div class="flex flex-col gap-3">
+                    <span class="text-white font-bold mb-2 font-sans tracking-wide">Recursos</span>
+                    <a href="https://github.com/Baxahaun/trackops#readme" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">Guía de Uso</a>
+                    <a href="#opera" class="hover:text-accent transition-colors">OPERA Framework</a>
+                    <a href="https://www.npmjs.com/package/trackops" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">NPM Package</a>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <span class="text-white font-bold mb-2 font-sans tracking-wide">Proyecto</span>
+                    <a href="https://github.com/Baxahaun/trackops" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">GitHub Repository</a>
+                    <a href="https://github.com/Baxahaun/trackops/issues" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">Reportar Issue</a>
+                    <a href="https://github.com/Baxahaun/trackops/blob/master/LICENSE" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">Licencia MIT</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center font-mono text-xs text-gray-400 gap-4">
+            <p>Construido para la era del desarrollo con IA.</p>
+            <p>Diseñado y desarrollado por <a href="https://baxahaun.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors border-b border-gray-700 hover:border-white pb-0.5">Xavier Crespo Gríman</a> &middot; Baxahaun AI Venture Studio</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            gsap.registerPlugin(ScrollTrigger);
+
+            let ctx = gsap.context(() => {
+                
+                // Hero Animations
+                gsap.from(".gsap-reveal", {
+                    y: 40,
+                    opacity: 0,
+                    duration: 1.2,
+                    stagger: 0.1,
+                    ease: "power3.out",
+                    delay: 0.2
+                });
+
+                // Features Animations
+                gsap.from(".gsap-feature", {
+                    scrollTrigger: {
+                        trigger: "#motor",
+                        start: "top 75%",
+                    },
+                    y: 40,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.15,
+                    ease: "power2.out"
+                });
+
+                // OPERA Phases Animations
+                gsap.from(".gsap-phase", {
+                    scrollTrigger: {
+                        trigger: "#opera",
+                        start: "top 75%",
+                    },
+                    y: 40,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.1,
+                    ease: "power2.out"
+                });
+
+                // Navbar Glassmorphism
+                const nav = document.getElementById('navbar');
+                ScrollTrigger.create({
+                    start: "top -50",
+                    onUpdate: (self) => {
+                        if (self.direction === 1 || window.scrollY > 50) {
+                            nav.classList.add('nav-scrolled');
+                            nav.classList.remove('text-white', 'border-transparent', 'bg-transparent');
+                        } else {
+                            nav.classList.remove('nav-scrolled');
+                            nav.classList.add('text-white', 'border-transparent', 'bg-transparent');
+                        }
+                    }
+                });
+
+                // Mouse Tracker en Hero
+                const tracker = document.getElementById("mouse-tracker");
+                const heroSection = document.querySelector("header");
+                const xTo = gsap.quickTo(tracker, "cx", {duration: 0.8, ease: "power3"});
+                const yTo = gsap.quickTo(tracker, "cy", {duration: 0.8, ease: "power3"});
+
+                heroSection.addEventListener("mousemove", (e) => {
+                    const rect = heroSection.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    xTo(x);
+                    yTo(y);
+                });
+
+                // Botones Magnéticos
+                const magneticButtons = document.querySelectorAll('.btn-magnetic');
+                magneticButtons.forEach(btn => {
+                    const textElements = btn.querySelectorAll('span, i');
+                    
+                    btn.addEventListener('mousemove', (e) => {
+                        const rect = btn.getBoundingClientRect();
+                        const x = e.clientX - rect.left - rect.width / 2;
+                        const y = e.clientY - rect.top - rect.height / 2;
+                        
+                        gsap.to(btn, { x: x * 0.15, y: y * 0.15, duration: 0.3, ease: "power2.out" });
+                        gsap.to(textElements, { x: x * 0.1, y: y * 0.1, duration: 0.3, ease: "power2.out" });
+                    });
+
+                    btn.addEventListener('mouseleave', () => {
+                        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" });
+                        gsap.to(textElements, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" });
+                    });
+                });
+            });
+        });
+        // ─── Menú Hamburguesa Mobile ───────────────────
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const burger1 = document.getElementById('burger-1');
+        const burger2 = document.getElementById('burger-2');
+        const burger3 = document.getElementById('burger-3');
+
+        function closeMobileMenu() {
+            if (!mobileMenu) return;
+            mobileMenu.classList.add('hidden');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            burger1.style.transform = '';
+            burger2.style.opacity = '1';
+            burger3.style.transform = '';
+        }
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                if (isOpen) {
+                    closeMobileMenu();
+                } else {
+                    mobileMenu.classList.remove('hidden');
+                    menuToggle.setAttribute('aria-expanded', 'true');
+                    burger1.style.transform = 'translateY(8px) rotate(45deg)';
+                    burger2.style.opacity = '0';
+                    burger3.style.transform = 'translateY(-8px) rotate(-45deg)';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

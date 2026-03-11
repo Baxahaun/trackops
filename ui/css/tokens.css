@@ -1,0 +1,227 @@
+/* ═══════════════════════════════════════════════════════
+   TRACKOPS DESIGN TOKENS
+   Coherentes con docs/index.html (identidad de marca web)
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Colores base (marca web) ── */
+  --navy:      #0A0F1E;
+  --navy-90:   #0d1326;
+  --navy-80:   #111827;
+  --slate:     #1E293B;
+  --charcoal:  #111111;
+
+  /* ── Accent (indigo) ── */
+  --accent:       #6366F1;
+  --accent-light: rgba(99, 102, 241, 0.15);
+  --accent-glow:  rgba(99, 102, 241, 0.30);
+  --accent-hover: #818CF8;
+
+  /* ── Superficies del dashboard ── */
+  --surface-0:  #0A0F1E;    /* fondo global */
+  --surface-1:  #0d1326;    /* sidebar + panel base */
+  --surface-2:  #111827;    /* cards */
+  --surface-3:  #1a2234;    /* hover cards */
+  --surface-4:  rgba(255,255,255,0.04); /* inset sutil */
+
+  /* ── Texto ── */
+  --text-primary:   #F1F5F9;
+  --text-secondary: #94A3B8;
+  --text-muted:     #475569;
+  --text-accent:    #818CF8;
+
+  /* ── Bordes ── */
+  --border:         rgba(255,255,255,0.06);
+  --border-strong:  rgba(255,255,255,0.12);
+  --border-accent:  rgba(99,102,241,0.35);
+
+  /* ── Estado ── */
+  --success:       #10B981;
+  --success-light: rgba(16, 185, 129, 0.12);
+  --warning:       #F59E0B;
+  --warning-light: rgba(245, 158, 11, 0.12);
+  --danger:        #EF4444;
+  --danger-light:  rgba(239, 68, 68, 0.12);
+  --info:          #3B82F6;
+  --info-light:    rgba(59, 130, 246, 0.12);
+
+  /* ── Prioridades ── */
+  --p0: #EF4444;
+  --p1: #F59E0B;
+  --p2: #6366F1;
+  --p3: #475569;
+
+  /* ── Fuentes (coherentes con marca web) ── */
+  --font-ui:       'Outfit', system-ui, -apple-system, sans-serif;
+  --font-heading:  'Plus Jakarta Sans', 'Outfit', sans-serif;
+  --font-mono:     'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+
+  /* ── Tamaños de fuente (escala modular 1.25) ── */
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-md:   1.125rem;   /* 18px */
+  --text-lg:   1.25rem;    /* 20px */
+  --text-xl:   1.5rem;     /* 24px */
+  --text-2xl:  1.875rem;   /* 30px */
+  --text-3xl:  2.25rem;    /* 36px */
+
+  /* ── Border Radius (marca web usa 3rem = super) ── */
+  --radius-xs:    0.375rem;   /* 6px */
+  --radius-sm:    0.625rem;   /* 10px */
+  --radius-md:    0.875rem;   /* 14px */
+  --radius-lg:    1.25rem;    /* 20px */
+  --radius-xl:    1.75rem;    /* 28px */
+  --radius-2xl:   2rem;       /* 32px */
+  --radius-super: 3rem;       /* 48px */
+  --radius-full:  9999px;
+
+  /* ── Sombras ── */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3);
+  --shadow-xl: 0 24px 60px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.35);
+  --shadow-accent: 0 8px 24px rgba(99,102,241,0.25);
+  --shadow-glow: 0 0 40px rgba(99,102,241,0.15);
+
+  /* ── Espaciado ── */
+  --space-1:  0.25rem;   /* 4px */
+  --space-2:  0.5rem;    /* 8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+
+  /* ── Layout ── */
+  --sidebar-width:  272px;
+  --topbar-height:  64px;
+  --content-pad:    24px;
+
+  /* ── Transiciones ── */
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:    cubic-bezier(0.4, 0, 1, 1);
+  --ease-inout: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast:   120ms;
+  --duration-base:   200ms;
+  --duration-slow:   350ms;
+  --duration-slower: 600ms;
+
+  /* ── Z-index ── */
+  --z-base:    1;
+  --z-panel:   10;
+  --z-topbar:  20;
+  --z-sidebar: 30;
+  --z-modal:   40;
+  --z-toast:   50;
+  --z-onboard: 60;
+}
+/* ───────────────────────────────────
+   TEMA CLARO
+   Activo con: html[data-theme="light"]
+   ─────────────────────────────────── */
+[data-theme="light"] {
+
+  /* ── Superficies ── */
+  --surface-0:  #F0F2F8;          /* fondo global */
+  --surface-1:  #FFFFFF;          /* sidebar + panel base */
+  --surface-2:  #F8F9FC;          /* cards */
+  --surface-3:  #EEF0F7;          /* hover / inset */
+  --surface-4:  rgba(0,0,0,0.04); /* inset sutil */
+
+  /* ── Texto ── */
+  --text-primary:   #0D1117;
+  --text-secondary: #4A5568;
+  --text-muted:     #9AA5B4;
+  --text-accent:    #4F46E5;
+
+  /* ── Bordes ── */
+  --border:        rgba(0,0,0,0.08);
+  --border-strong: rgba(0,0,0,0.14);
+  --border-accent: rgba(99,102,241,0.3);
+
+  /* ── Sombras (más suaves sobre fondos claros) ── */
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:     0 4px 20px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg:     0 12px 40px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-xl:     0 24px 60px rgba(0,0,0,0.15), 0 8px 24px rgba(0,0,0,0.10);
+  --shadow-accent: 0 8px 24px rgba(99,102,241,0.20);
+
+  /* ── Accent ajustado para legibilidad en claro ── */
+  --accent:       #4F46E5;
+  --accent-hover: #6366F1;
+  --accent-light: rgba(79,70,229,0.10);
+  --accent-glow:  rgba(79,70,229,0.20);
+
+  /* ── Estado (más saturados en claro) ── */
+  --success-light: rgba(5,150,105,0.10);
+  --warning-light: rgba(217,119,6,0.10);
+  --danger-light:  rgba(220,38,38,0.10);
+  --info-light:    rgba(37,99,235,0.10);
+}
+
+/* Ajustes específicos que no se pueden resolver solo con tokens */
+
+/* Topbar en light */
+[data-theme="light"] .topbar {
+  background: rgba(248,249,252,0.88);
+}
+
+/* Terminal siempre dark (legibilidad de código) */
+[data-theme="light"] .terminal-surface,
+[data-theme="light"] .terminal-output,
+[data-theme="light"] .console-panel {
+  background: #1a1f2e;
+  color: #94D4BC;
+}
+[data-theme="light"] .terminal-header {
+  background: rgba(255,255,255,0.04);
+  border-bottom-color: rgba(255,255,255,0.04);
+}
+[data-theme="light"] .console-panel-header {
+  background: rgba(255,255,255,0.02);
+}
+
+/* Time tracker card en light */
+[data-theme="light"] .time-tracker-card {
+  background: linear-gradient(135deg, #f0f2fb 0%, #ffffff 100%);
+  border-color: rgba(99,102,241,0.2);
+}
+
+/* Onboarding backdrop en light */
+[data-theme="light"] .onboarding-backdrop {
+  background: rgba(0,0,0,0.45);
+}
+
+/* Sidebar logo icon sigue con gradiente oscuro */
+[data-theme="light"] .sidebar-logo-icon {
+  box-shadow: 0 4px 12px rgba(79,70,229,0.3);
+}
+
+/* Topbar timer en light */
+[data-theme="light"] .topbar-timer {
+  background: #F0F2F8;
+  border-color: rgba(0,0,0,0.10);
+}
+
+/* Modal en light */
+[data-theme="light"] .modal {
+  background: #FFFFFF;
+  border-color: rgba(0,0,0,0.10);
+}
+
+/* Flash toast en light */
+[data-theme="light"] .flash {
+  background: #FFFFFF;
+  border-color: rgba(0,0,0,0.10);
+}
+
+/* Transición suave al cambiar de tema */
+html {
+  transition:
+    background-color var(--duration-slow) var(--ease-out),
+    color var(--duration-slow) var(--ease-out);
+}

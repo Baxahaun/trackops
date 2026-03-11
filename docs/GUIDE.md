@@ -164,24 +164,41 @@ trackops skill catalog                    # Ver skills disponibles
 
 ### Dashboard Web
 
-El dashboard local se lanza con:
+El dashboard central interactivo es el centro de mando local.
 
 ```bash
 npx trackops dashboard
 ```
+Por defecto, se abre en **http://localhost:3737** (o el siguiente puerto disponible, como 4173 en desarrollo con Vite/Deno).
 
-Por defecto abre en `http://localhost:3737`.
+**Navegación Principal (6 Vistas):**
 
-**Funcionalidades:**
+- **Overview:** 4 KPIs principales, progreso por fase, gráfico de **Actividad Semanal** (cambios de los últimos 10 días), **Progreso Global** (donut chart por estado) y acceso directo a la siguiente tarea.
+- **Tasks:** Selector rápido y listado. Al hacer clic en una tarea, el **Editor de Tareas Split-View** permite cambiar su fase, prioridad, gestionar dependencias, añadir/resolver bloqueos y mover su estado mediante botones de acción.
+- **Board:** Kanban drag&drop. Mover tarjetas entre columnas actualiza instantáneamente el estado del proyecto y regenera los documentos.
+- **Execution:** Terminal **Server-Sent Events (SSE)**. Un shell integrado con historial de sesiones y streaming real-time que permite invocar comandos locales (como build scripts o validaciones) sin salir de tu cockpit. Permite ejecutar con **Ctrl+Enter**.
+- **Analytics:** El **Health Grid** reporta la salud operativa (Repo Status, Delivery Rate, Docs Drift...). Incluye un desglose por tareas, hitos de fase en detalle, timeline de eventos recientes y gestión ampliada de findings/decisiones.
+- **Settings:** Detalles técnicos del portafolio multi-proyecto, configuración del repo y registro local.
 
-- **Vista de tareas**: Crear, editar, cambiar estado y prioridad
-- **Selector de fase activa**: Cambiar la fase en curso
-- **Editar foco**: Actualizar `currentFocus` y `deliveryTarget`
-- **Registro de hallazgos**: Crear y cerrar findings desde la UI
-- **Multi-proyecto**: Cambiar entre proyectos registrados desde la barra superior
-- **Sync automático**: Los documentos Markdown se regeneran al guardar cambios
+**Funcionalidades Transversales:**
 
-El dashboard corre completamente en local — sin telemetría, sin nube, sin autenticación.
+- **Time Tracker (Focus Mode):** Accesible desde el Topbar en cualquier vista e integrado visualmente en el Overview y el listado de tareas. Haz clic en 'Play' en cualquier tarea, y la duración queda registrada de manera inmutable (para análisis o billing).
+- **Consola Transparente:** La consola (`Console Logs` en el sidebar) intercepta cualquier error del cliente, evitando fallos silenciosos no detectados en navegador. En verde (debug)/rojo (error).
+- **Onboarding e Integración:** Un tour guiado interactivo por todas las pantallas pulsando _"Ayuda & Tour"_ en el sidebar (para usuarios noveles).
+- **Atajos & UI:** Usa **⌘/Ctrl+F** para abrir la barra de búsqueda inmediatamente. Usa el switch entre **Tema Claro / Oscuro** en el topbar, tus preferencias se guardan para la siguiente iteración.
+
+El dashboard está diseñado con foco *Desktop-First* y completamente programado con un *stack vanilla* escalable, funcionando puramente en entorno local.
+
+---
+
+### 🔥 AI Agentic Skill Management via skills.sh
+
+TrackOps no es solo un tablero visual, es la interfaz del modelo inteligente (tu IA Copiloto, ya sea Gemini u otros agentes). El poder del modelo se expande mediante **Skills**. 
+
+El Dashboard cuenta con la vista **Agent Skills** (App Store interna):
+- **Descubrimiento:** Sugiere workflows pre-fabricados analizando de forma latente la naturaleza de tu proyecto. El backend conecta a la comunidad en `skills.sh`.
+- **Instalación "One-Click":** Un click en "Instalar" descargará de `skills.sh` el workflow y lo ubicará internamente en `.agents/skills/`.
+- **Ejecución Contextual:** La próxima vez que ordenes al modelo que opere, el agente leerá `.agents/skills/[skill-id]/SKILL.md` para emular ese experto preciso (Ej. *TDD Master*, o *E2E Tester*).
 
 ---
 
@@ -593,24 +610,41 @@ trackops skill catalog                    # View available skills
 
 ### Web Dashboard
 
-The local dashboard launches with:
+The central interactive dashboard is your local command center.
 
 ```bash
 npx trackops dashboard
 ```
+It runs by default on **http://localhost:3737** (or the next available port, like 4173 when using Vite/Deno on dev setup).
 
-Defaults to `http://localhost:3737`.
+**Main Navigation (6 Views):**
 
-**Features:**
+- **Overview:** 4 core KPIs, phase progress, **Weekly Activity** chart (last 10 days state shifts), **Global Progress** (state donut chart), and a shortcut to the next actionable task.
+- **Tasks:** Quick filtering and listing. Clicking a task opens the **Split-View Editor**, where you may edit phases, priorities, handle blockers/dependencies, and progress states using the action strip buttons.
+- **Board:** Drag & Drop Kanban. Moving cards across columns immediately updates project state and regenerates documents.
+- **Execution:** Interactive **Server-Sent Events (SSE)** terminal. A built-in shell detailing session histories with real-time output stream for executing local tasks (e.g. testing, sync, builds) inside your cockpit. Supports **Ctrl+Enter**.
+- **Analytics:** The **Health Grid** tracks operational sanity (Repo Status, Delivery Rate, Docs Drift...). Also detailed breakdown bars per state/time tracking, timelines of recent events, and extended management of findings and decisions.
+- **Settings:** Details of technical portfolios, repo configurations, and local registry setup.
 
-- **Task view**: Create, edit, change status and priority
-- **Active phase selector**: Change the current phase
-- **Focus editor**: Update `currentFocus` and `deliveryTarget`
-- **Findings registry**: Create and close findings from the UI
-- **Multi-project**: Switch between registered projects from the top bar
-- **Auto-sync**: Markdown documents are regenerated on save
+**Core Transversal Features:**
 
-The dashboard runs entirely locally — no telemetry, no cloud, no authentication.
+- **Time Tracker:** Exposed at the Topbar on every view and fully featured over the Overview. Press 'Play' on a task; duration registers in engine logic immutably (ready for deep analysis/billing).
+- **Transparent Console:** A side/docked terminal (`Console Logs`) that intercepts unhandled frontend rejections or syntax failures and warns directly to UI in real-time, preventing silent failure workflows. 
+- **Interactive Onboarding:** Guided 12-step tour spanning all the views triggered anytime using the _"Help & Tour"_ action. 
+- **Shortcuts & Styling:** Trigger instant task-search globally via **⌘/Ctrl+F**. Fast-switch between **Dark / Light mode** in the topbar, which persists OS preferences.
+
+Running completely locally securely: telemetry-less, unauthenticated, pure local web tooling environment built on Vanilla JS/CSS modules.
+
+---
+
+### 🔥 AI Agentic Skill Management via skills.sh
+
+TrackOps isn't just a visual board; it is the physical UI layer driving your LLM/Agent (be it Gemini or other copilots). The true power behind the engine expands via **Skills**.
+
+The Dashboard provides an app-store-like view, **Agent Skills**:
+- **Semantic Discovery:** It silently checks what your project is about and requests contextual workflow packages from the community repository `skills.sh`.
+- **One-Click Install:** Hitting "Install" immediately pulls the skill from `skills.sh` and provisions it internally at `.agents/skills/`.
+- **Contextual Execution:** The next time you trigger the model to execute a task, the agent will load the precise `.agents/skills/[skill-id]/SKILL.md` file and emulate that precise expert (e.g. *TDD Master*, or *Release Manager*).
 
 ---
 

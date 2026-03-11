@@ -1,0 +1,7 @@
+# Skills Registry
+
+| Skill | Version | Description |
+|-------|---------|-------------|
+| changelog-updater | 1.0 | Herramienta automatizada para actualizar el archivo CHANGELOG.md basándose en el último commit realizado. Usa esta skill inmediatamente después de confirmar un commit para mantener el historial de cambios al día. Se activa con 'actualizar changelog', 'registrar cambio', 'update changelog', o automáticamente tras un commit exitoso cuando el router lo indique. |
+| commiter | 1.0 | Guía para generar mensajes de commit en español siguiendo Conventional Commits estrictos con Emojis. Usa esta skill siempre que el usuario pida hacer un commit, generar un mensaje de commit, commitear cambios, o cuando se complete un cambio de código y sea momento de registrarlo en git. También se activa con 'commit', 'commitear', 'guardar cambios', 'registrar cambios' o cualquier intención de crear un punto en el historial de git. |
+| project-starter-skill | 3.0 | Skill global para inicializar proyectos completos usando el protocolo O.P.E.R.A. (Orquestar, Probar, Estructurar, Refinar, Automatizar). Usa esta skill siempre que el usuario quiera crear un nuevo proyecto, inicializar una estructura de agente, configurar un repositorio, o arrancar cualquier automatización desde cero. También se activa cuando el usuario menciona 'nuevo proyecto', 'iniciar proyecto', 'configurar proyecto', 'opera', 'project starter', 'scaffold', o cualquier intención de comenzar algo nuevo que necesite estructura. |
