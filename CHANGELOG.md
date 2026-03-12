@@ -6,6 +6,7 @@ y el proyecto mantiene versionado pragmático mientras se consolida la política
 
 ## 2026-03-12
 
+- ✨ **feat(product)**: se blinda el repositorio para que solo versione archivos propios del paquete `trackops`, dejando fuera los artefactos generados por su uso y por `OPERA`. Tambien se refina el soporte al proyecto con `USDC` en `Polygon`, se añade QR en la landing publica y se prepara la siguiente publicacion en npm con la version `1.0.1` (`38bed64`).
 - ✨ **feat(product)**: se consolida la beta publica de TrackOps con documentacion operativa sincronizada, guias bilingues, estado beta y descargo visibles, prueba minima automatizada, y apoyo economico inicial en Ko-fi, GitHub, npm y la landing publica.
 - 🧭 **docs(ops)**: realineado el seguimiento operativo del proyecto con el estado real de TrackOps como producto standalone. Se actualizan `project_control.json`, `task_plan.md`, `progress.md`, `findings.md` y `genesis.md` para reflejar el backlog vigente, los hallazgos abiertos y la nueva línea base de ejecución.
 - 🛠️ **fix(init)**: los scripts `ops:*` generados por `trackops init` pasan a usar `npx --yes trackops`, mientras este repo usa `node bin/trackops.js` para desarrollo local. Con esto `npm run ops:status` vuelve a funcionar tanto en el paquete como en proyectos recién inicializados.
