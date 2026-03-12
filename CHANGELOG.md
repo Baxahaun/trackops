@@ -4,6 +4,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y el proyecto mantiene versionado pragmático mientras se consolida la política formal de releases.
 
+## 2026-03-13
+
+- 🐛 **fix(branding)**: se corrige y unifica el favicon de TrackOps entre la web publica y el panel local. La landing pasa a declarar su favicon oficial, el panel deja de depender de una ruta absoluta fragil y se incorpora un activo limpio para pestañas de navegador en `docs/assets/favicon.svg` (`161f973`).
+
 ## 2026-03-12
 
 - ✨ **feat(product)**: se blinda el repositorio para que solo versione archivos propios del paquete `trackops`, dejando fuera los artefactos generados por su uso y por `OPERA`. Tambien se refina el soporte al proyecto con `USDC` en `Polygon`, se añade QR en la landing publica y se prepara la siguiente publicacion en npm con la version `1.0.1` (`38bed64`).
