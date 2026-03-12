@@ -217,6 +217,150 @@
             margin-bottom: 0.45rem;
         }
 
+        .footer-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.5rem 0.9rem;
+            font-family: Outfit, sans-serif;
+            font-size: 0.76rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #c7d2fe;
+        }
+
+        .footer-kicker::before {
+            content: "";
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+            background: currentColor;
+            opacity: 0.75;
+        }
+
+        .footer-grid {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 4.5rem;
+        }
+
+        .footer-copy {
+            max-width: 34rem;
+            font-family: Outfit, sans-serif;
+            font-size: 1rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+        }
+
+        .footer-link-title {
+            display: block;
+            margin-bottom: 1rem;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #ffffff;
+        }
+
+        .footer-link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            color: #cbd5e1;
+            font-family: Outfit, sans-serif;
+            font-size: 0.96rem;
+        }
+
+        .footer-link-list a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            transition: color 0.25s ease, transform 0.25s ease;
+        }
+
+        .footer-link-list a::before {
+            content: "";
+            width: 0.35rem;
+            height: 0.35rem;
+            border-radius: 9999px;
+            background: rgba(129, 140, 248, 0.6);
+            flex-shrink: 0;
+        }
+
+        .footer-link-list a:hover {
+            color: #ffffff;
+            transform: translateX(3px);
+        }
+
+        .footer-support {
+            position: relative;
+        }
+
+        .footer-support::before {
+            content: "";
+            position: absolute;
+            left: -2.5rem;
+            top: 0.2rem;
+            bottom: 0.2rem;
+            width: 1px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.14), rgba(255,255,255,0.02));
+        }
+
+        .support-network {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: #818cf8;
+        }
+
+        .support-network::before {
+            content: "";
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 9999px;
+            background: currentColor;
+            opacity: 0.8;
+        }
+
+        .support-address-line {
+            padding: 0.9rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .support-qr {
+            width: min(12rem, 100%);
+            padding: 0.85rem;
+            border-radius: 1.75rem;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 18px 40px rgba(10, 15, 30, 0.22);
+        }
+
+        .support-note {
+            color: #94a3b8;
+            font-family: Outfit, sans-serif;
+            font-size: 0.84rem;
+            line-height: 1.8;
+        }
+
+        .footer-meta {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+        }
+
+        @media (max-width: 1023px) {
+            .footer-support::before {
+                display: none;
+            }
+        }
+
         @media (max-width: 767px) {
             .desktop-only {
                 display: none !important;
@@ -641,66 +785,111 @@ Al completar trabajo:
     </section>
 
     <footer class="bg-charcoal text-white rounded-t-super pt-24 pb-12 px-8 md:px-16 lg:px-24 mt-[-2rem] relative z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start border-b border-gray-800 pb-16 mb-8 gap-12">
-            <div class="max-w-md">
-                <div class="flex items-center gap-3 mb-6">
-                    <i data-lucide="infinity" class="w-8 h-8 text-accent" aria-hidden="true"></i>
-                    <span class="font-sans font-bold text-2xl tracking-tight">TrackOps</span>
-                </div>
-                <p class="font-serif italic text-3xl text-gray-300 mb-6"><span class="lang-es">Tú orquestas.<br>Tu IA ejecuta.</span><span class="lang-en">You orchestrate.<br>Your AI executes.</span></p>
-                <button type="button" class="btn-magnetic border border-gray-700 rounded-full px-6 py-3 text-sm font-sans font-bold bg-transparent text-white hover:border-gray-500 transition-colors" aria-label="Comando de inicio: npx trackops init">
-                    <div class="btn-bg bg-white" aria-hidden="true"></div>
-                    <span class="group-hover:text-navy">npx trackops init</span>
-                </button>
-                <div class="disclaimer-panel mt-6 text-sm text-gray-300 border-gray-800 bg-white/5">
-                    <span class="disclaimer-title"><span class="lang-es">Descargo de responsabilidad</span><span class="lang-en">Disclaimer</span></span>
-                    <span class="lang-es">El producto sigue en beta. Úsalo con revisión humana y valida siempre los cambios importantes antes de llevarlos a producción.</span>
-                    <span class="lang-en">The product is still in beta. Use it with human review and always validate important changes before taking them to production.</span>
-                </div>
-            </div>
-            
-            <div class="flex flex-wrap gap-8 font-outfit text-sm text-gray-400 mt-4 md:mt-0 items-start">
-                <div class="flex flex-col gap-3">
-                    <span class="text-white font-bold mb-2 font-sans tracking-wide"><span class="lang-es">Recursos</span><span class="lang-en">Resources</span></span>
-                    <a href="https://github.com/Baxahaun/trackops/blob/master/UserGUIDE.md" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors"><span class="lang-es">Guía de usuario</span><span class="lang-en">User guide</span></a>
-                    <a href="#opera" class="hover:text-accent transition-colors"><span class="lang-es">Marco OPERA</span><span class="lang-en">OPERA framework</span></a>
-                    <a href="https://www.npmjs.com/package/trackops" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors"><span class="lang-es">Paquete npm</span><span class="lang-en">npm package</span></a>
-                </div>
-                <div class="flex flex-col gap-3">
-                    <span class="text-white font-bold mb-2 font-sans tracking-wide"><span class="lang-es">Proyecto</span><span class="lang-en">Project</span></span>
-                    <a href="https://github.com/Baxahaun/trackops" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors"><span class="lang-es">Repositorio GitHub</span><span class="lang-en">GitHub repository</span></a>
-                    <a href="https://github.com/Baxahaun/trackops/issues" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors"><span class="lang-es">Reportar incidencia</span><span class="lang-en">Report issue</span></a>
-                    <a href="https://github.com/Baxahaun/trackops/blob/master/LICENSE" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors"><span class="lang-es">Licencia MIT</span><span class="lang-en">MIT license</span></a>
-                </div>
-                <div class="w-full sm:w-[21rem] rounded-[2rem] border border-accent/30 bg-gradient-to-br from-white/10 to-white/5 p-6 shadow-[0_20px_50px_rgba(0,0,0,0.18)]">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-2xl bg-accent/15 border border-accent/20 flex items-center justify-center">
-                            <i data-lucide="heart-handshake" class="w-5 h-5 text-accent" aria-hidden="true"></i>
-                        </div>
-                        <div>
-                            <span class="block text-white font-sans font-bold text-base"><span class="lang-es">Apoya TrackOps</span><span class="lang-en">Support TrackOps</span></span>
-                            <span class="block text-xs text-accent font-mono uppercase tracking-widest"><span class="lang-es">Donación puntual</span><span class="lang-en">One-time donation</span></span>
+        <div class="max-w-7xl mx-auto footer-grid">
+            <div class="grid gap-12 lg:grid-cols-[1.05fr_0.55fr_0.95fr] lg:items-start">
+                <div>
+                    <span class="footer-kicker"><span class="lang-es">Cierre operativo</span><span class="lang-en">Operational close</span></span>
+                    <div class="mt-6 flex items-center gap-3">
+                        <i data-lucide="infinity" class="w-8 h-8 text-accent" aria-hidden="true"></i>
+                        <span class="font-sans font-bold text-2xl tracking-tight">TrackOps</span>
+                    </div>
+                    <p class="font-serif italic text-4xl md:text-5xl text-gray-100 mt-8 leading-[0.95]"><span class="lang-es">Tú orquestas.<br>Tu IA ejecuta.</span><span class="lang-en">You orchestrate.<br>Your AI executes.</span></p>
+                    <p class="footer-copy mt-6">
+                        <span class="lang-es">TrackOps ordena el proyecto de punta a punta: criterio, contexto vivo y una estructura clara para equipos que construyen con IA sin perder el control.</span>
+                        <span class="lang-en">TrackOps brings order across the whole project: criteria, live context, and a clear structure for teams building with AI without losing control.</span>
+                    </p>
+                    <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
+                        <button type="button" class="btn-magnetic border border-gray-700 rounded-full px-6 py-3 text-sm font-sans font-bold bg-transparent text-white hover:border-gray-500 transition-colors" aria-label="Comando de inicio: npx trackops init">
+                            <div class="btn-bg bg-white" aria-hidden="true"></div>
+                            <span>npx trackops init</span>
+                        </button>
+                        <div class="font-mono text-xs text-slate-400">
+                            <span class="lang-es">Panel local, portfolio y control operativo</span>
+                            <span class="lang-en">Local dashboard, portfolio, and operational control</span>
                         </div>
                     </div>
-                    <p class="font-outfit text-sm text-gray-300 leading-relaxed mb-5">
-                        <span class="lang-es">Si TrackOps te ahorra tiempo y te ayuda a mantener el control de tus proyectos con IA, puedes apoyar su mantenimiento con una donación puntual.</span>
-                        <span class="lang-en">If TrackOps saves you time and helps you stay in control of your AI projects, you can support its maintenance with a one-time donation.</span>
+                    <div class="mt-8 max-w-2xl border-t border-white/10 pt-6">
+                        <span class="disclaimer-title"><span class="lang-es">Descargo de responsabilidad</span><span class="lang-en">Disclaimer</span></span>
+                        <p class="font-outfit text-sm md:text-[0.96rem] leading-7 text-slate-300">
+                            <span class="lang-es">El producto sigue en beta. Úsalo con revisión humana y valida siempre los cambios importantes antes de llevarlos a producción.</span>
+                            <span class="lang-en">The product is still in beta. Use it with human review and always validate important changes before taking them to production.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lg:pt-[5.4rem]">
+                    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-1">
+                        <div>
+                            <span class="footer-link-title"><span class="lang-es">Recursos</span><span class="lang-en">Resources</span></span>
+                            <div class="footer-link-list">
+                                <a href="https://github.com/Baxahaun/trackops/blob/master/UserGUIDE.md" target="_blank" rel="noopener noreferrer"><span class="lang-es">Guía de usuario</span><span class="lang-en">User guide</span></a>
+                                <a href="#opera"><span class="lang-es">Marco OPERA</span><span class="lang-en">OPERA framework</span></a>
+                                <a href="https://www.npmjs.com/package/trackops" target="_blank" rel="noopener noreferrer"><span class="lang-es">Paquete npm</span><span class="lang-en">npm package</span></a>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="footer-link-title"><span class="lang-es">Proyecto</span><span class="lang-en">Project</span></span>
+                            <div class="footer-link-list">
+                                <a href="https://github.com/Baxahaun/trackops" target="_blank" rel="noopener noreferrer"><span class="lang-es">Repositorio GitHub</span><span class="lang-en">GitHub repository</span></a>
+                                <a href="https://github.com/Baxahaun/trackops/issues" target="_blank" rel="noopener noreferrer"><span class="lang-es">Reportar incidencia</span><span class="lang-en">Report issue</span></a>
+                                <a href="https://github.com/Baxahaun/trackops/blob/master/LICENSE" target="_blank" rel="noopener noreferrer"><span class="lang-es">Licencia MIT</span><span class="lang-en">MIT license</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="support" class="footer-support lg:pl-10 lg:pt-[5.4rem]">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="wallet" class="w-5 h-5 text-accent" aria-hidden="true"></i>
+                        <span class="font-sans font-bold text-2xl text-white"><span class="lang-es">Apoya TrackOps</span><span class="lang-en">Support TrackOps</span></span>
+                    </div>
+                    <div class="mt-3 support-network"><span class="lang-es">USDC en Polygon</span><span class="lang-en">USDC on Polygon</span></div>
+                    <p class="mt-6 font-outfit text-base leading-8 text-slate-200">
+                        <span class="lang-es">Si TrackOps te está sirviendo para coordinar mejor tus proyectos con IA, puedes sostener su evolución con una aportación directa, clara y sin fricción.</span>
+                        <span class="lang-en">If TrackOps is helping you coordinate your AI projects better, you can support its evolution with a direct, clear, and low-friction contribution.</span>
                     </p>
-                    <a href="https://ko-fi.com/trackops" target="_blank" rel="noopener noreferrer" class="btn-magnetic inline-flex w-full justify-center border border-accent/40 rounded-full px-6 py-3.5 text-sm font-sans font-bold bg-white text-navy shadow-[0_0_26px_rgba(99,102,241,0.16)] hover:border-accent transition-colors">
-                        <div class="btn-bg"></div>
-                        <span><span class="lang-es">Hacer una donación</span><span class="lang-en">Make a donation</span></span>
-                    </a>
-                    <p class="font-outfit text-xs text-gray-400 leading-relaxed mt-4">
-                        <span class="lang-es">También puedes apoyarlo desde el botón de patrocinio del repositorio en GitHub.</span>
-                        <span class="lang-en">You can also support it from the repository sponsor button on GitHub.</span>
+
+                    <div class="support-address-line mt-6">
+                        <span class="block text-[11px] font-mono uppercase tracking-[0.18em] text-accent/80 mb-3"><span class="lang-es">Dirección de recepción</span><span class="lang-en">Receiving address</span></span>
+                        <code class="block break-all font-mono text-xs leading-7 text-white">0x7B3d964247Dd309D13FF702649827947633e27F3</code>
+                    </div>
+
+                    <div class="mt-6 flex flex-col sm:flex-row sm:items-end gap-6">
+                        <div class="support-qr flex-shrink-0">
+                            <img src="assets/support-wallet-qr.svg" alt="QR de la dirección de apoyo en USDC sobre Polygon" class="w-full h-auto rounded-xl" loading="lazy">
+                        </div>
+                        <div class="flex-1">
+                            <p class="support-note">
+                                <span class="lang-es">Escanéalo o copia la dirección. Después elige <strong class="text-white">USDC</strong> en <strong class="text-white">Polygon</strong> en tu cartera.</span>
+                                <span class="lang-en">Scan it or copy the address. Then choose <strong class="text-white">USDC</strong> on <strong class="text-white">Polygon</strong> in your wallet.</span>
+                            </p>
+                            <div class="mt-5 flex flex-col sm:flex-row gap-3">
+                                <button type="button" class="btn-magnetic inline-flex justify-center border border-accent/40 rounded-full px-5 py-3 text-sm font-sans font-bold bg-white text-navy shadow-[0_0_26px_rgba(99,102,241,0.16)] hover:border-accent transition-colors" data-copy-wallet="0x7B3d964247Dd309D13FF702649827947633e27F3">
+                                    <div class="btn-bg"></div>
+                                    <span><span class="lang-es">Copiar dirección</span><span class="lang-en">Copy address</span></span>
+                                </button>
+                                <a href="https://polygonscan.com/address/0x7B3d964247Dd309D13FF702649827947633e27F3" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center border border-white/10 rounded-full px-5 py-3 text-sm font-sans font-bold text-white hover:border-accent/40 hover:text-accent transition-colors">
+                                    <span><span class="lang-es">Ver en PolygonScan</span><span class="lang-en">View on PolygonScan</span></span>
+                                </a>
+                            </div>
+                            <p id="support-copy-status" class="hidden font-outfit text-xs text-emerald-300 leading-relaxed mt-4">
+                                <span class="lang-es">Dirección copiada al portapapeles.</span>
+                                <span class="lang-en">Address copied to clipboard.</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="support-note mt-6">
+                        <span class="lang-es">Envía solo <strong class="text-white">USDC</strong> por la red <strong class="text-white">Polygon</strong>. No envíes BTC ni activos de otras redes a esta dirección.</span>
+                        <span class="lang-en">Send only <strong class="text-white">USDC</strong> on the <strong class="text-white">Polygon</strong> network. Do not send BTC or assets from other networks to this address.</span>
                     </p>
                 </div>
             </div>
-        </div>
-        
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center font-mono text-xs text-gray-400 gap-4">
-            <p><span class="lang-es">Construido para la era del desarrollo con IA.</span><span class="lang-en">Built for the age of AI-driven software work.</span></p>
-            <p><span class="lang-es">Diseñado y desarrollado por</span><span class="lang-en">Designed and developed by</span> <a href="https://baxahaun.com" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors border-b border-gray-700 hover:border-white pb-0.5">Xavier Crespo Gríman</a> &middot; Baxahaun AI Venture Studio</p>
+
+            <div class="footer-meta mt-14 pt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between font-mono text-xs">
+                <p><span class="lang-es">Construido para la era del desarrollo con IA.</span><span class="lang-en">Built for the age of AI-driven software work.</span></p>
+                <p><span class="lang-es">Diseñado y desarrollado por</span><span class="lang-en">Designed and developed by</span> <a href="https://baxahaun.com" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-white transition-colors border-b border-white/10 hover:border-white pb-0.5">Xavier Crespo Gríman</a> &middot; Baxahaun AI Venture Studio</p>
+            </div>
         </div>
     </footer>
 
@@ -845,6 +1034,28 @@ Al completar trabajo:
 
         if (langToggle) langToggle.addEventListener('click', toggleLanguage);
         if (langToggleMobile) langToggleMobile.addEventListener('click', toggleLanguage);
+
+        const walletCopyButton = document.querySelector('[data-copy-wallet]');
+        const walletCopyStatus = document.getElementById('support-copy-status');
+
+        if (walletCopyButton) {
+            walletCopyButton.addEventListener('click', async () => {
+                const address = walletCopyButton.getAttribute('data-copy-wallet');
+                if (!address) return;
+
+                try {
+                    await navigator.clipboard.writeText(address);
+                    if (walletCopyStatus) {
+                        walletCopyStatus.classList.remove('hidden');
+                        window.setTimeout(() => {
+                            walletCopyStatus.classList.add('hidden');
+                        }, 2200);
+                    }
+                } catch (error) {
+                    console.error('No se pudo copiar la direccion.', error);
+                }
+            });
+        }
     </script>
 </body>
 </html>

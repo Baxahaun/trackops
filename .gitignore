@@ -4,5 +4,18 @@ node_modules/
 .DS_Store
 Thumbs.db
 .env
-project_control.json
 .claude/
+
+# Artefactos generados por TrackOps u OPERA al ejecutarse sobre un proyecto
+/project_control.json
+/task_plan.md
+/progress.md
+/findings.md
+/genesis.md
+/.agent/
+/.agents/
+/.githooks/
+
+# Archivos locales del entorno del repo
+/trackops.code-workspace
+/Captura de pantalla *.png

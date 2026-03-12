@@ -188,6 +188,8 @@ mi-proyecto/
 └── .agents/skills/            # Skills instaladas (OPERA)
 ```
 
+**Higiene del repositorio del paquete:** este repositorio solo versiona archivos propios de `trackops` como producto. Los artefactos generados al ejecutar `trackops` u `OPERA` sobre un proyecto (`project_control.json`, `task_plan.md`, `progress.md`, `findings.md`, `genesis.md`, `.agent/`, `.agents/`, `.githooks/`) se consideran salidas de uso y no deben subirse a este repo.
+
 <br/>
 
 ### Apoya el Proyecto
@@ -198,7 +200,15 @@ Si TrackOps te ha ayudado a recuperar el control de tus proyectos con IA:
 
 1. **Dale una estrella en GitHub** — ayuda enormemente a la visibilidad.
 2. **Comparte TrackOps** con tu equipo y en tus redes.
-3. **Haz una donación puntual** para ayudar a mantener la documentación, las mejoras y el soporte del proyecto: [Ko-fi](https://ko-fi.com/trackops).
+3. **Apoya con USDC en Polygon** para ayudar a mantener la documentación, las mejoras y el soporte del proyecto.
+
+   ```text
+   Red: Polygon
+   Moneda: USDC
+   Dirección: 0x7B3d964247Dd309D13FF702649827947633e27F3
+   ```
+
+   Envía solo `USDC` por la red `Polygon`. No envíes `BTC` ni activos de otras redes a esta dirección.
 4. **Contribuye** — Pull Requests, reporte de bugs y nuevas Skills son siempre bienvenidos.
 
 <br/>
@@ -367,6 +377,8 @@ my-project/
 └── .agents/skills/            # Installed skills (OPERA)
 ```
 
+**Package repository hygiene:** this repository only versions files that belong to `trackops` as a product. Artifacts generated when running `trackops` or `OPERA` on a project (`project_control.json`, `task_plan.md`, `progress.md`, `findings.md`, `genesis.md`, `.agent/`, `.agents/`, `.githooks/`) are considered runtime output and must not be committed to this repo.
+
 <br/>
 
 ### Support the Project
@@ -377,7 +389,15 @@ If TrackOps has helped you regain control of your AI-assisted projects:
 
 1. **Star us on GitHub** — it helps enormously with visibility.
 2. **Share TrackOps** with your team and on social media.
-3. **Make a one-time donation** to help maintain documentation, improvements, and project support: [Ko-fi](https://ko-fi.com/trackops).
+3. **Support with USDC on Polygon** to help maintain documentation, improvements, and project support.
+
+   ```text
+   Network: Polygon
+   Asset: USDC
+   Address: 0x7B3d964247Dd309D13FF702649827947633e27F3
+   ```
+
+   Send only `USDC` on `Polygon`. Do not send `BTC` or assets from other networks to this address.
 4. **Contribute** — Pull Requests, bug reports, and new Skills are always welcome.
 
 <br/>

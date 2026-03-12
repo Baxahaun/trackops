@@ -1,6 +1,6 @@
 {
   "name": "trackops",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Operational project control with task management, document generation, multi-project dashboard, and optional OPERA methodology",
   "main": "lib/control.js",
   "bin": {
@@ -38,7 +38,7 @@
     "url": "https://github.com/Baxahaun/trackops/issues"
   },
   "homepage": "https://github.com/Baxahaun/trackops#readme",
-  "funding": "https://ko-fi.com/trackops",
+  "funding": "https://baxahaun.github.io/trackops/#support",
   "license": "MIT",
   "type": "commonjs",
   "engines": {
