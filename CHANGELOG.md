@@ -2,8 +2,14 @@
 
 Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
-y el proyecto no se adhiere a Semantic Versioning estricto en esta fase pre-1.0.
+y el proyecto mantiene versionado pragmático mientras se consolida la política formal de releases.
+
+## 2026-03-12
+
+- ✨ **feat(product)**: se consolida la beta publica de TrackOps con documentacion operativa sincronizada, guias bilingues, estado beta y descargo visibles, prueba minima automatizada, y apoyo economico inicial en Ko-fi, GitHub, npm y la landing publica.
+- 🧭 **docs(ops)**: realineado el seguimiento operativo del proyecto con el estado real de TrackOps como producto standalone. Se actualizan `project_control.json`, `task_plan.md`, `progress.md`, `findings.md` y `genesis.md` para reflejar el backlog vigente, los hallazgos abiertos y la nueva línea base de ejecución.
+- 🛠️ **fix(init)**: los scripts `ops:*` generados por `trackops init` pasan a usar `npx --yes trackops`, mientras este repo usa `node bin/trackops.js` para desarrollo local. Con esto `npm run ops:status` vuelve a funcionar tanto en el paquete como en proyectos recién inicializados.
 
 ## 2026-03-11
 
-- ✨ **feat(dashboard)**: rediseño y refactorización completa del UI local. Implementación de 6 vistas independientes con soporte Vanilla JS/CSS puro, un sistema de Theming nativo, Onboarding interactivo (Tour con resalte de elementos), e integración nativa y de On-Click con el ecosistema de IA comunitaria skills.sh para expandir las capacidades agenticas del controlador (`2c9fb67`).
+- ✨ **feat(dashboard)**: rediseño y refactorización completa del UI local. Implementación de 7 vistas independientes con soporte Vanilla JS/CSS puro, un sistema de Theming nativo, Onboarding interactivo (Tour con resalte de elementos), e integración nativa y de On-Click con el ecosistema de IA comunitaria skills.sh para expandir las capacidades agenticas del controlador (`2c9fb67`).
