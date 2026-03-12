@@ -8,6 +8,10 @@
 
 ## Español
 
+> **Estado beta:** TrackOps ya puede usarse en trabajo real, pero algunas vistas, comandos y automatizaciones todavía pueden ajustarse entre versiones.
+
+> **Descargo de responsabilidad:** Valida siempre los archivos generados, los cambios automáticos y cualquier salida producida por agentes antes de incorporarla a tu proyecto o de llevarla a producción.
+
 ### Índice
 
 1. [Inicio Rápido](#inicio-rápido)
@@ -32,6 +36,14 @@ npx trackops init
 ```
 
 Esto crea `project_control.json` con la configuración inicial, instala los git hooks y registra el proyecto en el portfolio local.
+
+Tambien deja atajos npm listos para usar dentro del proyecto:
+
+```bash
+npm run ops:status
+npm run ops:dashboard
+npm run ops:sync
+```
 
 Para instalar con la metodología OPERA incluida:
 
@@ -121,7 +133,7 @@ El archivo `project_control.json` es la **única fuente de verdad** del proyecto
 
 | Comando | Descripción |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en] [--name "..."]` | Inicializar en el directorio actual |
+| `trackops init [--with-opera] [--locale es\|en] [--name "..."]` | Inicializar en el directorio actual. `--with-etapa` se conserva solo por compatibilidad. |
 | `trackops status` | Estado completo: foco, fase, tareas, bloqueadores, repo git |
 | `trackops next` | Próximas tareas ejecutables (sin dependencias bloqueantes) |
 | `trackops sync` | Regenerar `task_plan.md`, `progress.md`, `findings.md` |
@@ -160,6 +172,14 @@ trackops skill remove <nombre>            # Desinstalar skill
 trackops skill catalog                    # Ver skills disponibles
 ```
 
+#### Publicación
+
+```bash
+npm run release:check
+```
+
+La política básica de versiones y publicación está documentada en `docs/RELEASE.md`.
+
 ---
 
 ### Dashboard Web
@@ -169,15 +189,16 @@ El dashboard central interactivo es el centro de mando local.
 ```bash
 npx trackops dashboard
 ```
-Por defecto, se abre en **http://localhost:3737** (o el siguiente puerto disponible, como 4173 en desarrollo con Vite/Deno).
+Por defecto, se abre en **http://localhost:4173**. Si necesitas otro puerto, puedes definir `OPS_UI_PORT`.
 
-**Navegación Principal (6 Vistas):**
+**Navegación Principal (7 Vistas):**
 
 - **Overview:** 4 KPIs principales, progreso por fase, gráfico de **Actividad Semanal** (cambios de los últimos 10 días), **Progreso Global** (donut chart por estado) y acceso directo a la siguiente tarea.
 - **Tasks:** Selector rápido y listado. Al hacer clic en una tarea, el **Editor de Tareas Split-View** permite cambiar su fase, prioridad, gestionar dependencias, añadir/resolver bloqueos y mover su estado mediante botones de acción.
 - **Board:** Kanban drag&drop. Mover tarjetas entre columnas actualiza instantáneamente el estado del proyecto y regenera los documentos.
 - **Execution:** Terminal **Server-Sent Events (SSE)**. Un shell integrado con historial de sesiones y streaming real-time que permite invocar comandos locales (como build scripts o validaciones) sin salir de tu cockpit. Permite ejecutar con **Ctrl+Enter**.
 - **Analytics:** El **Health Grid** reporta la salud operativa (Repo Status, Delivery Rate, Docs Drift...). Incluye un desglose por tareas, hitos de fase en detalle, timeline de eventos recientes y gestión ampliada de findings/decisiones.
+- **Skills:** Catálogo e instalación de habilidades del agente, con vista local y recomendaciones disponibles.
 - **Settings:** Detalles técnicos del portafolio multi-proyecto, configuración del repo y registro local.
 
 **Funcionalidades Transversales:**
@@ -308,7 +329,7 @@ npx trackops opera install
 Esto crea:
 - `.agent/hub/agent.md` — Instrucciones del agente principal
 - `.agent/hub/router.md` — Reglas de enrutamiento hacia skills
-- `.agent/skills/_registry.md` — Índice de skills instaladas
+- `.agents/skills/_registry.md` — Índice de skills instaladas
 - `genesis.md` — La constitución del proyecto (rellenar tras init)
 
 #### Fases Personalizadas
@@ -438,9 +459,9 @@ O edita `project_control.json`:
 Pierdes el estado del proyecto. Siempre inclúyelo en git. Los archivos `.md` generados son secundarios — la fuente de verdad es `project_control.json`.
 
 **¿Puedo tener múltiples instancias del dashboard abiertas?**
-Sí, en puertos distintos. El servidor usa el puerto 3737 por defecto. Si está ocupado, elige otro:
+Sí, en puertos distintos. El servidor usa el puerto 4173 por defecto. Si necesitas otro, defínelo así:
 ```bash
-PORT=3738 npx trackops dashboard
+$env:OPS_UI_PORT=4174; npx trackops dashboard
 ```
 
 **¿Cómo integro TrackOps con CI/CD?**
@@ -453,6 +474,10 @@ Usa `trackops sync` como paso previo al commit en tu pipeline. Los docs generado
 ---
 
 ## English
+
+> **Beta status:** TrackOps is already usable for real work, but some views, commands, and automations may still change between releases.
+
+> **Disclaimer:** Always validate generated files, automated changes, and any agent-produced output before merging it into your project or using it in production.
 
 ### Table of Contents
 
@@ -478,6 +503,14 @@ npx trackops init
 ```
 
 This creates `project_control.json` with an initial configuration, installs git hooks, and registers the project in the local portfolio.
+
+It also leaves npm shortcuts ready to use inside the project:
+
+```bash
+npm run ops:status
+npm run ops:dashboard
+npm run ops:sync
+```
 
 To install with the OPERA methodology included:
 
@@ -567,7 +600,7 @@ The `project_control.json` file is the **single source of truth** for the projec
 
 | Command | Description |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en] [--name "..."]` | Initialize in current directory |
+| `trackops init [--with-opera] [--locale es\|en] [--name "..."]` | Initialize in current directory. `--with-etapa` is kept only for compatibility. |
 | `trackops status` | Full state: focus, phase, tasks, blockers, git repo |
 | `trackops next` | Next executable tasks (without blocking dependencies) |
 | `trackops sync` | Regenerate `task_plan.md`, `progress.md`, `findings.md` |
@@ -606,6 +639,14 @@ trackops skill remove <name>              # Uninstall skill
 trackops skill catalog                    # View available skills
 ```
 
+#### Release
+
+```bash
+npm run release:check
+```
+
+The basic version and release policy is documented in `docs/RELEASE.md`.
+
 ---
 
 ### Web Dashboard
@@ -615,15 +656,16 @@ The central interactive dashboard is your local command center.
 ```bash
 npx trackops dashboard
 ```
-It runs by default on **http://localhost:3737** (or the next available port, like 4173 when using Vite/Deno on dev setup).
+It runs by default on **http://localhost:4173**. If you need another port, set `OPS_UI_PORT`.
 
-**Main Navigation (6 Views):**
+**Main Navigation (7 Views):**
 
 - **Overview:** 4 core KPIs, phase progress, **Weekly Activity** chart (last 10 days state shifts), **Global Progress** (state donut chart), and a shortcut to the next actionable task.
 - **Tasks:** Quick filtering and listing. Clicking a task opens the **Split-View Editor**, where you may edit phases, priorities, handle blockers/dependencies, and progress states using the action strip buttons.
 - **Board:** Drag & Drop Kanban. Moving cards across columns immediately updates project state and regenerates documents.
 - **Execution:** Interactive **Server-Sent Events (SSE)** terminal. A built-in shell detailing session histories with real-time output stream for executing local tasks (e.g. testing, sync, builds) inside your cockpit. Supports **Ctrl+Enter**.
 - **Analytics:** The **Health Grid** tracks operational sanity (Repo Status, Delivery Rate, Docs Drift...). Also detailed breakdown bars per state/time tracking, timelines of recent events, and extended management of findings and decisions.
+- **Skills:** Agent skill catalog and installation view, with local capabilities and recommended additions.
 - **Settings:** Details of technical portfolios, repo configurations, and local registry setup.
 
 **Core Transversal Features:**
@@ -754,7 +796,7 @@ npx trackops opera install
 This creates:
 - `.agent/hub/agent.md` — Main agent instructions
 - `.agent/hub/router.md` — Skill routing rules
-- `.agent/skills/_registry.md` — Skills index
+- `.agents/skills/_registry.md` — Skills index
 - `genesis.md` — Project constitution (fill in after init)
 
 #### Custom Phases
@@ -884,9 +926,9 @@ Or edit `project_control.json`:
 You lose the project state. Always include it in git. The generated `.md` files are secondary — the source of truth is `project_control.json`.
 
 **Can I have multiple dashboard instances open?**
-Yes, on different ports. The server uses port 3737 by default. If occupied, choose another:
+Yes, on different ports. The server uses port 4173 by default. If you need another one:
 ```bash
-PORT=3738 npx trackops dashboard
+OPS_UI_PORT=4174 npx trackops dashboard
 ```
 
 **How do I integrate TrackOps with CI/CD?**

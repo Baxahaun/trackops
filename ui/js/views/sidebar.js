@@ -8,18 +8,18 @@ import * as consoleLogger from '../console-logger.js';
 import * as onboarding from '../onboarding.js';
 
 const NAV_ITEMS = [
-  { id: 'overview',   label: 'Dashboard',   icon: 'dashboard',  section: 'menu'    },
-  { id: 'tasks',      label: 'Tasks',        icon: 'tasks',      section: 'menu', badge: true },
-  { id: 'board',      label: 'Board',        icon: 'board',      section: 'menu'    },
-  { id: 'execution',  label: 'Execution',    icon: 'execution',  section: 'menu'    },
-  { id: 'skills',     label: 'Agent Skills', icon: 'zap',        section: 'menu'    },
-  { id: 'insights',   label: 'Analytics',    icon: 'insights',   section: 'menu'    },
+  { id: 'overview',   label: 'Resumen',      icon: 'dashboard',  section: 'menu'    },
+  { id: 'tasks',      label: 'Tareas',       icon: 'tasks',      section: 'menu', badge: true },
+  { id: 'board',      label: 'Tablero',      icon: 'board',      section: 'menu'    },
+  { id: 'execution',  label: 'Ejecución',    icon: 'execution',  section: 'menu'    },
+  { id: 'skills',     label: 'Habilidades',  icon: 'zap',        section: 'menu'    },
+  { id: 'insights',   label: 'Analíticas',   icon: 'insights',   section: 'menu'    },
 ];
 
 const GENERAL_ITEMS = [
-  { id: 'settings',   label: 'Settings',     icon: 'settings'   },
+  { id: 'settings',   label: 'Configuración', icon: 'settings'   },
   { id: 'help',       label: 'Ayuda & Tour', icon: 'help', action: 'tour' },
-  { id: 'console',    label: 'Console Logs', icon: 'console', action: 'console', badge: 'error' },
+  { id: 'console',    label: 'Registros',    icon: 'console', action: 'console', badge: 'error' },
 ];
 
 /** Renderiza el sidebar completo */
@@ -39,7 +39,7 @@ export function render() {
 
       <!-- MENU -->
       <div class="sidebar-section">
-        <p class="sidebar-section-label">Menu</p>
+        <p class="sidebar-section-label">Menú</p>
         <ul class="sidebar-nav" role="list">
           ${NAV_ITEMS.map(item => _renderNavItem(item)).join('')}
         </ul>

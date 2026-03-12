@@ -14,7 +14,7 @@ Para el seguimiento operativo y el estado del backlog, usa `project_control.json
 - No edites manualmente `task_plan.md`, `progress.md` ni `findings.md`; se regeneran con `trackops sync`.
 
 ## Skills Disponibles
-Consulta `.agent/skills/_registry.md` para ver las skills instaladas.
+Consulta `.agents/skills/_registry.md` para ver las skills instaladas.
 También puedes buscar nuevas skills con `trackops skill catalog`.
 
 ## Ciclo de Trabajo

@@ -33,7 +33,7 @@ export async function render() {
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Task Board</p>
+          <p class="eyebrow">Tablero</p>
           <h2>Tablero Operativo</h2>
         </div>
         <div style="display:flex;gap:var(--space-2)">

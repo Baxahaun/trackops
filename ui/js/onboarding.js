@@ -25,7 +25,7 @@ const STEPS = [
   // 1 — Sidebar / navegación
   {
     title:    'Navegación principal',
-    desc:     'El sidebar te lleva entre las 5 vistas del dashboard: Overview, Tasks, Board, Execution y Analytics. El badge naranja indica tareas pendientes.',
+    desc:     'La barra lateral te lleva entre las vistas principales: resumen, tareas, tablero, ejecución y analíticas. El indicador naranja marca tareas pendientes.',
     target:   '#sidebar',
     view:     'overview',
     pos:      'right',
@@ -60,8 +60,8 @@ const STEPS = [
 
   // 5 — Time Tracker
   {
-    title:    'Time Tracker',
-    desc:     'Registra el tiempo dedicado a cada tarea. Pulsa Play, trabaja, pulsa Stop — la duración queda persistida en el proyecto para análisis posterior.',
+    title:    'Seguimiento de tiempo',
+    desc:     'Registra el tiempo dedicado a cada tarea. Pulsa iniciar, trabaja y luego detén el contador. La duración queda guardada para análisis posterior.',
     target:   '.time-tracker-card',
     view:     'overview',
     pos:      'top',
@@ -105,8 +105,8 @@ const STEPS = [
 
   // 10 — Analytics
   {
-    title:    'Analytics del Proyecto',
-    desc:     'La vista Analytics centraliza health grid, distribución por estado, tiempo por tarea, phase progress y el timeline de actividad reciente.',
+    title:    'Analíticas del proyecto',
+    desc:     'Esta vista reúne salud operativa, distribución por estado, tiempo por tarea, progreso por fase y la actividad reciente.',
     target:   '.health-grid',
     view:     'insights',
     pos:      'bottom',
@@ -114,8 +114,8 @@ const STEPS = [
 
   // 11 — AI Skill Hub
   {
-    title:    'AI Skill Hub',
-    desc:     'Tu copiloto evoluciona. Descubre e instala nuevas habilidades específicas para tu contexto (ej. Rust Senior, UI Tester) a través del repositorio integrado skills.sh de nuestra comunidad.',
+    title:    'Centro de habilidades',
+    desc:     'Tu copiloto evoluciona. Descubre e instala nuevas habilidades específicas para tu contexto a través del repositorio integrado de la comunidad.',
     target:   '#view-skills',
     view:     'skills',
     pos:      'right',

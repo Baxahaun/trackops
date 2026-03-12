@@ -10,9 +10,9 @@ import { esc, formatDate } from '../utils.js';
 
 const QUICK_COMMANDS = [
   { label: 'status',       cmd: 'npx trackops status' },
-  { label: 'sync docs',    cmd: 'npx trackops sync' },
-  { label: 'next tasks',   cmd: 'npx trackops next' },
-  { label: 'refresh repo', cmd: 'npx trackops refresh-repo' },
+  { label: 'sincronizar docs', cmd: 'npx trackops sync' },
+  { label: 'siguientes tareas', cmd: 'npx trackops next' },
+  { label: 'refrescar repo', cmd: 'npx trackops refresh-repo' },
   { label: 'git status',   cmd: 'git status --short' },
   { label: 'git log',      cmd: 'git log --oneline -10' },
 ];
@@ -25,7 +25,7 @@ export async function render() {
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Execution</p>
+          <p class="eyebrow">Ejecución</p>
           <h2>Consola de Comandos</h2>
         </div>
       </div>
@@ -102,7 +102,7 @@ export async function render() {
             <div style="display:flex;gap:var(--space-2)">
               ${selected && selected.status === 'running' ? `
                 <button class="btn btn-ghost btn-sm" id="kill-session-btn" type="button" aria-label="Terminar proceso">
-                  ${icon('stop', 13)} Kill
+                  ${icon('stop', 13)} Detener
                 </button>
               ` : ''}
             </div>

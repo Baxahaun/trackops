@@ -1,4 +1,4 @@
-# El Ciclo E.T.A.P.A. — Referencia Completa
+# El Ciclo O.P.E.R.A. — Referencia Completa (alias heredado ETAPA)
 
 Este documento detalla cada fase del ciclo con sus reglas, procedimientos y Definitions of Done.
 

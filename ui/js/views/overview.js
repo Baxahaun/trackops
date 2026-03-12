@@ -26,7 +26,7 @@ export async function render() {
     <div class="view-enter">
       <!-- ── KPI CARDS ── -->
       <div class="grid-4" style="margin-bottom:var(--space-5)" aria-label="Métricas del proyecto" role="region">
-        ${_renderKPI('Open Work',  derived.totals.all - derived.totals.completed - derived.totals.cancelled,
+        ${_renderKPI('Trabajo abierto',  derived.totals.all - derived.totals.completed - derived.totals.cancelled,
           `${derived.totals.pending} pendientes · ${derived.totals.inProgress} activas`, 'tasks', 'accent')}
         ${_renderKPI('Completado',  derived.totals.completed,
           `${derived.totals.all ? Math.round(derived.totals.completed/derived.totals.all*100) : 0}% del total`, 'checkCircle', 'success')}
@@ -288,7 +288,7 @@ function _renderNextTask(task) {
         style="margin-top:var(--space-2);width:fit-content"
         aria-label="Ir al tablero para gestionar ${esc(task.title)}"
       >
-        ${icon('arrowRight', 14)} Ver en el Board
+        ${icon('arrowRight', 14)} Ver en el tablero
       </button>
     </div>
   `;
@@ -311,7 +311,7 @@ function _renderPortfolio() {
         <p class="project-path">${esc(p.root)}</p>
       </div>
       <div class="project-row-actions">
-        <span class="badge badge-${p.available ? 'success' : 'warning'}">${p.available ? 'Activo' : 'N/A'}</span>
+        <span class="badge badge-${p.available ? 'success' : 'warning'}">${p.available ? 'Activo' : 'No disponible'}</span>
         ${p.available && p.id !== currentId
           ? `<button class="btn btn-ghost btn-sm" type="button" data-switch-project="${esc(p.id)}">Abrir</button>`
           : ''}
@@ -343,11 +343,11 @@ function _renderRepoHealth(runtime, docsDirty, derived) {
     : 0;
 
   const items = [
-    { label: 'Completion Rate', value: `${completionRate}%`, cls: completionRate >= 75 ? 'good' : completionRate >= 40 ? '' : 'bad' },
-    { label: 'Blocker Pressure', value: `${blockerRate}%`, cls: blockerRate === 0 ? 'good' : blockerRate > 20 ? 'bad' : 'warn' },
-    { label: 'Open Findings', value: String((derived.openFindings || []).length), cls: (derived.openFindings||[]).length === 0 ? 'good' : 'warn' },
-    { label: 'Repo',           value: runtime?.clean ? 'Limpio' : 'Dirty', cls: runtime?.clean ? 'good' : 'warn' },
-    { label: 'Docs Drift',     value: docsDirty?.length ? docsDirty.join(', ') : 'OK', cls: docsDirty?.length ? 'warn' : 'good' },
+    { label: 'Tasa completada', value: `${completionRate}%`, cls: completionRate >= 75 ? 'good' : completionRate >= 40 ? '' : 'bad' },
+    { label: 'Presión de bloqueos', value: `${blockerRate}%`, cls: blockerRate === 0 ? 'good' : blockerRate > 20 ? 'bad' : 'warn' },
+    { label: 'Hallazgos abiertos', value: String((derived.openFindings || []).length), cls: (derived.openFindings||[]).length === 0 ? 'good' : 'warn' },
+    { label: 'Repo',           value: runtime?.clean ? 'Limpio' : 'Con cambios', cls: runtime?.clean ? 'good' : 'warn' },
+    { label: 'Desfase documental', value: docsDirty?.length ? docsDirty.join(', ') : 'OK', cls: docsDirty?.length ? 'warn' : 'good' },
     { label: 'Último commit',  value: runtime?.lastCommit ? `${runtime.lastCommit.shortHash} · ${formatDate(runtime.lastCommit.date, 'date')}` : '—', cls: '' },
   ];
 

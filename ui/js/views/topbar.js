@@ -46,7 +46,7 @@ export function render() {
       <div class="topbar-right">
 
         <!-- Timer activo -->
-        <div class="topbar-timer" id="topbar-timer" aria-label="Time tracker" aria-live="polite">
+        <div class="topbar-timer" id="topbar-timer" aria-label="Seguimiento de tiempo" aria-live="polite">
           <span class="topbar-timer-dot" aria-hidden="true"></span>
           <span id="topbar-timer-display">00:00:00</span>
         </div>
@@ -59,7 +59,7 @@ export function render() {
 
         <!-- Sync button -->
         <button class="btn btn-ghost btn-sm" id="sync-btn" type="button" aria-label="Sincronizar documentación">
-          ${icon('sync', 16)} Sync
+          ${icon('sync', 16)} Sincronizar
         </button>
 
         <!-- Theme toggle -->
@@ -147,7 +147,7 @@ function _bindEvents() {
     } catch (err) {
       flash(err.message, 'error');
     } finally {
-      if (btn) { btn.disabled = false; btn.innerHTML = `${icon('sync', 16)} Sync`; }
+      if (btn) { btn.disabled = false; btn.innerHTML = `${icon('sync', 16)} Sincronizar`; }
     }
   });
 

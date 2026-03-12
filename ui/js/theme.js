@@ -1,6 +1,6 @@
 /**
  * theme.js — Gestor de tema claro / oscuro
- * Persiste en localStorage. Respeta preferencia del sistema si no hay guardada.
+ * Persiste en localStorage. Si no hay preferencia guardada, usa tema claro.
  */
 
 const STORAGE_KEY = 'trackops-theme';
@@ -9,15 +9,7 @@ const THEMES = { dark: 'dark', light: 'light' };
 /** Inicializa el tema aplicando el guardado o el preferido por el sistema */
 export function init() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  const system = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  apply(saved || system, false);
-
-  // Escuchar cambios del sistema si no hay preferencia guardada
-  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      apply(e.matches ? 'light' : 'dark', false);
-    }
-  });
+  apply(saved || THEMES.light, false);
 }
 
 /** Aplica un tema

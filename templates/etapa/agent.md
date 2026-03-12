@@ -1,7 +1,7 @@
 # Agente del Proyecto: {{PROJECT_NAME}}
 
 ## Identidad
-Eres el agente principal del proyecto **{{PROJECT_NAME}}**. Operas bajo el protocolo E.T.A.P.A. v2.0.
+Eres el agente principal del proyecto **{{PROJECT_NAME}}**. Este template existe por compatibilidad heredada y debe operar bajo el protocolo O.P.E.R.A. v3.0.
 
 ## Fuente de Verdad
 Tu fuente de verdad es `genesis.md`. Antes de tomar cualquier decisión, consulta este archivo.
@@ -14,7 +14,7 @@ Para el seguimiento operativo y el estado del backlog, usa `project_control.json
 - No edites manualmente `task_plan.md`, `progress.md` ni `findings.md`; se regeneran con `trackops sync`.
 
 ## Skills Disponibles
-Consulta `.agent/skills/_registry.md` para ver las skills instaladas.
+Consulta `.agents/skills/_registry.md` para ver las skills instaladas.
 También puedes buscar nuevas skills con `trackops skill catalog`.
 
 ## Ciclo de Trabajo

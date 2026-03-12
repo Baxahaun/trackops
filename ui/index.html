@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TrackOps — Ops Control Center</title>
-  <meta name="description" content="Dashboard local de TrackOps: gestión de proyectos, tareas, analíticas y time tracking para desarrolladores." />
+  <title>TrackOps Beta — Centro de control</title>
+  <meta name="description" content="Panel local beta de TrackOps: gestión de proyectos, tareas, analíticas y seguimiento de tiempo para desarrolladores." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
   <!-- Google Fonts (coherente con web corporativa) -->
@@ -16,7 +16,7 @@
   <script>
     (function(){
       var t = localStorage.getItem('trackops-theme');
-      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      if (!t) t = 'light';
       if (t === 'light') document.documentElement.setAttribute('data-theme','light');
     })();
   </script>
@@ -56,11 +56,11 @@
   <!-- Flash / Toast container (aria-live para a11y) -->
   <div id="flash-container" aria-live="polite" aria-atomic="false"></div>
 
-  <!-- Console Logs panel -->
+  <!-- Panel de registros -->
   <div id="console-panel" class="console-panel" role="log" aria-label="Consola de errores" aria-live="off">
     <div class="console-panel-header">
       <div class="console-panel-title" id="console-panel-title">
-        <span>·</span> Console Logs
+        <span>·</span> Registros
         <span id="console-error-count" class="badge badge-danger" style="display:none">0</span>
       </div>
       <div class="console-panel-actions">

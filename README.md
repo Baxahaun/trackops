@@ -11,6 +11,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/trackops"><img src="https://img.shields.io/npm/v/trackops?color=D97706&style=flat-square" alt="npm" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licencia-MIT-22C55E?style=flat-square" alt="MIT" /></a>
+  <img src="https://img.shields.io/badge/estado-beta-F59E0B?style=flat-square" alt="Beta" />
   <img src="https://img.shields.io/badge/dependencias-0-D97706?style=flat-square" alt="0 deps" />
   <img src="https://img.shields.io/badge/node-%3E%3D18-333?style=flat-square" alt="Node 18+" />
 </p>
@@ -24,6 +25,10 @@
 ---
 
 ## Español
+
+> **Estado beta:** TrackOps ya es usable, pero sigue evolucionando rápido. La interfaz, los comandos y algunos flujos pueden cambiar entre versiones.
+
+> **Descargo de responsabilidad:** Revisa siempre los archivos generados, los cambios automáticos y los resultados de tus agentes antes de usarlos en proyectos sensibles o en producción.
 
 ### El Problema: La IA es rápida. El caos también.
 
@@ -64,6 +69,14 @@ npx trackops init               # Inicializa el motor en tu proyecto
 npx trackops dashboard           # Levanta el centro de control web
 ```
 
+Tras `init`, también quedan disponibles atajos npm para el proyecto:
+
+```bash
+npm run ops:status
+npm run ops:dashboard
+npm run ops:sync
+```
+
 El flujo desde consola en tu día a día:
 
 ```bash
@@ -72,6 +85,8 @@ npx trackops next                # Siguiente tarea priorizada
 npx trackops task start T-001    # Empieza a trabajar
 npx trackops sync                # Genera contexto Markdown para tu IA
 ```
+
+Guía de uso paso a paso: [UserGUIDE.md](UserGUIDE.md)
 
 <br/>
 
@@ -120,7 +135,7 @@ Las fases son totalmente configurables por proyecto vía `project_control.json`.
 
 | Comando | Descripción |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en]` | Inicializar en el directorio actual |
+| `trackops init [--with-opera] [--locale es\|en]` | Inicializar en el directorio actual. `--with-etapa` se mantiene solo como alias heredado. |
 | `trackops status` | Estado: foco, fase, tareas, bloqueadores, repo |
 | `trackops next` | Próximas tareas ejecutables priorizadas |
 | `trackops sync` | Regenerar task_plan.md, progress.md, findings.md |
@@ -156,6 +171,8 @@ Las fases son totalmente configurables por proyecto vía `project_control.json`.
 
 </details>
 
+Antes de publicar una versión, ejecuta `npm run release:check`. La política mínima de versiones y publicación está en `docs/RELEASE.md`.
+
 <br/>
 
 ### Estructura del Proyecto
@@ -181,13 +198,18 @@ Si TrackOps te ha ayudado a recuperar el control de tus proyectos con IA:
 
 1. **Dale una estrella en GitHub** — ayuda enormemente a la visibilidad.
 2. **Comparte TrackOps** con tu equipo y en tus redes.
-3. **Contribuye** — Pull Requests, reporte de bugs y nuevas Skills son siempre bienvenidos.
+3. **Haz una donación puntual** para ayudar a mantener la documentación, las mejoras y el soporte del proyecto: [Ko-fi](https://ko-fi.com/trackops).
+4. **Contribuye** — Pull Requests, reporte de bugs y nuevas Skills son siempre bienvenidos.
 
 <br/>
 
 ---
 
 ## English
+
+> **Beta status:** TrackOps is already usable, but it is still evolving quickly. The interface, commands, and some flows may change between releases.
+
+> **Disclaimer:** Always review generated files, automated changes, and agent output before using them in sensitive or production projects.
 
 ### The Problem: AI is fast. So is chaos.
 
@@ -228,6 +250,14 @@ npx trackops init               # Initialize the engine in your project
 npx trackops dashboard           # Launch the web control center
 ```
 
+After `init`, npm shortcuts are also ready to use inside the project:
+
+```bash
+npm run ops:status
+npm run ops:dashboard
+npm run ops:sync
+```
+
 Your daily workflow from the console:
 
 ```bash
@@ -236,6 +266,8 @@ npx trackops next                # Next prioritized task
 npx trackops task start T-001    # Start working
 npx trackops sync                # Generate Markdown context for your AI
 ```
+
+Step-by-step user guide: [UserGUIDE.md](UserGUIDE.md)
 
 <br/>
 
@@ -284,7 +316,7 @@ Phases are fully configurable per project via `project_control.json`.
 
 | Command | Description |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en]` | Initialize in current directory |
+| `trackops init [--with-opera] [--locale es\|en]` | Initialize in current directory. `--with-etapa` remains as a legacy alias only. |
 | `trackops status` | State: focus, phase, tasks, blockers, repo |
 | `trackops next` | Next prioritized executable tasks |
 | `trackops sync` | Regenerate task_plan.md, progress.md, findings.md |
@@ -345,7 +377,8 @@ If TrackOps has helped you regain control of your AI-assisted projects:
 
 1. **Star us on GitHub** — it helps enormously with visibility.
 2. **Share TrackOps** with your team and on social media.
-3. **Contribute** — Pull Requests, bug reports, and new Skills are always welcome.
+3. **Make a one-time donation** to help maintain documentation, improvements, and project support: [Ko-fi](https://ko-fi.com/trackops).
+4. **Contribute** — Pull Requests, bug reports, and new Skills are always welcome.
 
 <br/>
 

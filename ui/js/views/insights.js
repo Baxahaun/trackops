@@ -19,8 +19,8 @@ export async function render() {
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Analytics</p>
-          <h2>Insights del Proyecto</h2>
+          <p class="eyebrow">Analíticas</p>
+          <h2>Analíticas del Proyecto</h2>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ export async function render() {
         <!-- Time tracking summary -->
         <div class="chart-card stagger-3">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
-            <p class="chart-title">Time Tracking</p>
+            <p class="chart-title">Seguimiento de tiempo</p>
             <span class="badge badge-accent">${icon('clock', 12)} Hoy</span>
           </div>
           ${_renderTimeTracking()}
@@ -109,14 +109,14 @@ function _renderHealthGrid(derived, runtime, docsDirty) {
   const openFindings   = (derived.openFindings || []).length;
 
   const items = [
-    { label: 'Completion Rate',    value: `${completionRate}%`,     cls: completionRate >= 75 ? 'good' : completionRate >= 40 ? '' : 'bad' },
-    { label: 'Blocker Pressure',   value: `${blockerRate}%`,        cls: blockerRate === 0 ? 'good' : blockerRate > 20 ? 'bad' : 'warn'    },
+    { label: 'Tasa completada',    value: `${completionRate}%`,     cls: completionRate >= 75 ? 'good' : completionRate >= 40 ? '' : 'bad' },
+    { label: 'Presión de bloqueos',value: `${blockerRate}%`,        cls: blockerRate === 0 ? 'good' : blockerRate > 20 ? 'bad' : 'warn'    },
     { label: 'En Progreso',        value: String(totals.inProgress),cls: totals.inProgress > 0 ? 'good' : '' },
     { label: 'En Revisión',        value: String(totals.inReview),  cls: '' },
-    { label: 'Open Findings',      value: String(openFindings),     cls: openFindings === 0 ? 'good' : 'warn' },
-    { label: 'Docs Drift',         value: (docsDirty || []).length ? `${(docsDirty).length} archivos` : 'OK', cls: docsDirty?.length ? 'warn' : 'good' },
-    { label: 'Ahead Remote',       value: String(runtime?.ahead || 0), cls: runtime?.ahead > 0 ? 'warn' : 'good' },
-    { label: 'Behind Remote',      value: String(runtime?.behind || 0), cls: runtime?.behind > 0 ? 'bad' : 'good' },
+    { label: 'Hallazgos abiertos', value: String(openFindings),     cls: openFindings === 0 ? 'good' : 'warn' },
+    { label: 'Desfase documental', value: (docsDirty || []).length ? `${(docsDirty).length} archivos` : 'OK', cls: docsDirty?.length ? 'warn' : 'good' },
+    { label: 'Por delante remoto', value: String(runtime?.ahead || 0), cls: runtime?.ahead > 0 ? 'warn' : 'good' },
+    { label: 'Por detrás remoto',  value: String(runtime?.behind || 0), cls: runtime?.behind > 0 ? 'bad' : 'good' },
   ];
 
   return `
@@ -172,7 +172,7 @@ function _renderTimeTracking() {
       <div class="empty-state" style="padding:var(--space-6)">
         ${icon('clock', 24)}
         <p>No hay registros de tiempo aún.</p>
-        <p class="text-muted" style="font-size:var(--text-xs)">Usa el time tracker en el Overview para registrar tiempo por tarea.</p>
+        <p class="text-muted" style="font-size:var(--text-xs)">Usa el seguimiento de tiempo en Resumen para registrar tiempo por tarea.</p>
       </div>
     `;
   }

@@ -20,7 +20,7 @@ export async function render() {
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Settings</p>
+          <p class="eyebrow">Configuración</p>
           <h2>Configuración del Proyecto</h2>
         </div>
       </div>
@@ -51,7 +51,7 @@ export async function render() {
                   <p class="value">${esc(payload?.derived?.activePhase?.id || '—')} — ${esc(payload?.derived?.activePhase?.label || '')}</p>
                 </div>
                 <div class="info-row">
-                  <p class="label-sm">Focus actual</p>
+                  <p class="label-sm">Foco actual</p>
                   <p class="value">${esc(control.meta?.currentFocus || '—')}</p>
                 </div>
                 <div class="info-row">
@@ -63,7 +63,7 @@ export async function render() {
                   <p class="value">${formatDate(control.meta?.updatedAt || '', 'date')}</p>
                 </div>
                 <div class="info-row">
-                  <p class="label-sm">Locale</p>
+                  <p class="label-sm">Idioma</p>
                   <p class="value">${esc(payload?.i18n?.locale || 'es')}</p>
                 </div>
               </div>
@@ -75,7 +75,7 @@ export async function render() {
             <div class="panel">
               <div class="panel-header">
                 <p class="panel-title">Repositorio</p>
-                <span class="badge badge-${runtime.clean ? 'success' : 'warning'}">${runtime.clean ? 'Limpio' : 'Dirty'}</span>
+                <span class="badge badge-${runtime.clean ? 'success' : 'warning'}">${runtime.clean ? 'Limpio' : 'Con cambios'}</span>
               </div>
               <div class="panel-body" style="display:flex;flex-direction:column;gap:var(--space-3)">
                 <div class="info-row">
@@ -83,7 +83,7 @@ export async function render() {
                   <p class="value">${esc(runtime.branch || '—')}</p>
                 </div>
                 <div class="info-row">
-                  <p class="label-sm">Status</p>
+                  <p class="label-sm">Estado</p>
                   <p class="value">${runtime.staged}s ${runtime.unstaged}u ${runtime.untracked}?</p>
                 </div>
                 ${runtime.lastCommit ? `
@@ -98,7 +98,7 @@ export async function render() {
                 ` : ''}
                 <div class="info-row">
                   <p class="label-sm">Divergencia</p>
-                  <p class="value">↑ ${runtime.ahead || 0} ahead · ↓ ${runtime.behind || 0} behind</p>
+                  <p class="value">↑ ${runtime.ahead || 0} por delante · ↓ ${runtime.behind || 0} por detrás</p>
                 </div>
               </div>
             </div>
@@ -126,8 +126,8 @@ export async function render() {
                       </div>
                       <div class="project-row-actions">
                         ${p.available
-                          ? `<span class="badge badge-success">Online</span>`
-                          : `<span class="badge badge-warning" title="No se puede cargar el control">Offline</span>`}
+                          ? `<span class="badge badge-success">Disponible</span>`
+                          : `<span class="badge badge-warning" title="No se puede cargar el control">No disponible</span>`}
                         ${p.id === currentId
                           ? `<span class="badge badge-accent">Activo</span>`
                           : p.available ? `<button class="btn btn-ghost btn-sm" type="button" data-switch="${esc(p.id)}">Abrir</button>` : ''

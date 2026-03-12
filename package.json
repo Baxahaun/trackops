@@ -1,7 +1,7 @@
 {
   "name": "trackops",
   "version": "1.0.0",
-  "description": "Operational project control with task management, doc generation, multi-project dashboard, and optional ETAPA methodology",
+  "description": "Operational project control with task management, document generation, multi-project dashboard, and optional OPERA methodology",
   "main": "lib/control.js",
   "bin": {
     "trackops": "bin/trackops.js"
@@ -18,7 +18,7 @@
     "task-management",
     "dashboard",
     "ops",
-    "etapa",
+    "opera",
     "methodology",
     "cli",
     "devops",
@@ -38,18 +38,22 @@
     "url": "https://github.com/Baxahaun/trackops/issues"
   },
   "homepage": "https://github.com/Baxahaun/trackops#readme",
+  "funding": "https://ko-fi.com/trackops",
   "license": "MIT",
   "type": "commonjs",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
-    "ops": "trackops",
-    "ops:help": "trackops help",
-    "ops:dashboard": "trackops dashboard",
-    "ops:status": "trackops status",
-    "ops:next": "trackops next",
-    "ops:sync": "trackops sync",
-    "ops:repo": "trackops refresh-repo"
+    "ops": "node bin/trackops.js",
+    "ops:help": "node bin/trackops.js help",
+    "ops:dashboard": "node bin/trackops.js dashboard",
+    "ops:status": "node bin/trackops.js status",
+    "ops:next": "node bin/trackops.js next",
+    "ops:sync": "node bin/trackops.js sync",
+    "ops:repo": "node bin/trackops.js refresh-repo",
+    "test": "node scripts/smoke-tests.js",
+    "test:smoke": "node scripts/smoke-tests.js",
+    "release:check": "npm test && npm pack --dry-run"
   }
 }

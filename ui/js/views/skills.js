@@ -10,8 +10,8 @@ export async function render() {
     <div class="view-enter">
       <header class="section-header">
         <div>
-          <h2 class="section-title">AI Skill Hub</h2>
-          <p class="section-desc">Gestiona las habilidades de tu Copiloto e integra nuevos flujos de la comunidad (skills.sh).</p>
+          <h2 class="section-title">Centro de habilidades</h2>
+          <p class="section-desc">Gestiona las habilidades de tu copiloto e integra nuevos flujos de la comunidad.</p>
         </div>
         <div class="actions">
           <button class="btn btn-ghost btn-sm" id="btn-refresh-skills">
@@ -36,7 +36,7 @@ export async function render() {
         <!-- Panel Derecho: Discover (skills.sh) -->
         <div class="panel" style="border-color: var(--accent);">
           <div class="panel-header" style="justify-content: space-between;">
-            <h3 class="panel-title" style="color: var(--accent);">✨ Discover (skills.sh)</h3>
+            <h3 class="panel-title" style="color: var(--accent);">✨ Descubrir</h3>
             <span class="badge badge-success">Recomendado</span>
           </div>
           <div id="skills-discover-list" class="stack" style="gap: var(--space-4); max-height: calc(100vh - 200px); overflow-y: auto; padding: 2px;">
@@ -77,7 +77,7 @@ export async function loadData() {
         localEl.innerHTML = `
           <div class="empty-state">
              <div class="empty-icon">🧠</div>
-             <p class="empty-title">Sin Skills Locales</p>
+             <p class="empty-title">Sin habilidades locales</p>
              <p class="empty-desc" style="font-size:var(--text-xs); color:var(--text-muted)">Tu agente no tiene skills especializadas. Instala alguna desde el panel derecho.</p>
           </div>
         `;
@@ -109,8 +109,8 @@ export async function loadData() {
          discoverEl.innerHTML = `
           <div class="empty-state">
              <div class="empty-icon">✨</div>
-             <p class="empty-title" style="margin-bottom:var(--space-2)">Todo Instalado</p>
-             <p class="empty-desc" style="font-size:var(--text-xs); color:var(--text-muted)">Tienes todas las skills recomendadas instaladas.</p>
+             <p class="empty-title" style="margin-bottom:var(--space-2)">Todo instalado</p>
+             <p class="empty-desc" style="font-size:var(--text-xs); color:var(--text-muted)">Ya tienes instaladas todas las habilidades recomendadas.</p>
           </div>
          `;
        } else {

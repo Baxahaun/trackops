@@ -156,10 +156,12 @@ proyecto/
 │   ├── hub/
 │   │   ├── agent.md              # Instrucciones del agente
 │   │   └── router.md             # Enrutamiento a skills
-│   └── skills/
-│       └── _registry.md          # Índice de skills instaladas
+│   └── hub/
+│       ├── agent.md              # Instrucciones del agente
+│       └── router.md             # Enrutamiento a skills
 ├── .agents/
 │   └── skills/
+│       ├── _registry.md          # Índice de skills instaladas
 │       └── [skill-name]/
 │           └── SKILL.md          # Contenido de skills
 ├── genesis.md                    # 📜 La Constitución
@@ -191,7 +193,7 @@ proyecto/
 - [ ] findings.md generado
 - [ ] .agent/hub/agent.md configurado
 - [ ] .agent/hub/router.md configurado
-- [ ] .agent/skills/_registry.md creado
+- [ ] .agents/skills/_registry.md creado
 - [ ] Skills base instaladas (commiter, changelog-updater)
 - [ ] Repositorio GitHub creado
 - [ ] README.md generado
