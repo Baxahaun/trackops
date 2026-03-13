@@ -1,3 +1,3 @@
 interface:
   display_name: "TrackOps"
-  short_description: "Bootstrap TrackOps globally, then activate it per project"
+  short_description: "Global TrackOps skill for local project orchestration and operational automation"

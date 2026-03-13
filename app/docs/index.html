@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrackOps — Motor autónomo de orquestación de proyectos con IA</title>
-    <meta name="description" content="TrackOps es un motor autónomo de orquestación de proyectos con IA. Ordena tareas, contexto y ejecución con seguimiento vivo, panel local y metodología OPERA.">
+    <title>TrackOps — Orquestacion operativa local para proyectos con agentes IA</title>
+    <meta name="description" content="TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Instala la skill global, activa cada repo por separado y manten app/ y ops/ sin mezclar.">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -175,36 +175,208 @@
             background: rgba(255, 255, 255, 0.12);
         }
 
-        .beta-chip {
+        .hero-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .hero-beta-text {
             display: inline-flex;
             align-items: center;
-            gap: 0.55rem;
-            border-radius: 9999px;
-            border: 1px solid rgba(99, 102, 241, 0.22);
-            background: rgba(99, 102, 241, 0.08);
-            color: #818cf8;
-            padding: 0.55rem 0.95rem;
+            gap: 0.7rem;
             font-family: Outfit, sans-serif;
-            font-size: 0.82rem;
-            font-weight: 600;
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: #cbd5e1;
         }
 
-        .beta-chip .dot {
-            width: 0.5rem;
-            height: 0.5rem;
+        .hero-beta-text::before {
+            content: "";
+            width: 0.45rem;
+            height: 0.45rem;
             border-radius: 9999px;
-            background: currentColor;
-            opacity: 0.8;
+            background: #818cf8;
+            flex-shrink: 0;
+            opacity: 0.9;
         }
 
-        .disclaimer-panel {
-            max-width: 46rem;
-            margin-top: 1.25rem;
-            border-radius: 1.5rem;
+        .navbar-icon-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: 0;
+            border-radius: 9999px;
+            background: transparent;
+            color: currentColor;
+            cursor: pointer;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
+        }
+
+        .navbar-icon-button:hover {
+            opacity: 0.6;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .hero-command-shell {
+            position: relative;
+            max-width: 48rem;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1rem 1.1rem;
+            background: rgba(5, 9, 20, 0.82);
+            border-radius: 1.75rem;
+            padding: 1.15rem 1.25rem 1.35rem;
             backdrop-filter: blur(12px);
+            box-shadow: 0 24px 90px rgba(4, 7, 18, 0.38);
+        }
+
+        .hero-command-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .hero-copy-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: 0;
+            border-radius: 0.75rem;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .hero-copy-button:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-command-body {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            min-height: 3.25rem;
+            overflow: hidden;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #f8fafc;
+            word-break: break-word;
+        }
+
+        .hero-prompt {
+            color: #818cf8;
+            flex-shrink: 0;
+        }
+
+        .hero-command-text {
+            min-width: 0;
+        }
+
+        .hero-caret {
+            width: 0.65rem;
+            height: 1.2rem;
+            background: #818cf8;
+            border-radius: 2px;
+            animation: hero-caret-blink 1s steps(1) infinite;
+            flex-shrink: 0;
+        }
+
+        .hero-available {
+            width: 100%;
+            max-width: 22rem;
+        }
+
+        .hero-available-title {
+            margin-bottom: 1rem;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #cbd5e1;
+        }
+
+        .hero-logos-marquee {
+            position: relative;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+        }
+
+        .hero-logos-track {
+            display: flex;
+            width: max-content;
+            gap: 1.25rem;
+            animation: hero-logo-marquee 24s linear infinite;
+        }
+
+        .hero-logo-set {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .hero-logo-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            color: rgba(255, 255, 255, 0.82);
+            white-space: nowrap;
+            font-family: Outfit, sans-serif;
+            font-size: 0.94rem;
+        }
+
+        .hero-logo-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .hero-logo-svg {
+            width: 1.32rem;
+            height: 1.32rem;
+            display: block;
+            filter: brightness(0) invert(1);
+            opacity: 0.96;
+        }
+
+        @keyframes hero-caret-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        @keyframes hero-logo-marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-50% - 0.625rem)); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-caret,
+            .hero-logos-track {
+                animation: none;
+            }
         }
 
         .disclaimer-title {
@@ -396,6 +568,9 @@
                 <button id="lang-toggle" type="button" class="control-pill desktop-only" aria-label="Cambiar idioma" title="Cambiar idioma">
                     <span class="font-mono">ES / EN</span>
                 </button>
+                <button type="button" class="navbar-icon-button desktop-only" data-share-project="true" data-status-target="#navbar-share-status" aria-label="Share this project" title="Share this project">
+                    <i data-lucide="share-2" class="w-5 h-5" aria-hidden="true"></i>
+                </button>
                 <a href="https://github.com/Baxahaun/trackops" target="_blank" rel="noopener noreferrer" class="hover:opacity-60 transition-opacity" aria-label="Ver TrackOps en GitHub (abre en nueva pestaña)">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
@@ -419,10 +594,15 @@
                 <a href="#opera" class="hover:text-accent transition-colors py-3 border-b border-white/5 flex items-center justify-between" onclick="closeMobileMenu()">OPERA <svg class="w-4 h-4 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
                 <div class="flex items-center gap-3 pt-4">
                     <button id="lang-toggle-mobile" type="button" class="control-pill flex-1 justify-center"><span class="font-mono">ES / EN</span></button>
+                    <button type="button" class="navbar-icon-button" data-share-project="true" data-status-target="#navbar-share-status" aria-label="Share this project" title="Share this project">
+                        <i data-lucide="share-2" class="w-5 h-5" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <p id="navbar-share-status" class="hidden fixed top-24 right-8 z-[60] font-outfit text-sm text-emerald-300 bg-[#0d1326]/92 border border-white/10 rounded-full px-4 py-2 backdrop-blur-xl"></p>
 
     <header id="main-content" class="relative min-h-[100dvh] w-full flex items-center pb-[10dvh] pt-[15dvh] px-8 md:px-16 lg:px-24 overflow-hidden">
         
@@ -444,13 +624,13 @@
             </svg>
         </div>
 
-        <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col justify-end h-full">
+        <div class="relative z-10 w-full max-w-7xl mx-auto grid gap-16 lg:grid-cols-[minmax(0,1fr)_22rem] items-end">
             <div class="max-w-4xl">
                 <div class="gsap-reveal mb-6 flex items-center gap-3">
                     <span class="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true"></span>
-                    <span class="font-mono text-xs uppercase tracking-widest text-gray-300"><span class="lang-es">Motor Operativo Local &middot; Código Abierto &middot; 0 Dependencias</span><span class="lang-en">Local Operating Engine &middot; Open Source &middot; 0 Dependencies</span></span>
+                    <span class="font-mono text-xs uppercase tracking-widest text-gray-300"><span class="lang-es">Skill global &middot; Control local &middot; Codigo abierto</span><span class="lang-en">Global skill &middot; Local control &middot; Open source</span></span>
                 </div>
-                
+
                 <h1 class="gsap-reveal font-sans font-bold text-4xl md:text-7xl lg:text-8xl hero-title text-white">
                     <span class="lang-es">La IA es rápida.</span>
                     <span class="lang-en">AI is fast.</span>
@@ -459,32 +639,67 @@
                     <span class="lang-es">El caos también.</span>
                     <span class="lang-en">So is chaos.</span>
                 </p>
-                
-                <p class="gsap-reveal mt-10 text-lg md:text-xl text-gray-200 max-w-2xl font-outfit font-light leading-relaxed">
-                    <span class="lang-es">TrackOps es un motor autónomo de orquestación de proyectos con IA. Ordena tareas, contexto y ejecución para que tus agentes sepan qué hacer, en qué orden y con qué criterio, sin pérdida de estado.</span>
-                    <span class="lang-en">TrackOps is an autonomous AI project orchestration engine. It organizes tasks, context, and execution so your agents know what to do, in what order, and under what criteria, without losing state.</span>
+
+                <p class="gsap-reveal mt-10 text-lg md:text-xl text-gray-200 max-w-3xl font-outfit font-light leading-relaxed">
+                    <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Prepara a tus agentes, ordena el trabajo del proyecto y mantiene separadas la app real y la capa operativa.</span>
+                    <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects and AI-agent development. It prepares your agents, organizes project work, and keeps the real app separate from the operational layer.</span>
                 </p>
 
-                <div class="gsap-reveal mt-10 flex flex-wrap gap-3 items-center">
-                    <span class="beta-chip"><span class="dot" aria-hidden="true"></span><span class="lang-es">Estado beta</span><span class="lang-en">Beta status</span></span>
+                <div class="gsap-reveal mt-10 hero-meta-row">
+                    <p class="hero-beta-text">
+                        <span class="lang-es">Beta publica. Usalo en trabajo real con revision humana y validacion tecnica.</span>
+                        <span class="lang-en">Public beta. Use it in real work with human review and technical validation.</span>
+                    </p>
                 </div>
 
-                <div class="gsap-reveal mt-12 flex flex-wrap gap-4 items-center">
-                    <a href="https://github.com/Baxahaun/trackops/blob/master/UserGUIDE.md" target="_blank" rel="noopener noreferrer" type="button" class="btn-magnetic border border-gray-600 rounded-full px-8 py-4 text-sm font-sans font-bold bg-white text-navy shadow-[0_0_30px_rgba(99,102,241,0.3)]">
-                        <div class="btn-bg"></div>
-                        <span><span class="lang-es">Guía de usuario</span><span class="lang-en">User guide</span></span>
-                    </a>
-                    <div class="rounded-full px-6 py-4 text-sm font-mono text-gray-100 bg-white/5 border border-white/20 flex items-center gap-3 backdrop-blur-sm" role="code" aria-label="Comando de instalación: npx trackops init --with-opera">
-                        <span class="text-accent" aria-hidden="true">$</span> npx trackops init --with-opera
+                <div class="gsap-reveal mt-12 hero-command-shell" role="group" aria-label="Global skill installation command">
+                    <div class="hero-command-topline">
+                        <span class="lang-es">Instala la skill global una sola vez</span>
+                        <span class="lang-en">Install the global skill once</span>
+                        <button type="button" class="hero-copy-button" data-copy-text="npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y" data-status-target="#hero-command-status" title="Copy to clipboard" aria-label="Copy to clipboard">
+                            <svg viewBox="0 0 16 16" height="16" width="16" aria-hidden="true">
+                                <path fill="currentColor" fill-rule="evenodd" d="M2.75.5C1.78.5 1 1.28 1 2.25v7.5c0 .97.78 1.75 1.75 1.75H4.5V10H2.75a.25.25 0 0 1-.25-.25v-7.5c0-.14.11-.25.25-.25h5.5c.14 0 .25.11.25.25V3H10v-.75C10 1.28 9.22.5 8.25.5zm5 4C6.78 4.5 6 5.28 6 6.25v7.5c0 .97.78 1.75 1.75 1.75h5.5c.97 0 1.75-.78 1.75-1.75v-7.5c0-.97-.78-1.75-1.75-1.75zM7.5 6.25c0-.14.11-.25.25-.25h5.5c.14 0 .25.11.25.25v7.5q-.02.23-.25.25h-5.5a.25.25 0 0 1-.25-.25z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="hero-command-body">
+                        <span class="hero-prompt" aria-hidden="true">$</span>
+                        <span id="hero-install-command" class="hero-command-text" data-command="npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y"></span>
+                        <span class="hero-caret" aria-hidden="true"></span>
                     </div>
                 </div>
 
-                <div class="gsap-reveal disclaimer-panel text-sm text-gray-200 font-outfit leading-relaxed">
-                    <span class="disclaimer-title"><span class="lang-es">Descargo de responsabilidad</span><span class="lang-en">Disclaimer</span></span>
-                    <span class="lang-es">TrackOps está en beta. Puede cambiar sin previo aviso y todavía no sustituye por sí solo la revisión humana, la validación técnica ni los controles de entrega de tu equipo.</span>
-                    <span class="lang-en">TrackOps is in beta. It may change without notice and does not replace human review, technical validation, or your team’s delivery controls on its own.</span>
-                </div>
+                <p class="gsap-reveal mt-5 max-w-3xl font-outfit text-sm md:text-base leading-7 text-slate-300">
+                    <span class="lang-es">Despues, activa cada proyecto con <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. Si necesitas el framework operativo completo, anade <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>.</span>
+                    <span class="lang-en">Then activate each project with <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. If you need the full operating framework, add <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>.</span>
+                </p>
+
+                <p id="hero-command-status" class="hidden gsap-reveal mt-3 font-outfit text-sm text-emerald-300"></p>
             </div>
+
+            <aside class="gsap-reveal hero-available lg:justify-self-end lg:self-end">
+                <p class="hero-available-title">Available for...</p>
+                <div class="hero-logos-marquee" aria-label="Available for AI agents and AI CLIs">
+                    <div class="hero-logos-track">
+                        <div class="hero-logo-set">
+                            <div class="hero-logo-item" aria-label="Codex"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/openai.svg" alt="" loading="lazy" decoding="async"></span><span>Codex</span></div>
+                            <div class="hero-logo-item" aria-label="Claude Code"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/claudecode.svg" alt="" loading="lazy" decoding="async"></span><span>Claude Code</span></div>
+                            <div class="hero-logo-item" aria-label="Cursor"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/cursor.svg" alt="" loading="lazy" decoding="async"></span><span>Cursor</span></div>
+                            <div class="hero-logo-item" aria-label="GitHub Copilot"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/githubcopilot.svg" alt="" loading="lazy" decoding="async"></span><span>Copilot</span></div>
+                            <div class="hero-logo-item" aria-label="Gemini CLI"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/gemini.svg" alt="" loading="lazy" decoding="async"></span><span>Gemini CLI</span></div>
+                            <div class="hero-logo-item" aria-label="Antigravity"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/antigravity.svg" alt="" loading="lazy" decoding="async"></span><span>Antigravity</span></div>
+                        </div>
+                        <div class="hero-logo-set" aria-hidden="true">
+                            <div class="hero-logo-item"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/openai.svg" alt="" loading="lazy" decoding="async"></span><span>Codex</span></div>
+                            <div class="hero-logo-item"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/claudecode.svg" alt="" loading="lazy" decoding="async"></span><span>Claude Code</span></div>
+                            <div class="hero-logo-item"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/cursor.svg" alt="" loading="lazy" decoding="async"></span><span>Cursor</span></div>
+                            <div class="hero-logo-item"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/githubcopilot.svg" alt="" loading="lazy" decoding="async"></span><span>Copilot</span></div>
+                            <div class="hero-logo-item"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/gemini.svg" alt="" loading="lazy" decoding="async"></span><span>Gemini CLI</span></div>
+                            <div class="hero-logo-item"><span class="hero-logo-mark"><img class="hero-logo-svg" src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/antigravity.svg" alt="" loading="lazy" decoding="async"></span><span>Antigravity</span></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
     </header>
 
@@ -503,14 +718,14 @@
                         <span class="lang-en">Coding assistants move fast. But when the project grows, AI loses the thread: it forgets what is done, ignores priorities, and starts contradicting itself. Context gets corrupted.</span>
                     </p>
                     <p class="font-outfit text-lg text-slate-700 leading-relaxed">
-                        <span class="lang-es">TrackOps mantiene una fuente de verdad determinista en archivos Markdown sincronizados. Cada <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> traduce el estado real del proyecto en instrucciones que cualquier agente puede consumir directamente. <span class="font-semibold text-navy">No dejes que tu IA adivine lo que tiene que hacer.</span></span>
-                        <span class="lang-en">TrackOps keeps a deterministic source of truth in synchronized Markdown files. Each <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> turns the real project state into instructions any agent can consume directly. <span class="font-semibold text-navy">Do not let your AI guess what it should do.</span></span>
+                        <span class="lang-es">La fuente de verdad operativa vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/project_control.json</code>. A partir de ahi, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> regenera <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/task_plan.md</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/progress.md</code> y <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/findings.md</code> para que cualquier agente lea el mismo estado sin improvisar. <span class="font-semibold text-navy">No dejes que tu IA adivine lo que tiene que hacer.</span></span>
+                        <span class="lang-en">The operational source of truth lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/project_control.json</code>. From there, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> regenerates <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/task_plan.md</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/progress.md</code>, and <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/findings.md</code> so every agent reads the same state instead of improvising. <span class="font-semibold text-navy">Do not let your AI guess what it should do.</span></span>
                     </p>
                 </div>
 
                 <div class="bg-white rounded-super p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-slate-100 flex flex-col gap-6">
                     <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-                        <span class="font-mono text-xs text-slate-500 uppercase tracking-widest"><span class="lang-es">project_control.json (Fuente de verdad)</span><span class="lang-en">project_control.json (Source of truth)</span></span>
+                        <span class="font-mono text-xs text-slate-500 uppercase tracking-widest"><span class="lang-es">ops/project_control.json (Fuente de verdad)</span><span class="lang-en">ops/project_control.json (Source of truth)</span></span>
                         <div class="flex gap-2">
                             <span class="w-3 h-3 rounded-full bg-slate-200"></span>
                             <span class="w-3 h-3 rounded-full bg-slate-200"></span>
@@ -520,13 +735,12 @@
                     
                     <div class="font-mono text-sm leading-loose text-slate-600">
                         <div class="flex gap-4"><span class="text-slate-300">01</span><span class="text-accent">"meta": {</span></div>
-                        <div class="flex gap-4"><span class="text-slate-300">02</span><span class="ml-4">"projectName": "Orchestrator",</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">02</span><span class="ml-4">"workspace": { "appDir": "app", "opsDir": "ops" },</span></div>
                         <div class="flex gap-4"><span class="text-slate-300">03</span><span class="ml-4">"focusPhase": "E",</span></div>
-                        <div class="flex gap-4"><span class="text-slate-300">04</span><span class="ml-4">"currentFocus": "<span class="lang-es">Implementar auth JWT</span><span class="lang-en">Implement JWT auth</span>"</span></div>
-                        <div class="flex gap-4"><span class="text-slate-300">05</span><span class="text-accent">},</span></div>
-                        <div class="flex gap-4"><span class="text-slate-300">06</span><span class="text-accent">"tasks": [</span></div>
-                        <div class="flex gap-4"><span class="text-slate-300">07</span><span class="ml-4">{ "id": "T-001", "status": "in_progress", "priority": "P0" }</span></div>
-                        <div class="flex gap-4"><span class="text-slate-300">08</span><span class="text-accent">]</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">04</span><span class="ml-4">"currentFocus": "<span class="lang-es">Cerrar flujo de pagos</span><span class="lang-en">Close payment flow</span>"</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">05</span><span class="ml-4">"environment": { "requiredKeys": ["STRIPE_SECRET_KEY"] }</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">06</span><span class="text-accent">},</span></div>
+                        <div class="flex gap-4"><span class="text-slate-300">07</span><span class="text-accent">"tasks": [{ "id": "PAY-01", "status": "in_progress", "priority": "P0" }]</span></div>
                     </div>
                 </div>
 
@@ -537,9 +751,9 @@
     <section id="motor" class="bg-premium text-navy px-8 py-24 md:px-16 lg:px-24">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20 max-w-3xl mx-auto">
-                <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4"><span class="lang-es">Motor Local &middot; Sin Telemetría</span><span class="lang-en">Local Engine &middot; No Telemetry</span></p>
-                <h2 class="font-serif italic text-5xl md:text-6xl text-navy mb-6"><span class="lang-es">Control Total, Privacidad Total</span><span class="lang-en">Total Control, Total Privacy</span></h2>
-                <p class="font-outfit text-slate-700 text-lg"><span class="lang-es">Instalación en segundos. Sin cuentas, sin nube, sin dependencias. TrackOps vive dentro de tu repositorio y genera la documentación viva de tu proyecto tras cada interacción.</span><span class="lang-en">Install in seconds. No accounts, no cloud, no dependencies. TrackOps lives inside your repository and generates living project documentation after each interaction.</span></p>
+                <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4"><span class="lang-es">Motor local &middot; Repo activado</span><span class="lang-en">Local engine &middot; Activated repo</span></p>
+                <h2 class="font-serif italic text-5xl md:text-6xl text-navy mb-6"><span class="lang-es">Operacion clara, producto separado</span><span class="lang-en">Clear operations, separate product</span></h2>
+                <p class="font-outfit text-slate-700 text-lg"><span class="lang-es">TrackOps se activa dentro de tu repo sin mezclar la app real con la capa operativa. El producto vive en <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code>. La operacion vive en <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>.</span><span class="lang-en">TrackOps activates inside your repo without mixing the real app with the operational layer. The product lives in <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code>. Operations live in <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>.</span></p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -566,33 +780,33 @@
                     </div>
                     <h4 class="font-sans font-bold text-xl text-navy mb-3 relative z-10"><span class="lang-es">Panel Local</span><span class="lang-en">Local Dashboard</span></h4>
                     <p class="font-outfit text-slate-700 text-sm mb-6 leading-relaxed relative z-10">
-                        <span class="lang-es">Una interfaz local en <code class="bg-slate-100 px-1 rounded text-navy font-mono">localhost:4173</code>. Sin telemetría. Sin nube. Control visual total sobre tareas, hallazgos y transiciones de fase.</span><span class="lang-en">A local interface at <code class="bg-slate-100 px-1 rounded text-navy font-mono">localhost:4173</code>. No telemetry. No cloud. Full visual control over tasks, findings, and phase transitions.</span>
+                        <span class="lang-es">Una interfaz local que arranca en el puerto preferido y busca otro libre si esta ocupado. Sin telemetria. Sin nube. Control visual sobre tareas, hallazgos, entorno y fases.</span><span class="lang-en">A local interface that starts on the preferred port and finds a free one if it is busy. No telemetry. No cloud. Visual control over tasks, findings, environment, and phases.</span>
                     </p>
                     <div class="bg-slate-100 rounded-xl p-4 font-mono text-xs relative z-10 border border-slate-300">
-                        <p class="text-navy font-bold">http://localhost:4173</p>
+                        <p class="text-navy font-bold">http://localhost:&lt;dynamic-port&gt;</p>
                     </div>
                 </div>
 
                 <div class="gsap-feature bg-white border-2 border-slate-200 rounded-[2rem] p-8 shadow-sm">
                     <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-6" aria-hidden="true">
-                        <i data-lucide="git-branch" class="w-6 h-6 text-white" aria-hidden="true"></i>
+                        <i data-lucide="folders" class="w-6 h-6 text-white" aria-hidden="true"></i>
                     </div>
-                    <h4 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">Git Hooks Nativos</span><span class="lang-en">Native Git Hooks</span></h4>
+                    <h4 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">Workspace Split</span><span class="lang-en">Split Workspace</span></h4>
                     <p class="font-outfit text-slate-700 text-sm mb-6 leading-relaxed">
-                        <span class="lang-es">Se registran solos en tu repositorio. TrackOps captura el estado del árbol de trabajo tras cada confirmación, garantizando coherencia total entre el código y la documentación.</span><span class="lang-en">They register themselves in your repository. TrackOps captures the working tree state after each commit, ensuring full consistency between code and documentation.</span>
+                        <span class="lang-es">TrackOps separa tu producto real en <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code> y la operacion en <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>, para que no se mezclen. El estado operativo, OPERA y las skills nativas quedan fuera del codigo del producto.</span><span class="lang-en">TrackOps separates your real product into <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code> and operations into <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>, so they do not get mixed. Operational state, OPERA, and native skills stay outside the product code.</span>
                     </p>
                     <div class="font-mono text-sm text-slate-700 flex flex-col gap-3">
                         <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
                             <i data-lucide="check" class="w-4 h-4 text-emerald-700 flex-shrink-0" aria-hidden="true"></i>
-                            <span class="text-emerald-800 font-medium">post-commit</span>
+                            <span class="text-emerald-800 font-medium">app/ &rarr; producto real</span>
                         </div>
                         <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
                             <i data-lucide="check" class="w-4 h-4 text-emerald-700 flex-shrink-0" aria-hidden="true"></i>
-                            <span class="text-emerald-800 font-medium">post-checkout</span>
+                            <span class="text-emerald-800 font-medium">ops/ &rarr; control operativo</span>
                         </div>
                         <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
                             <i data-lucide="check" class="w-4 h-4 text-emerald-700 flex-shrink-0" aria-hidden="true"></i>
-                            <span class="text-emerald-800 font-medium">post-merge</span>
+                            <span class="text-emerald-800 font-medium">/.env &rarr; secretos del workspace</span>
                         </div>
                     </div>
                 </div>
@@ -610,28 +824,35 @@
                     <span class="lang-es">Tu agente sabe exactamente qué hacer. Siempre.</span><span class="lang-en">Your agent knows exactly what to do. Always.</span>
                 </p>
                 <p class="font-outfit text-lg text-gray-300 leading-relaxed mb-6">
-                    <span class="lang-es">Cada vez que ejecutas <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">trackops sync</code>, el motor traduce el estado del proyecto en tres archivos que tus agentes leen como contexto de sistema:</span><span class="lang-en">Every time you run <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">trackops sync</code>, the engine translates project state into three files your agents read as system context:</span>
+                    <span class="lang-es">La skill global prepara al agente. La activacion local le da un contrato operativo claro dentro del repo. En el layout moderno, el agente lee el estado en <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span><span class="lang-en">The global skill prepares the agent. Local activation gives it a clear operating contract inside the repo. In the modern layout, the agent reads state from <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span>
                 </p>
                 <ul class="flex flex-col gap-4 font-outfit text-gray-200 mt-8">
                     <li class="flex items-start gap-4">
+                        <i data-lucide="database" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
+                        <div>
+                            <strong class="text-white block">ops/project_control.json</strong>
+                            <span class="text-sm"><span class="lang-es">La fuente de verdad operativa. Foco, fases, dependencias y entorno.</span><span class="lang-en">The operational source of truth. Focus, phases, dependencies, and environment.</span></span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
                         <i data-lucide="map" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
                         <div>
-                            <strong class="text-white block">task_plan.md</strong>
-                            <span class="text-sm"><span class="lang-es">El mapa de trabajo actual. La IA ve qué está pendiente y qué debe hacer.</span><span class="lang-en">The current work map. AI sees what is pending and what it should do next.</span></span>
+                            <strong class="text-white block">ops/task_plan.md</strong>
+                            <span class="text-sm"><span class="lang-es">El mapa de trabajo actual. La IA ve que esta pendiente y que debe hacer despues.</span><span class="lang-en">The current work map. AI sees what is pending and what it should do next.</span></span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4">
                         <i data-lucide="history" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
                         <div>
-                            <strong class="text-white block">progress.md</strong>
+                            <strong class="text-white block">ops/progress.md</strong>
                             <span class="text-sm"><span class="lang-es">El historial de lo ejecutado. Evita que la IA reescriba cosas terminadas.</span><span class="lang-en">The execution history. It prevents AI from rewriting finished work.</span></span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4">
                         <i data-lucide="book-open" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
                         <div>
-                            <strong class="text-white block">findings.md</strong>
-                            <span class="text-sm"><span class="lang-es">Hallazgos, decisiones técnicas previas y bloqueos resueltos.</span><span class="lang-en">Findings, prior technical decisions, and resolved blockers.</span></span>
+                            <strong class="text-white block">ops/findings.md</strong>
+                            <span class="text-sm"><span class="lang-es">Hallazgos, decisiones tecnicas previas y bloqueos resueltos.</span><span class="lang-en">Findings, prior technical decisions, and resolved blockers.</span></span>
                         </div>
                     </li>
                 </ul>
@@ -648,10 +869,11 @@
 <span class="text-accent">## Control Operativo</span>
 
 Antes de iniciar cualquier tarea:
-1. Lee `task_plan.md` para entender el estado.
-2. Lee `progress.md` para el contexto.
-3. Lee `findings.md` para conocer decisiones.
-4. Usa `trackops status` para confirmar.
+1. Lee `ops/project_control.json` como fuente de verdad.
+2. Lee `ops/task_plan.md` para entender el estado.
+3. Lee `ops/progress.md` para el contexto.
+4. Lee `ops/findings.md` para conocer decisiones.
+5. Usa `trackops status` para confirmar.
 
 Al completar trabajo:
 1. Ejecuta `trackops task complete <id>`.
@@ -668,10 +890,18 @@ Al completar trabajo:
                 <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4"><span class="lang-es">Metodología Opcional &middot; 5 Fases</span><span class="lang-en">Optional Methodology &middot; 5 Phases</span></p>
                 <h2 class="font-serif italic text-5xl md:text-6xl text-navy mb-4"><span class="lang-es">Metodología O.P.E.R.A.</span><span class="lang-en">O.P.E.R.A. Methodology</span></h2>
                 <p class="font-outfit text-slate-700 max-w-2xl mx-auto text-lg">
-                    <span class="lang-es">OPERA es el protocolo de ejecución que convierte cualquier idea en un proyecto de IA predecible. Cinco fases con <em>Definition of Done</em> verificable: desde la visión hasta el despliegue continuo.</span><span class="lang-en">OPERA is the execution protocol that turns any idea into a predictable AI project. Five phases with a verifiable <em>Definition of Done</em>: from vision to continuous delivery.</span>
+                    <span class="lang-es">OPERA es el framework operativo opcional para proyectos que necesitan un protocolo completo de ejecucion. TrackOps funciona sin OPERA, pero puedes anadirlo cuando el proyecto necesite mas estructura, validacion y entregables por fase.</span><span class="lang-en">OPERA is the optional operating framework for projects that need a complete execution protocol. TrackOps works without OPERA, but you can add it when the project needs more structure, validation, and phase deliverables.</span>
                 </p>
-                <div class="mt-8 font-mono text-sm text-slate-700 bg-white border-2 border-slate-300 inline-block px-4 py-2 rounded-lg font-semibold">
-                    npx trackops opera install
+                <div class="mt-8 inline-flex flex-col items-center gap-3">
+                    <div class="font-mono text-sm text-slate-700 bg-white border-2 border-slate-300 inline-block px-4 py-2 rounded-lg font-semibold">
+                        trackops opera install
+                    </div>
+                    <button type="button" class="control-pill text-slate-700 border-slate-300 bg-white/90" data-copy-text="trackops opera install" data-status-target="#opera-copy-status">
+                        <i data-lucide="copy" class="w-4 h-4" aria-hidden="true"></i>
+                        <span class="lang-es">Copiar comando</span>
+                        <span class="lang-en">Copy command</span>
+                    </button>
+                    <p id="opera-copy-status" class="hidden font-outfit text-sm text-emerald-700"></p>
                 </div>
             </div>
 
@@ -763,10 +993,10 @@ Al completar trabajo:
             <div class="md:w-1/2">
                 <h3 class="font-serif italic text-4xl text-navy mb-4"><span class="lang-es">Ecosistema de Skills</span><span class="lang-en">Skills Ecosystem</span></h3>
                 <p class="font-outfit text-slate-700 mb-6 leading-relaxed">
-                    <span class="lang-es">Las Skills son módulos de instrucciones especializadas que dotan a tu agente de protocolos específicos: commits semánticos, changelogs automáticos e inicialización de proyectos. Un comando. Instaladas. Activas.</span><span class="lang-en">Skills are specialized instruction modules that give your agent specific operating protocols: semantic commits, automatic changelogs, and project bootstrapping. One command. Installed. Active.</span>
+                    <span class="lang-es">La skill global de TrackOps prepara al agente para trabajar con el runtime y activar repositorios. Despues, cada proyecto puede anadir skills nativas para protocolos concretos como commits, changelog o arranque guiado. No compiten entre si: una prepara el sistema y las otras enriquecen el proyecto.</span><span class="lang-en">The global TrackOps skill prepares the agent to work with the runtime and activate repositories. After that, each project can add native skills for specific protocols such as commits, changelog, or guided project setup. They do not compete: one prepares the system and the others enrich the project.</span>
                 </p>
                 <div class="bg-[#0A0F1E] rounded-xl p-4 font-mono text-xs inline-block mb-8 border border-slate-800" style="color: #e2e8f0">
-                    <p><span style="color: #64748b"><span class="lang-es"># Instalar protocolo de commits semánticos</span><span class="lang-en"># Install semantic commit protocol</span></span></p>
+                    <p><span style="color: #64748b"><span class="lang-es"># Anadir una skill nativa del proyecto</span><span class="lang-en"># Add a native project skill</span></span></p>
                     <p><span style="color: #818cf8">$</span><span> trackops skill install commiter</span></p>
                 </div>
             </div>
@@ -796,24 +1026,34 @@ Al completar trabajo:
                     </div>
                     <p class="font-serif italic text-4xl md:text-5xl text-gray-100 mt-8 leading-[0.95]"><span class="lang-es">Tú orquestas.<br>Tu IA ejecuta.</span><span class="lang-en">You orchestrate.<br>Your AI executes.</span></p>
                     <p class="footer-copy mt-6">
-                        <span class="lang-es">TrackOps ordena el proyecto de punta a punta: criterio, contexto vivo y una estructura clara para equipos que construyen con IA sin perder el control.</span>
-                        <span class="lang-en">TrackOps brings order across the whole project: criteria, live context, and a clear structure for teams building with AI without losing control.</span>
+                        <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Instala la skill global, activa cada repo por separado y manten <code class="bg-white/10 px-1 rounded font-mono text-xs">app/</code> y <code class="bg-white/10 px-1 rounded font-mono text-xs">ops/</code> sin mezclar.</span>
+                        <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects and AI-agent development. Install the global skill, activate each repository separately, and keep <code class="bg-white/10 px-1 rounded font-mono text-xs">app/</code> and <code class="bg-white/10 px-1 rounded font-mono text-xs">ops/</code> separate.</span>
                     </p>
-                    <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
-                        <button type="button" class="btn-magnetic border border-gray-700 rounded-full px-6 py-3 text-sm font-sans font-bold bg-transparent text-white hover:border-gray-500 transition-colors" aria-label="Comando de inicio: npx trackops init">
-                            <div class="btn-bg bg-white" aria-hidden="true"></div>
-                            <span>npx trackops init</span>
-                        </button>
-                        <div class="font-mono text-xs text-slate-400">
-                            <span class="lang-es">Panel local, portfolio y control operativo</span>
-                            <span class="lang-en">Local dashboard, portfolio, and operational control</span>
+                    <div class="mt-8 flex flex-col gap-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <button type="button" class="control-pill text-white" data-copy-text="npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y" data-status-target="#footer-install-status">
+                                <i data-lucide="copy" class="w-4 h-4" aria-hidden="true"></i>
+                                <span class="lang-es">Copiar skill global</span>
+                                <span class="lang-en">Copy global skill</span>
+                            </button>
+                            <button type="button" class="control-pill text-white" data-copy-text="trackops init" data-status-target="#footer-init-status">
+                                <i data-lucide="copy" class="w-4 h-4" aria-hidden="true"></i>
+                                <span class="lang-es">Copiar activacion local</span>
+                                <span class="lang-en">Copy local activation</span>
+                            </button>
                         </div>
+                        <div class="font-mono text-xs text-slate-400">
+                            <span class="lang-es">Primero instala la skill global. Despues activa TrackOps dentro del repo con <code class="bg-white/10 px-1 rounded text-white">trackops init</code>.</span>
+                            <span class="lang-en">Install the global skill first. Then activate TrackOps inside the repository with <code class="bg-white/10 px-1 rounded text-white">trackops init</code>.</span>
+                        </div>
+                        <p id="footer-install-status" class="hidden font-outfit text-xs text-emerald-300"></p>
+                        <p id="footer-init-status" class="hidden font-outfit text-xs text-emerald-300"></p>
                     </div>
                     <div class="mt-8 max-w-2xl border-t border-white/10 pt-6">
                         <span class="disclaimer-title"><span class="lang-es">Descargo de responsabilidad</span><span class="lang-en">Disclaimer</span></span>
                         <p class="font-outfit text-sm md:text-[0.96rem] leading-7 text-slate-300">
-                            <span class="lang-es">El producto sigue en beta. Úsalo con revisión humana y valida siempre los cambios importantes antes de llevarlos a producción.</span>
-                            <span class="lang-en">The product is still in beta. Use it with human review and always validate important changes before taking them to production.</span>
+                            <span class="lang-es">Beta publica. Usalo en trabajo real con revision humana y validacion tecnica.</span>
+                            <span class="lang-en">Public beta. Use it in real work with human review and technical validation.</span>
                         </p>
                     </div>
                 </div>
@@ -888,7 +1128,7 @@ Al completar trabajo:
             </div>
 
             <div class="footer-meta mt-14 pt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between font-mono text-xs">
-                <p><span class="lang-es">Construido para la era del desarrollo con IA.</span><span class="lang-en">Built for the age of AI-driven software work.</span></p>
+                <p><span class="lang-es">Sistema local de orquestacion y automatizacion operativa para desarrollo con agentes IA.</span><span class="lang-en">Local orchestration and operational automation for AI-agent software work.</span></p>
                 <p><span class="lang-es">Diseñado y desarrollado por</span><span class="lang-en">Designed and developed by</span> <a href="https://baxahaun.com" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-white transition-colors border-b border-white/10 hover:border-white pb-0.5">Xavier Crespo Gríman</a> &middot; Baxahaun AI Venture Studio</p>
             </div>
         </div>
@@ -1036,25 +1276,165 @@ Al completar trabajo:
         if (langToggle) langToggle.addEventListener('click', toggleLanguage);
         if (langToggleMobile) langToggleMobile.addEventListener('click', toggleLanguage);
 
+        function currentSiteLang() {
+            return document.documentElement.lang === 'en' ? 'en' : 'es';
+        }
+
+        function startHeroInstallTyping() {
+            const commandNode = document.getElementById('hero-install-command');
+            if (!commandNode) return;
+
+            const fullCommand = commandNode.getAttribute('data-command') || '';
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const cycleMs = 3000;
+
+            if (reduceMotion) {
+                commandNode.textContent = fullCommand;
+                return;
+            }
+
+            function runCycle() {
+                commandNode.textContent = '';
+                const typingWindow = 1900;
+                const stepMs = Math.max(16, Math.floor(typingWindow / Math.max(fullCommand.length, 1)));
+                let index = 0;
+
+                function typeNext() {
+                    commandNode.textContent = fullCommand.slice(0, index);
+                    if (index < fullCommand.length) {
+                        index += 1;
+                        window.setTimeout(typeNext, stepMs);
+                    }
+                }
+
+                typeNext();
+                window.setTimeout(runCycle, cycleMs);
+            }
+
+            window.setTimeout(runCycle, 240);
+        }
+
+        function getSiteMessages() {
+            return {
+                es: {
+                    commandCopied: 'Comando copiado.',
+                    copyFailed: 'No se pudo copiar automaticamente.',
+                    shareCopied: 'Texto y enlace copiados para compartir.',
+                    shareOpened: 'Panel de compartir abierto.',
+                    shareFailed: 'No se pudo preparar el contenido para compartir.',
+                    walletCopied: 'Direccion copiada al portapapeles.',
+                },
+                en: {
+                    commandCopied: 'Command copied.',
+                    copyFailed: 'Could not copy automatically.',
+                    shareCopied: 'Share text and link copied.',
+                    shareOpened: 'Share sheet opened.',
+                    shareFailed: 'Could not prepare share content.',
+                    walletCopied: 'Address copied to clipboard.',
+                }
+            };
+        }
+
+        function setStatusMessage(target, message) {
+            if (!target) return;
+            target.textContent = message;
+            target.classList.remove('hidden');
+            window.clearTimeout(target._hideTimer);
+            target._hideTimer = window.setTimeout(() => {
+                target.classList.add('hidden');
+            }, 2200);
+        }
+
+        async function writeClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    return true;
+                } catch (_error) {
+                }
+            }
+
+            const helper = document.createElement('textarea');
+            helper.value = text;
+            helper.setAttribute('readonly', '');
+            helper.style.position = 'absolute';
+            helper.style.left = '-9999px';
+            document.body.appendChild(helper);
+            helper.select();
+
+            try {
+                return document.execCommand('copy');
+            } catch (_error) {
+                return false;
+            } finally {
+                document.body.removeChild(helper);
+            }
+        }
+
+        async function handleCopyButton(button) {
+            const text = button.getAttribute('data-copy-text');
+            const statusTarget = document.querySelector(button.getAttribute('data-status-target'));
+            const messages = getSiteMessages()[currentSiteLang()];
+            if (!text) return;
+
+            const copied = await writeClipboard(text);
+            setStatusMessage(statusTarget, copied ? messages.commandCopied : messages.copyFailed);
+        }
+
+        async function handleShareButton(button) {
+            const statusTarget = document.querySelector(button.getAttribute('data-status-target'));
+            const lang = currentSiteLang();
+            const messages = getSiteMessages()[lang];
+            const payload = lang === 'es'
+                ? {
+                    title: 'TrackOps',
+                    text: 'TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Instalalo como skill global y activa el control real por proyecto.',
+                    url: 'https://baxahaun.github.io/trackops/'
+                }
+                : {
+                    title: 'TrackOps',
+                    text: 'TrackOps is a local orchestration and operational automation system for projects and AI-agent development. Install it as a global skill and activate real project control repository by repository.',
+                    url: 'https://baxahaun.github.io/trackops/'
+                };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(payload);
+                    setStatusMessage(statusTarget, messages.shareOpened);
+                    return;
+                } catch (error) {
+                    if (error && error.name === 'AbortError') {
+                        return;
+                    }
+                }
+            }
+
+            const shareText = payload.text + '\n' + payload.url;
+            const copied = await writeClipboard(shareText);
+            setStatusMessage(statusTarget, copied ? messages.shareCopied : messages.shareFailed);
+        }
+
+        document.querySelectorAll('[data-copy-text]').forEach((button) => {
+            button.addEventListener('click', () => handleCopyButton(button));
+        });
+
+        document.querySelectorAll('[data-share-project]').forEach((button) => {
+            button.addEventListener('click', () => handleShareButton(button));
+        });
+
+        startHeroInstallTyping();
+
         const walletCopyButton = document.querySelector('[data-copy-wallet]');
         const walletCopyStatus = document.getElementById('support-copy-status');
 
         if (walletCopyButton) {
             walletCopyButton.addEventListener('click', async () => {
                 const address = walletCopyButton.getAttribute('data-copy-wallet');
+                const messages = getSiteMessages()[currentSiteLang()];
                 if (!address) return;
 
-                try {
-                    await navigator.clipboard.writeText(address);
-                    if (walletCopyStatus) {
-                        walletCopyStatus.classList.remove('hidden');
-                        window.setTimeout(() => {
-                            walletCopyStatus.classList.add('hidden');
-                        }, 2200);
-                    }
-                } catch (error) {
-                    console.error('No se pudo copiar la direccion.', error);
-                }
+                const copied = await writeClipboard(address);
+                setStatusMessage(walletCopyStatus, copied ? messages.walletCopied : messages.copyFailed);
             });
         }
     </script>

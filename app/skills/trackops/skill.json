@@ -1,5 +1,7 @@
 {
   "name": "trackops",
+  "shortDescription": "Global TrackOps skill for local project orchestration and operational automation with AI agents.",
+  "description": "Installs TrackOps as a global skill, prepares your agent for local project orchestration, ensures the runtime on first use, and guides per-project activation with optional OPERA.",
   "skillVersion": "1.0.1",
   "trackopsVersion": "1.0.1",
   "npmPackage": "trackops",
