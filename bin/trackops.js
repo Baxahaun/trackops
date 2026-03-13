@@ -2,6 +2,7 @@
 
 const path = require("path");
 const config = require("../lib/config");
+const pkg = require("../package.json");
 
 const command = process.argv[2];
 const args = process.argv.slice(3);
@@ -82,6 +83,12 @@ async function run() {
         else { console.log("Usage: trackops skill <install|list|remove|catalog> [name]"); }
         break;
       }
+
+      case "version":
+      case "--version":
+      case "-v":
+        console.log(pkg.version);
+        break;
 
       case "help":
       case "--help":

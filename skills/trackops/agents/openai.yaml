@@ -1,0 +1,3 @@
+interface:
+  display_name: "TrackOps"
+  short_description: "Bootstrap TrackOps globally, then activate it per project"

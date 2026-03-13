@@ -5,14 +5,12 @@
 <h1 align="center">TrackOps</h1>
 
 <p align="center">
-  <strong>El motor operativo open-source para desarrolladores que construyen con IA.</strong>
+  <strong>Operational control for AI-assisted software projects.</strong>
 </p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/trackops"><img src="https://img.shields.io/npm/v/trackops?color=D97706&style=flat-square" alt="npm" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/licencia-MIT-22C55E?style=flat-square" alt="MIT" /></a>
-  <img src="https://img.shields.io/badge/estado-beta-F59E0B?style=flat-square" alt="Beta" />
-  <img src="https://img.shields.io/badge/dependencias-0-D97706?style=flat-square" alt="0 deps" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-22C55E?style=flat-square" alt="MIT" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D18-333?style=flat-square" alt="Node 18+" />
 </p>
 
@@ -20,398 +18,358 @@
   <a href="#español">Español</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#english">English</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://baxahaun.github.io/trackops">Web</a>
 </p>
 
-<br/>
-
 ---
 
 ## Español
 
-> **Estado beta:** TrackOps ya es usable, pero sigue evolucionando rápido. La interfaz, los comandos y algunos flujos pueden cambiar entre versiones.
+TrackOps ya no se plantea como una colección de adapters por vendor dentro de cada repo. El modelo oficial ahora tiene dos capas separadas:
 
-> **Descargo de responsabilidad:** Revisa siempre los archivos generados, los cambios automáticos y los resultados de tus agentes antes de usarlos en proyectos sensibles o en producción.
+- `capa global`: una skill canónica instalable desde `skills.sh`
+- `capa local`: activación explícita por proyecto con `trackops init` y `trackops opera install`
 
-### El Problema: La IA es rápida. El caos también.
+### Qué instala cada capa
 
-Escribir código con asistentes de IA (Cursor, Copilot, Claude Code, agentes autónomos) es increíblemente rápido. Pero a medida que el proyecto crece, **la IA pierde el contexto**, olvida las prioridades y el proyecto se convierte en una pesadilla de mantenimiento.
+- Skill global:
+  hace disponible TrackOps para tu agente o CLI en la máquina.
+- Runtime npm:
+  se asegura en el primer uso real de la skill global.
+- Proyecto local:
+  solo se toca cuando ejecutas `trackops init` o `trackops opera install` dentro de ese repo.
 
-Tu agente no sabe qué tarea es prioritaria. No sabe qué está bloqueado. No sabe en qué fase estás. Y tú terminas repitiendo instrucciones en cada prompt.
+Eso permite un flujo coherente para `Codex`, `Claude Code`, `Cursor` y cualquier plataforma que consuma la skill global desde `skills.sh`, sin llenar repositorios arbitrarios de archivos operativos.
 
-### La Solución: TrackOps
+### Instalación global con `skills.sh`
 
-TrackOps es un **motor operativo local de código abierto** que actúa como puente entre tú (el humano) y tus agentes de IA.
+El repositorio ya incluye la skill canónica en [skills/trackops](./skills/trackops).
 
-**Tú** gestionas el proyecto visualmente a través de un elegante **Dashboard Web local**. TrackOps compila automáticamente ese estado en **archivos Markdown hiper-estructurados** (`task_plan.md`, `progress.md`, `findings.md`) que tu IA lee para saber exactamente qué hacer, qué reglas seguir y qué prioridades existen.
+Instálala desde `skills.sh` usando el comando de instalación desde GitHub que documente tu plataforma, apuntando a:
 
-> **La IA se encarga del código. TrackOps se encarga del proyecto.**
+- repositorio: `Baxahaun/trackops`
+- skill: `skills/trackops`
 
-<br/>
+La skill global es agnóstica de plataforma. Su trabajo es:
 
-### Por qué TrackOps se volverá indispensable en tu flujo
+1. detectar cuándo debes usar TrackOps
+2. asegurar el runtime npm en el primer uso
+3. recordarte que la activación local del repo es explícita
 
-| | |
+### Primer uso de la skill
+
+En el primer uso real, la skill ejecuta su bootstrap:
+
+```bash
+node scripts/bootstrap-trackops.js
+```
+
+Ese script:
+
+- valida `Node.js >= 18`
+- valida que `npm` exista
+- instala o actualiza `trackops@<version del release>`
+- verifica el runtime
+- registra el estado en `~/.trackops/runtime.json`
+
+La fuente de verdad de esa skill es [skills/trackops/skill.json](./skills/trackops/skill.json).
+
+### Activación local por proyecto
+
+Una vez que la skill global dejó el runtime listo, cada repo se activa por separado:
+
+```bash
+trackops init
+trackops opera install
+```
+
+Semántica oficial:
+
+- `trackops init`
+  instala solo el orquestador local.
+- `trackops opera install`
+  instala solo el framework OPERA sobre un proyecto ya inicializado.
+- `trackops init --with-opera`
+  sigue existiendo como atajo explícito.
+
+La instalación global no crea `project_control.json`, `task_plan.md`, `progress.md`, `findings.md`, `genesis.md`, `.agent/` ni `.agents/` por sí sola.
+
+### Uso rápido sin marketplace
+
+Si no quieres pasar por `skills.sh`, el runtime npm sigue funcionando igual:
+
+```bash
+npx trackops init
+npx trackops dashboard
+```
+
+También puedes instalar el paquete de forma global con npm y usar la misma activación local:
+
+```bash
+npm install -g trackops
+trackops init
+trackops opera install
+```
+
+### Flujo diario
+
+```bash
+trackops status
+trackops next
+trackops task start ops-bootstrap
+trackops sync
+```
+
+`project_control.json` sigue siendo la fuente de verdad operativa. `task_plan.md`, `progress.md` y `findings.md` se regeneran con `trackops sync`.
+
+### Dashboard local
+
+```bash
+trackops dashboard
+```
+
+El dashboard:
+
+- arranca desde `4173`
+- salta automáticamente al siguiente puerto libre si hace falta
+- admite `--port`, `--host`, `--public` y `--strict-port`
+- copia la URL local al portapapeles cuando puede
+- muestra URL de red cuando se expone fuera de localhost
+
+### Comandos principales
+
+#### Core
+
+| Comando | Descripción |
 |---|---|
-| **Adopción en 10 segundos** | Un solo comando: `npx trackops init`. Cero configuración, cero dependencias, cero bases de datos. |
-| **Contexto determinista** | No dejes que la IA adivine. TrackOps sincroniza la verdad absoluta de tu proyecto en archivos Markdown que las IAs entienden nativamente. |
-| **Dashboard local premium** | Interfaz web profesional que corre en tu terminal. Sin telemetría, sin nube, **100% privado**. |
-| **Integración Git nativa** | TrackOps sabe cuándo haces commit, merge o checkout, capturando la salud del repositorio de forma automática. |
-| **Portfolio multi-proyecto** | Registra todos tus proyectos y navega entre ellos desde un solo dashboard. |
-| **Framework OPERA** | Metodología de desarrollo con agentes IA en 5 fases: Orquestar, Probar, Estructurar, Refinar, Automatizar. |
-| **Ecosistema de Skills** | Integración nativa a un click con el marketplace **skills.sh**. Habilidades y agentes modulares que dotan a tu proyecto de capacidades automatizadas avanzadas e IA pre-entrenada para tu workflow. |
+| `trackops init [--with-opera] [--locale es\|en] [--name "..."] [--no-bootstrap]` | Inicializa TrackOps en el repo actual |
+| `trackops status` | Estado operativo actual |
+| `trackops next` | Próximas tareas listas |
+| `trackops sync` | Regenera docs operativos |
+| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Lanza el dashboard local |
+| `trackops version` | Imprime la versión instalada |
 
-<br/>
-
-### Inicio Rápido
-
-No necesitas instalar nada globalmente. Ve a cualquier proyecto y ejecuta:
-
-```bash
-npx trackops init               # Inicializa el motor en tu proyecto
-npx trackops dashboard           # Levanta el centro de control web en un puerto libre
-```
-
-El dashboard empieza en `4173`, salta automaticamente al siguiente puerto libre si hace falta y copia la URL local al portapapeles cuando la plataforma lo permite.
-
-Tras `init`, también quedan disponibles atajos npm para el proyecto:
-
-```bash
-npm run ops:status
-npm run ops:dashboard
-npm run ops:sync
-```
-
-El flujo desde consola en tu día a día:
-
-```bash
-npx trackops status              # Salud del proyecto y bloqueos
-npx trackops next                # Siguiente tarea priorizada
-npx trackops task start T-001    # Empieza a trabajar
-npx trackops sync                # Genera contexto Markdown para tu IA
-```
-
-Guía de uso paso a paso: [UserGUIDE.md](UserGUIDE.md)
-
-<br/>
-
-### Arquitectura de 3 Capas
-
-Diseñado para escalar desde un script de fin de semana hasta infraestructura empresarial.
-
-```
-┌─────────────────────────────────────────────────────┐
-│  Capa 3 · Ecosistema de Skills                      │
-│  Plugins modulares para automatizar capacidades     │
-│  trackops skill install / list / remove / catalog   │
-├─────────────────────────────────────────────────────┤
-│  Capa 2 · Framework OPERA (opcional)                │
-│  Enrutamiento de agentes y metodología estructurada │
-│  trackops opera install / configure / status        │
-├─────────────────────────────────────────────────────┤
-│  Capa 1 · Motor Core (siempre activo)               │
-│  CLI + Servidor Web Local + Generador de Markdown   │
-│  tareas · dashboard · registro · git hooks · sync   │
-└─────────────────────────────────────────────────────┘
-```
-
-<br/>
-
-### Metodología OPERA
-
-Framework opcional de 5 fases para desarrollo estructurado con IA. Cada fase tiene un **Definition of Done** verificable:
-
-| Fase | Nombre | Foco | Entregable |
-|------|--------|------|------------|
-| **O** | Orquestar | Visión, datos, reglas de negocio | Schema JSON en `genesis.md` |
-| **P** | Probar | Conectividad y validación | Scripts de test pasando |
-| **E** | Estructurar | Construcción en 3 capas | SOPs + tools + integración |
-| **R** | Refinar | Refinamiento y calidad | Outputs validados |
-| **A** | Automatizar | Despliegue y triggers | Triggers + smoke test |
-
-Las fases son totalmente configurables por proyecto vía `project_control.json`.
-
-<br/>
-
-### Referencia de Comandos
-
-<details>
-<summary><strong>Motor Core</strong></summary>
+#### OPERA
 
 | Comando | Descripción |
-|---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en] [--no-bootstrap]` | Inicializar en el directorio actual. Si no pasas `--locale` y hay TTY, TrackOps pedirá idioma. `--with-etapa` se mantiene solo como alias heredado. |
-| `trackops status` | Estado: foco, fase, tareas, bloqueadores, repo |
-| `trackops next` | Próximas tareas ejecutables priorizadas |
-| `trackops sync` | Regenerar task_plan.md, progress.md, findings.md |
-| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Lanzar dashboard web local en un puerto libre |
-| `trackops task <acción> <id> [nota]` | start, review, complete, block, pending, cancel, note |
-| `trackops refresh-repo [--quiet]` | Actualizar runtime con estado del repo |
-| `trackops register` | Registrar en el portfolio multi-proyecto |
-| `trackops projects` | Listar proyectos registrados |
+|---|---|
+| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Instala OPERA en el proyecto actual |
+| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Reanuda el bootstrap OPERA |
+| `trackops opera status` | Estado de instalación y bootstrap |
+| `trackops opera configure [--phases '...'] [--locale es\|en]` | Reconfigura fases o idioma |
+| `trackops opera upgrade` | Actualiza templates OPERA a la versión del paquete |
 
-</details>
+#### Skills del proyecto
 
-<details>
-<summary><strong>OPERA</strong></summary>
+`trackops skill ...` sigue existiendo, pero ahora significa una sola cosa: skills nativas del proyecto.
 
-| Comando | Descripción |
-|---------|-------------|
-| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Instalar OPERA y, por defecto, arrancar su bootstrap |
-| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Reanudar o rehacer el bootstrap OPERA |
-| `trackops opera status` | Estado de instalación, integridad y bootstrap |
-| `trackops opera configure [--phases '...'] [--locale es\|en]` | Reconfigurar fases o idioma |
-| `trackops opera upgrade` | Actualizar templates a la versión del paquete |
-
-</details>
-
-<details>
-<summary><strong>Skills</strong></summary>
-
-| Comando | Descripción |
-|---------|-------------|
-| `trackops skill install <nombre>` | Instalar skill del catálogo |
-| `trackops skill list` | Listar skills instaladas |
-| `trackops skill remove <nombre>` | Desinstalar skill |
-| `trackops skill catalog` | Ver skills disponibles |
-
-</details>
-
-Antes de publicar una versión, ejecuta `npm run release:check`. La política mínima de versiones y publicación está en `docs/RELEASE.md`.
-
-<br/>
-
-### Estructura del Proyecto
-
+```bash
+trackops skill catalog
+trackops skill install commiter
+trackops skill list
+trackops skill remove commiter
 ```
+
+No hay ya una familia pública `trackops agent ...` para gestionar vendors dentro del repo.
+
+### Estructura local del proyecto
+
+```text
 mi-proyecto/
-├── project_control.json       # Fuente de verdad operativa
-├── task_plan.md               # Plan de tareas (auto-generado)
-├── progress.md                # Diario de progreso (auto-generado)
-├── findings.md                # Hallazgos (auto-generado)
-├── genesis.md                 # Constitución del proyecto (OPERA)
-├── .agent/hub/                # Identidad del agente + router (OPERA)
-└── .agents/skills/            # Skills instaladas (OPERA)
+├── project_control.json
+├── task_plan.md
+├── progress.md
+├── findings.md
+├── genesis.md
+├── .agent/hub/
+├── .agents/skills/
+└── .githooks/
 ```
 
-**Higiene del repositorio del paquete:** este repositorio solo versiona archivos propios de `trackops` como producto. Los artefactos generados al ejecutar `trackops` u `OPERA` sobre un proyecto (`project_control.json`, `task_plan.md`, `progress.md`, `findings.md`, `genesis.md`, `.agent/`, `.agents/`, `.githooks/`) se consideran salidas de uso y no deben subirse a este repo.
+### Release y validación
 
-<br/>
+Antes de publicar:
 
-### Apoya el Proyecto
+```bash
+npm run skill:validate
+npm run release:check
+```
 
-TrackOps es y siempre será **libre, gratuito y de código abierto** (MIT). Construimos esto para resolver un problema real de la comunidad de desarrolladores.
+`release:check` valida que `package.json` y [skills/trackops/skill.json](./skills/trackops/skill.json) sigan alineados.
 
-Si TrackOps te ha ayudado a recuperar el control de tus proyectos con IA:
-
-1. **Dale una estrella en GitHub** — ayuda enormemente a la visibilidad.
-2. **Comparte TrackOps** con tu equipo y en tus redes.
-3. **Apoya con USDC en Polygon** para ayudar a mantener la documentación, las mejoras y el soporte del proyecto.
-
-   ```text
-   Red: Polygon
-   Moneda: USDC
-   Dirección: 0x7B3d964247Dd309D13FF702649827947633e27F3
-   ```
-
-   Envía solo `USDC` por la red `Polygon`. No envíes `BTC` ni activos de otras redes a esta dirección.
-4. **Contribuye** — Pull Requests, reporte de bugs y nuevas Skills son siempre bienvenidos.
-
-<br/>
+Guía ampliada: [UserGUIDE.md](./UserGUIDE.md)
 
 ---
 
 ## English
 
-> **Beta status:** TrackOps is already usable, but it is still evolving quickly. The interface, commands, and some flows may change between releases.
+TrackOps is no longer modeled as a set of per-vendor adapters installed inside each repository. The official model now has two explicit layers:
 
-> **Disclaimer:** Always review generated files, automated changes, and agent output before using them in sensitive or production projects.
+- `global layer`: one canonical skill distributed through `skills.sh`
+- `local layer`: explicit project activation with `trackops init` and `trackops opera install`
 
-### The Problem: AI is fast. So is chaos.
+### What each layer installs
 
-Writing code with AI assistants (Cursor, Copilot, Claude Code, autonomous agents) is incredibly fast. But as the project grows, **the AI loses context**, forgets priorities, and the project becomes a maintenance nightmare.
+- Global skill:
+  makes TrackOps available to the agent or CLI on the machine.
+- npm runtime:
+  is ensured on first real use of the global skill.
+- Local project:
+  is touched only when you run `trackops init` or `trackops opera install` inside that repository.
 
-Your agent doesn't know which task is a priority. It doesn't know what's blocked. It doesn't know what phase you're in. And you end up repeating instructions in every prompt.
+That gives `Codex`, `Claude Code`, `Cursor`, and other compatible platforms a coherent install path without polluting arbitrary repositories with operational files.
 
-### The Solution: TrackOps
+### Global install through `skills.sh`
 
-TrackOps is a **local, open-source operational engine** that acts as a bridge between you (the human) and your AI agents.
+The canonical marketplace skill now lives in [skills/trackops](./skills/trackops).
 
-**You** manage the project visually through an elegant **local Web Dashboard**. TrackOps automatically compiles that state into **hyper-structured Markdown files** (`task_plan.md`, `progress.md`, `findings.md`) that your AI reads to know exactly what to do, what rules to follow, and what priorities exist.
+Install it from `skills.sh` using your platform's documented GitHub install command, targeting:
 
-> **AI handles the code. TrackOps handles the project.**
+- repository: `Baxahaun/trackops`
+- skill path: `skills/trackops`
 
-<br/>
+The global skill is platform-agnostic. Its job is to:
 
-### Why TrackOps will become essential in your workflow
+1. detect when TrackOps should be used
+2. ensure the npm runtime on first use
+3. keep local repository activation explicit
 
-| | |
+### First use of the skill
+
+On first real use, the skill runs:
+
+```bash
+node scripts/bootstrap-trackops.js
+```
+
+That bootstrap script:
+
+- validates `Node.js >= 18`
+- validates that `npm` exists
+- installs or updates `trackops@<release version>`
+- verifies the runtime
+- records the verified runtime in `~/.trackops/runtime.json`
+
+The pinned contract for that behavior lives in [skills/trackops/skill.json](./skills/trackops/skill.json).
+
+### Local per-project activation
+
+Once the global skill has ensured the runtime, activate each repository explicitly:
+
+```bash
+trackops init
+trackops opera install
+```
+
+Official semantics:
+
+- `trackops init`
+  installs only the local orchestrator.
+- `trackops opera install`
+  installs only the OPERA framework on top of an initialized project.
+- `trackops init --with-opera`
+  remains as an explicit convenience shortcut.
+
+The global install does not create `project_control.json`, `task_plan.md`, `progress.md`, `findings.md`, `genesis.md`, `.agent/`, or `.agents/` on its own.
+
+### Quick usage without the marketplace
+
+If you do not want to go through `skills.sh`, the npm runtime still works directly:
+
+```bash
+npx trackops init
+npx trackops dashboard
+```
+
+You can also install the package globally with npm and keep the same local activation model:
+
+```bash
+npm install -g trackops
+trackops init
+trackops opera install
+```
+
+### Daily workflow
+
+```bash
+trackops status
+trackops next
+trackops task start ops-bootstrap
+trackops sync
+```
+
+`project_control.json` remains the operational source of truth. `task_plan.md`, `progress.md`, and `findings.md` are regenerated with `trackops sync`.
+
+### Local dashboard
+
+```bash
+trackops dashboard
+```
+
+The dashboard:
+
+- starts from `4173`
+- automatically falls forward to the next free port when needed
+- supports `--port`, `--host`, `--public`, and `--strict-port`
+- copies the local URL to the clipboard when possible
+- shows a network URL when exposed outside localhost
+
+### Main commands
+
+#### Core
+
+| Command | Description |
 |---|---|
-| **10-second adoption** | One command: `npx trackops init`. Zero config, zero dependencies, zero databases. |
-| **Deterministic context** | Don't let AI guess. TrackOps syncs the absolute truth of your project into Markdown files that AIs understand natively. |
-| **Premium local dashboard** | Professional web interface running in your terminal. No telemetry, no cloud, **100% private**. |
-| **Native Git integration** | TrackOps knows when you commit, merge, or checkout, capturing repository health automatically. |
-| **Multi-project portfolio** | Register all your projects and navigate between them from a single dashboard. |
-| **OPERA Framework** | AI development methodology in 5 phases: Orchestrate, Prove, Establish, Refine, Automate. |
-| **Skills ecosystem** | Modular plugins that give your project automated capabilities: `trackops skill install <name>`. |
+| `trackops init [--with-opera] [--locale es\|en] [--name "..."] [--no-bootstrap]` | Initialize TrackOps in the current repo |
+| `trackops status` | Show the current operational state |
+| `trackops next` | Show the next ready tasks |
+| `trackops sync` | Regenerate operational docs |
+| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Launch the local dashboard |
+| `trackops version` | Print the installed version |
 
-<br/>
-
-### Quick Start
-
-No global install needed. Go to any project and run:
-
-```bash
-npx trackops init               # Initialize the engine in your project
-npx trackops dashboard           # Launch the web control center on an available port
-```
-
-The dashboard starts at `4173`, automatically falls forward to the next free port when needed, and copies the local URL to the clipboard when the platform supports it.
-
-After `init`, npm shortcuts are also ready to use inside the project:
-
-```bash
-npm run ops:status
-npm run ops:dashboard
-npm run ops:sync
-```
-
-Your daily workflow from the console:
-
-```bash
-npx trackops status              # Project health and blockers
-npx trackops next                # Next prioritized task
-npx trackops task start T-001    # Start working
-npx trackops sync                # Generate Markdown context for your AI
-```
-
-Step-by-step user guide: [UserGUIDE.md](UserGUIDE.md)
-
-<br/>
-
-### 3-Layer Architecture
-
-Designed to scale from a weekend script to enterprise infrastructure.
-
-```
-┌─────────────────────────────────────────────────────┐
-│  Layer 3 · Skills Ecosystem                         │
-│  Modular plugins for automated capabilities         │
-│  trackops skill install / list / remove / catalog   │
-├─────────────────────────────────────────────────────┤
-│  Layer 2 · OPERA Framework (optional)               │
-│  Agent routing and structured methodology           │
-│  trackops opera install / configure / status        │
-├─────────────────────────────────────────────────────┤
-│  Layer 1 · Core Engine (always active)              │
-│  CLI + Local Web Server + Markdown Generator        │
-│  tasks · dashboard · registry · git hooks · sync    │
-└─────────────────────────────────────────────────────┘
-```
-
-<br/>
-
-### OPERA Methodology
-
-Optional 5-phase framework for structured AI-assisted development. Each phase has a verifiable **Definition of Done**:
-
-| Phase | Name | Focus | Deliverable |
-|-------|------|-------|-------------|
-| **O** | Orchestrate | Vision, data, business rules | JSON schema in `genesis.md` |
-| **P** | Prove | Connectivity and validation | Passing test scripts |
-| **E** | Establish | 3-layer build | SOPs + tools + integration |
-| **R** | Refine | Refinement and quality | Validated outputs |
-| **A** | Automate | Deployment and triggers | Triggers + smoke test |
-
-Phases are fully configurable per project via `project_control.json`.
-
-<br/>
-
-### Command Reference
-
-<details>
-<summary><strong>Core Engine</strong></summary>
+#### OPERA
 
 | Command | Description |
-|---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en] [--no-bootstrap]` | Initialize in current directory. If `--locale` is omitted and a TTY is available, TrackOps will ask for the language. `--with-etapa` remains a legacy alias. |
-| `trackops status` | State: focus, phase, tasks, blockers, repo |
-| `trackops next` | Next prioritized executable tasks |
-| `trackops sync` | Regenerate task_plan.md, progress.md, findings.md |
-| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Launch local web dashboard on an available port |
-| `trackops task <action> <id> [note]` | start, review, complete, block, pending, cancel, note |
-| `trackops refresh-repo [--quiet]` | Update runtime with repo state |
-| `trackops register` | Register in multi-project portfolio |
-| `trackops projects` | List registered projects |
-
-</details>
-
-<details>
-<summary><strong>OPERA</strong></summary>
-
-| Command | Description |
-|---------|-------------|
-| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Install OPERA and, by default, start its bootstrap |
-| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Resume or rerun the OPERA bootstrap |
-| `trackops opera status` | Installation, integrity, and bootstrap state |
+|---|---|
+| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Install OPERA in the current project |
+| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Resume the OPERA bootstrap |
+| `trackops opera status` | Show install and bootstrap state |
 | `trackops opera configure [--phases '...'] [--locale es\|en]` | Reconfigure phases or locale |
-| `trackops opera upgrade` | Update templates to package version |
+| `trackops opera upgrade` | Update OPERA templates to the package version |
 
-</details>
+#### Project skills
 
-<details>
-<summary><strong>Skills</strong></summary>
+`trackops skill ...` still exists, but now it means one thing only: project-native skills.
 
-| Command | Description |
-|---------|-------------|
-| `trackops skill install <name>` | Install skill from catalog |
-| `trackops skill list` | List installed skills |
-| `trackops skill remove <name>` | Uninstall skill |
-| `trackops skill catalog` | Show available skills |
-
-</details>
-
-<br/>
-
-### Project Structure
-
+```bash
+trackops skill catalog
+trackops skill install commiter
+trackops skill list
+trackops skill remove commiter
 ```
+
+There is no longer a public `trackops agent ...` surface for vendor management inside the repo.
+
+### Local project structure
+
+```text
 my-project/
-├── project_control.json       # Operational source of truth
-├── task_plan.md               # Task plan (auto-generated)
-├── progress.md                # Progress log (auto-generated)
-├── findings.md                # Findings library (auto-generated)
-├── genesis.md                 # Project constitution (OPERA)
-├── .agent/hub/                # Agent identity + router (OPERA)
-└── .agents/skills/            # Installed skills (OPERA)
+├── project_control.json
+├── task_plan.md
+├── progress.md
+├── findings.md
+├── genesis.md
+├── .agent/hub/
+├── .agents/skills/
+└── .githooks/
 ```
 
-**Package repository hygiene:** this repository only versions files that belong to `trackops` as a product. Artifacts generated when running `trackops` or `OPERA` on a project (`project_control.json`, `task_plan.md`, `progress.md`, `findings.md`, `genesis.md`, `.agent/`, `.agents/`, `.githooks/`) are considered runtime output and must not be committed to this repo.
+### Release and validation
 
-<br/>
+Before publishing:
 
-### Support the Project
+```bash
+npm run skill:validate
+npm run release:check
+```
 
-TrackOps is and will always be **free and open-source** (MIT). We built this to solve a real problem in the developer community.
+`release:check` verifies that `package.json` and [skills/trackops/skill.json](./skills/trackops/skill.json) remain aligned.
 
-If TrackOps has helped you regain control of your AI-assisted projects:
-
-1. **Star us on GitHub** — it helps enormously with visibility.
-2. **Share TrackOps** with your team and on social media.
-3. **Support with USDC on Polygon** to help maintain documentation, improvements, and project support.
-
-   ```text
-   Network: Polygon
-   Asset: USDC
-   Address: 0x7B3d964247Dd309D13FF702649827947633e27F3
-   ```
-
-   Send only `USDC` on `Polygon`. Do not send `BTC` or assets from other networks to this address.
-4. **Contribute** — Pull Requests, bug reports, and new Skills are always welcome.
-
-<br/>
-
----
-
-<p align="center">
-  <a href="https://baxahaun.com"><strong>Xavier Crespo Gríman</strong></a> · <a href="https://baxahaun.com">Baxahaun AI Venture Studio</a>
-  <br/>
-  <a href="LICENSE">MIT License</a> · 2026
-</p>
+Extended guide: [UserGUIDE.md](./UserGUIDE.md)

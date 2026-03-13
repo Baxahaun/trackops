@@ -10,6 +10,8 @@
     "bin/",
     "lib/",
     "locales/",
+    "skills/",
+    "scripts/",
     "ui/",
     "templates/"
   ],
@@ -54,6 +56,8 @@
     "ops:repo": "node bin/trackops.js refresh-repo",
     "test": "node scripts/smoke-tests.js",
     "test:smoke": "node scripts/smoke-tests.js",
-    "release:check": "npm test && npm pack --dry-run"
+    "skill:sync-version": "node scripts/sync-skill-version.js",
+    "skill:validate": "node scripts/validate-skill.js",
+    "release:check": "npm test && npm run skill:validate && npm pack --dry-run"
   }
 }

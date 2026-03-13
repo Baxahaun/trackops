@@ -10,11 +10,38 @@ const { spawn, spawnSync } = require("child_process");
 
 const ROOT = path.resolve(__dirname, "..");
 const BIN = path.join(ROOT, "bin", "trackops.js");
+const SKILL_VALIDATE = path.join(ROOT, "scripts", "validate-skill.js");
+const SKILL_BOOTSTRAP = path.join(ROOT, "skills", "trackops", "scripts", "bootstrap-trackops.js");
 
-function runNode(args, cwd) {
-  const result = spawnSync(process.execPath, args, { cwd, encoding: "utf8" });
+function getNpmCommand() {
+  return process.platform === "win32" ? "npm.cmd" : "npm";
+}
+
+function runNode(args, cwd, envOverrides = {}) {
+  const result = spawnSync(process.execPath, args, {
+    cwd,
+    encoding: "utf8",
+    env: { ...process.env, ...envOverrides },
+  });
   assert.strictEqual(result.status, 0, result.stderr || result.stdout || `fallo ejecutando ${args.join(" ")}`);
   return result.stdout;
+}
+
+function runCommand(command, args, cwd, envOverrides = {}) {
+  return spawnSync(command, args, {
+    cwd,
+    encoding: "utf8",
+    env: { ...process.env, ...envOverrides },
+  });
+}
+
+function runNpm(args, cwd, envOverrides = {}) {
+  return spawnSync(getNpmCommand(), args, {
+    cwd,
+    encoding: "utf8",
+    env: { ...process.env, ...envOverrides },
+    shell: process.platform === "win32",
+  });
 }
 
 function wait(ms) {
@@ -135,20 +162,93 @@ async function stopDashboard(session) {
   }
 }
 
+function writePackageJson(dir, name) {
+  fs.writeFileSync(
+    path.join(dir, "package.json"),
+    `${JSON.stringify({ name, version: "1.0.0" }, null, 2)}\n`,
+    "utf8",
+  );
+}
+
+function packCurrentPackage(tempRoot) {
+  const result = runNpm(["pack", ROOT], tempRoot);
+  assert.strictEqual(result.status, 0, result.stderr || result.stdout || "npm pack fallo");
+  const tarballName = String(result.stdout || "").trim().split(/\r?\n/).pop();
+  const tarballPath = path.join(tempRoot, tarballName);
+  assert.ok(fs.existsSync(tarballPath), `no se encontro el tarball ${tarballPath}`);
+  return tarballPath;
+}
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
 async function main() {
+  runNode([SKILL_VALIDATE], ROOT);
+
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "trackops-smoke-"));
+  const tarballPath = packCurrentPackage(tempRoot);
+  const packageVersion = readJson(path.join(ROOT, "package.json")).version;
+
+  const bootstrapHome = path.join(tempRoot, "bootstrap-home");
+  const bootstrapPrefix = path.join(tempRoot, "bootstrap-prefix");
+  fs.mkdirSync(bootstrapHome, { recursive: true });
+  fs.mkdirSync(bootstrapPrefix, { recursive: true });
+
+  const bootstrapEnv = {
+    TRACKOPS_BOOTSTRAP_HOME: bootstrapHome,
+    TRACKOPS_BOOTSTRAP_PREFIX: bootstrapPrefix,
+    TRACKOPS_BOOTSTRAP_INSTALL_SOURCE: tarballPath,
+  };
+
+  const firstBootstrap = runCommand(process.execPath, [SKILL_BOOTSTRAP], tempRoot, bootstrapEnv);
+  assert.strictEqual(firstBootstrap.status, 0, firstBootstrap.stderr || firstBootstrap.stdout || "bootstrap skill fallo");
+  assert.match(firstBootstrap.stdout, /TrackOps runtime .* is ready/i);
+
+  const runtimeStamp = readJson(path.join(bootstrapHome, ".trackops", "runtime.json"));
+  assert.strictEqual(runtimeStamp.runtimeVersion, packageVersion);
+  assert.strictEqual(runtimeStamp.skill, "trackops");
+  assert.strictEqual(runtimeStamp.bootstrapPolicy, "first_use");
+
+  const installedCli = path.join(bootstrapPrefix, "node_modules", "trackops", "bin", "trackops.js");
+  assert.ok(fs.existsSync(installedCli), "el runtime instalado debe existir dentro del prefijo aislado");
+  const installedVersion = runNode([installedCli, "--version"], tempRoot);
+  assert.strictEqual(installedVersion.trim(), packageVersion);
+
+  const secondBootstrap = runCommand(process.execPath, [SKILL_BOOTSTRAP], tempRoot, bootstrapEnv);
+  assert.strictEqual(secondBootstrap.status, 0, secondBootstrap.stderr || secondBootstrap.stdout || "bootstrap idempotente fallo");
+  assert.match(secondBootstrap.stdout, /already ready/i);
+
+  const untouchedRepo = path.join(tempRoot, "untouched-repo");
+  fs.mkdirSync(untouchedRepo, { recursive: true });
+  const bootstrapNoRepoMutation = runCommand(process.execPath, [SKILL_BOOTSTRAP], untouchedRepo, bootstrapEnv);
+  assert.strictEqual(bootstrapNoRepoMutation.status, 0, bootstrapNoRepoMutation.stderr || bootstrapNoRepoMutation.stdout || "bootstrap repetido fallo");
+  assert.ok(!fs.existsSync(path.join(untouchedRepo, "project_control.json")), "la skill global no debe crear artefactos de proyecto por si sola");
+
+  const helpOutput = runNode([BIN, "help"], ROOT);
+  assert.doesNotMatch(helpOutput, /\btrackops agent\b/i);
+  assert.match(helpOutput, /skills\.sh/i);
+
+  const versionOutput = runNode([BIN, "--version"], ROOT);
+  assert.strictEqual(versionOutput.trim(), packageVersion);
+
   const tempProject = path.join(tempRoot, "demo");
   fs.mkdirSync(tempProject, { recursive: true });
-  fs.writeFileSync(path.join(tempProject, "package.json"), `${JSON.stringify({ name: "demo-trackops", version: "1.0.0" }, null, 2)}\n`, "utf8");
+  writePackageJson(tempProject, "demo-trackops");
 
   runNode([BIN, "init"], tempProject);
 
-  const generatedPackage = JSON.parse(fs.readFileSync(path.join(tempProject, "package.json"), "utf8"));
+  const initialControl = readJson(path.join(tempProject, "project_control.json"));
+  assert.ok(!Object.prototype.hasOwnProperty.call(initialControl.meta, "agentIntegrations"));
+  assert.ok(!fs.existsSync(path.join(tempProject, ".claude")), "init no debe crear integraciones globales por vendor");
+  assert.ok(!fs.existsSync(path.join(tempProject, ".agents", "skills", "trackops-operator")), "init no debe instalar trackops-operator localmente");
+
+  const generatedPackage = readJson(path.join(tempProject, "package.json"));
   assert.strictEqual(generatedPackage.scripts["ops:status"], "npx --yes trackops status");
   assert.strictEqual(generatedPackage.scripts["ops:dashboard"], "npx --yes trackops dashboard");
 
   const statusOutput = runNode([BIN, "status"], tempProject);
-  assert.match(statusOutput, /Control Operativo/);
+  assert.match(statusOutput, /Control Operativo|Operational Control/);
   assert.match(statusOutput, /ops-bootstrap/);
 
   const nextOutput = runNode([BIN, "next"], tempProject);
@@ -161,21 +261,20 @@ async function main() {
 
   const operaProject = path.join(tempRoot, "opera-en");
   fs.mkdirSync(operaProject, { recursive: true });
-  fs.writeFileSync(
-    path.join(operaProject, "package.json"),
-    `${JSON.stringify({ name: "opera-en", version: "1.0.0", description: "English OPERA test" }, null, 2)}\n`,
-    "utf8",
-  );
+  writePackageJson(operaProject, "opera-en");
 
   runNode([BIN, "init", "--with-opera", "--locale", "en", "--no-bootstrap"], operaProject);
   const englishGenesis = fs.readFileSync(path.join(operaProject, "genesis.md"), "utf8");
   assert.match(englishGenesis, /The Constitution of the project/);
 
   runNode([BIN, "opera", "install", "--locale", "en", "--non-interactive"], operaProject);
-  const operaControl = JSON.parse(fs.readFileSync(path.join(operaProject, "project_control.json"), "utf8"));
+  const operaControl = readJson(path.join(operaProject, "project_control.json"));
   assert.strictEqual(operaControl.meta.locale, "en");
   assert.strictEqual(operaControl.meta.opera.bootstrap.status, "pending");
   assert.ok(Array.isArray(operaControl.meta.opera.bootstrap.missingFields));
+  assert.ok(!Object.prototype.hasOwnProperty.call(operaControl.meta, "agentIntegrations"));
+  assert.ok(!fs.existsSync(path.join(operaProject, ".claude")), "opera install no debe crear integraciones de vendor");
+  assert.ok(!fs.existsSync(path.join(operaProject, ".agents", "skills", "trackops-operator")), "opera install no debe crear skill de vendor local");
 
   const defaultPortFree = await isPortFree(4173);
   const defaultDashboard = startDashboard(tempProject);
