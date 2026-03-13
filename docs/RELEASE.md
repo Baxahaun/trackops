@@ -1,40 +1,63 @@
-# TrackOps — Publicación y Versiones
+# TrackOps — Publicacion y Versiones
 
-## Estado del producto
+## Estado del repositorio
 
-TrackOps usa una política simple:
+Este repositorio ya usa layout split:
 
-- `major`: cambios incompatibles o migraciones manuales.
-- `minor`: capacidades nuevas compatibles con lo existente.
-- `patch`: correcciones, ajustes de documentación y mejoras sin ruptura.
+- `app/`
+  producto publicable
+- `ops/`
+  capa operativa local del propio proyecto
 
-La versión del paquete debe cambiar solo cuando el comportamiento entregado al usuario cambie de forma real.
+La rama de trabajo es `develop`.
+La rama publicada es `master`.
 
-## Qué revisar antes de publicar
+## Regla de versionado
 
-Ejecuta siempre:
+TrackOps usa una politica simple:
+
+- `major`
+  cambios incompatibles o migraciones manuales
+- `minor`
+  capacidades nuevas compatibles
+- `patch`
+  correcciones, ajustes de documentacion y mejoras sin ruptura
+
+La version del paquete solo debe cambiar cuando cambia el comportamiento entregado al usuario.
+
+## Flujo de release
+
+Antes de publicar, verifica:
 
 ```bash
-npm run release:check
+node app/bin/trackops.js workspace status
+node app/bin/trackops.js env status
+npm --prefix app run release:check
 ```
 
-Ese comando valida dos cosas mínimas:
+Checklist:
 
-- la prueba de humo del núcleo y del panel
-- que el paquete se pueda preparar para publicar
+1. Revisa el estado operativo en `ops/project_control.json`.
+2. Asegura que `ops/task_plan.md`, `ops/progress.md` y `ops/findings.md` esten sincronizados.
+3. Revisa `app/CHANGELOG.md`.
+4. Ajusta la version en `app/package.json` solo si el alcance del cambio lo exige.
+5. Haz el commit final.
+6. Publica con `trackops release` cuando el worktree este limpio.
 
-## Checklist de publicación
+## Que publica TrackOps
 
-1. Ejecuta `trackops sync`.
-2. Ejecuta `npm run release:check`.
-3. Revisa `CHANGELOG.md` y añade la entrada del cambio.
-4. Ajusta la versión en `package.json` solo si el alcance del cambio lo exige.
-5. Haz el commit final con la documentación ya sincronizada.
+En el modelo split:
+
+- se publica solo el contenido de `app/`
+- se incluye `.env.example`
+- no se publica `/.env`
+- no se publica `ops/`
+- no se publica `.trackops-workspace.json`
 
 ## Regla de oro
 
-Si el cambio modifica instalación, comandos, rutas internas, interfaz visible o comportamiento del panel, debe quedar reflejado en:
+Si el cambio modifica instalacion, comandos, layout, interfaz visible, skill global, dashboard o comportamiento operativo, debe quedar reflejado en:
 
-- `CHANGELOG.md`
-- `README.md` o `UserGUIDE.md`
-- `project_control.json` si afecta al backlog o a los hallazgos
+- `app/CHANGELOG.md`
+- `app/README.md` o `app/UserGUIDE.md`
+- `ops/project_control.json` si afecta backlog, hallazgos o estado operativo

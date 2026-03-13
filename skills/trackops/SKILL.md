@@ -1,6 +1,6 @@
 ---
 name: "trackops"
-description: "Global TrackOps operating skill for coding agents. Use when the user wants to install TrackOps through skills.sh, bootstrap the TrackOps runtime on a machine, activate TrackOps in a repository with trackops init, add OPERA with trackops opera install, or operate inside an existing TrackOps-managed repository."
+description: "Global TrackOps skill that prepares your agent for local project orchestration and operational automation, ensures the runtime on first use, and guides per-project activation with optional OPERA."
 metadata:
   version: "1.0.1"
   type: "global"
@@ -14,36 +14,51 @@ metadata:
 
 # TrackOps
 
-Run this skill in two clearly separated layers:
+Use this skill in two layers:
 
-1. Global skill layer:
-   Install from the repository root with:
+1. Global skill layer
+   Install it with:
 
    ```bash
    npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
    ```
 
-   Replace `codex` with any supported skills.sh agent: `antigravity`, `claude-code`, `codex`, `cursor`, `gemini-cli`, `github-copilot`, or `kiro-cli`.
+   Replace `codex` with any supported target: `antigravity`, `claude-code`, `codex`, `cursor`, `gemini-cli`, `github-copilot`, or `kiro-cli`.
 
-   Run `node scripts/bootstrap-trackops.js` before relying on the `trackops` CLI.
-   This step installs or updates the TrackOps npm runtime for the current machine.
+   Before relying on the CLI, run:
 
-2. Local project layer:
-   Use `trackops init` to activate the TrackOps orchestrator inside the current repo.
-   Use `trackops opera install` only when the user explicitly wants the OPERA framework added to that repo.
+   ```bash
+   node scripts/bootstrap-trackops.js
+   ```
 
-Core operating rules:
+2. Local project layer
+   Activate TrackOps inside the current repository with:
 
-- Treat the global skill install as non-invasive. Do not create project files during global setup.
-- In split workspaces, treat `ops/project_control.json` as the operational source of truth. In legacy repos, the source remains `project_control.json` at the repository root.
-- Prefer `trackops status`, `trackops next`, and `trackops sync` over editing generated operational docs by hand.
-- Use `trackops init --with-opera` only as an explicit convenience shortcut. The primary mental model stays `init` first, `opera install` second.
-- Preserve the project's chosen locale and workflow. The skill is global; activation remains per project.
-- TrackOps now manages a canonical workspace `.env` and `.env.example` at the workspace root. Do not print or persist secret values.
-- Remember that skills.sh installs from committed Git state. Push the repository before expecting the marketplace install command to pick up new skill changes.
+   ```bash
+   trackops init
+   ```
+
+   Add OPERA only when explicitly requested:
+
+   ```bash
+   trackops opera install
+   ```
+
+Core rules:
+
+- Treat the global skill install as non-invasive.
+- In split workspaces, use `ops/project_control.json` as the operational source of truth.
+- In legacy repos, use `project_control.json` at the repository root.
+- Prefer `trackops status`, `trackops next`, and `trackops sync` over hand-editing generated docs.
+- Treat `trackops init --with-opera` as a shortcut, not as the primary mental model.
+- TrackOps manages `/.env` and `/.env.example` at workspace root. Do not print or persist secret values.
+- Remember that skills installs from committed Git state.
 
 Read references only when needed:
 
-- For local project activation and repo-state decisions, read `references/activation.md`.
-- For day-to-day operating behavior once a repo is managed, read `references/workflow.md`.
-- For bootstrap or npm install failures, read `references/troubleshooting.md`.
+- `references/activation.md`
+  for install and activation flow
+- `references/workflow.md`
+  for day-to-day repo operation
+- `references/troubleshooting.md`
+  for bootstrap or environment issues

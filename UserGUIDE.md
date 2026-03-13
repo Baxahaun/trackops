@@ -8,28 +8,25 @@
 
 ## Español
 
-### Modelo operativo
+### 1. Qué es TrackOps hoy
 
-TrackOps ahora se usa con dos capas separadas:
+TrackOps es un sistema local de orquestación y automatización operativa de proyectos y desarrollo con agentes IA.
 
-1. `global`
-   la skill `trackops` instalada desde `skills.sh`
-2. `local por proyecto`
-   la activación explícita del repo con `trackops init` y, si se quiere, `trackops opera install`
+Su trabajo es simple:
 
-La skill global no debe crear archivos dentro de repos arbitrarios. Solo deja preparada la capacidad en la máquina.
+- preparar la capacidad global del agente
+- activar control operativo en cada repo cuando tú lo decides
+- mantener separadas la app real y la capa operativa
 
-### 1. Instalar la skill global
+### 2. Instalar la skill global
 
-La skill canónica está en [skills/trackops](./skills/trackops).
-
-Comando base de instalación con `skills`:
+La distribución principal de TrackOps es una skill global:
 
 ```bash
 npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
 ```
 
-Sustituye `codex` por el target que necesites. El instalador expone actualmente estos agentes:
+Targets soportados:
 
 - `antigravity`
 - `claude-code`
@@ -39,36 +36,27 @@ Sustituye `codex` por el target que necesites. El instalador expone actualmente 
 - `github-copilot`
 - `kiro-cli`
 
-Soporte operativo v1 de TrackOps:
+La skill global prepara la máquina. No crea archivos dentro de repos por sí sola.
 
-- `skills.sh`
-- `Codex`
-- `Claude Code`
-- `Cursor`
+### 3. Primer uso: bootstrap del runtime
 
-### 2. Primer uso: bootstrap del runtime
-
-La skill global asegura el runtime npm cuando se usa por primera vez:
+En el primer uso real, la skill asegura el runtime npm:
 
 ```bash
 node scripts/bootstrap-trackops.js
 ```
 
-Ese bootstrap:
+Ese paso:
 
 - valida `Node.js >= 18`
 - valida `npm`
 - instala o actualiza `trackops`
 - verifica el comando
-- escribe `~/.trackops/runtime.json`
+- registra el estado en `~/.trackops/runtime.json`
 
-Si necesitas revisar el contrato exacto, mira [skills/trackops/skill.json](./skills/trackops/skill.json).
+### 4. Activación local por proyecto
 
-`skills` instala siempre desde el estado confirmado en Git. Si cambias la skill en este repo local, necesitas commit y push antes de esperar que el comando remoto recoja esos cambios.
-
-### 3. Activación local del proyecto
-
-Dentro de un repo concreto:
+Cuando quieres gestionar un repo:
 
 ```bash
 trackops init
@@ -78,17 +66,17 @@ trackops opera install
 Interpretación oficial:
 
 - `trackops init`
-  crea por defecto un workspace dividido con `app/`, `ops/`, `.trackops-workspace.json`, `/.env` y `/.env.example`
+  activa el orquestador local
 - `trackops opera install`
-  instala OPERA sobre un proyecto ya inicializado y escribe solo dentro de `ops/`
+  añade el framework OPERA de forma opcional
 - `trackops init --with-opera`
-  sigue disponible como atajo
+  existe como atajo
 - `trackops init --legacy-layout`
-  mantiene el layout antiguo de raíz única cuando hace falta compatibilidad
+  existe solo por compatibilidad
 
-La instalación global no autoriza a TrackOps a tocar repos sin una orden local explícita.
+### 5. Qué crea `trackops init`
 
-### 4. Qué crea `trackops init`
+Por defecto, TrackOps crea un workspace split:
 
 ```text
 .trackops-workspace.json
@@ -103,9 +91,18 @@ ops/.githooks/
 ops/.tmp/
 ```
 
-Además crea `app/.env` como puente al `.env` raíz. En split layout ya no inyecta scripts `ops:*` en `app/package.json`.
+Eso significa:
 
-### 5. Qué añade `trackops opera install`
+- `app/`
+  contiene el producto real
+- `ops/`
+  contiene la operación TrackOps y OPERA
+
+TrackOps separa tu producto real en `app/` y la operación en `ops/`, para que no se mezclen.
+
+### 6. Qué añade OPERA
+
+Cuando instalas OPERA:
 
 ```text
 ops/genesis.md
@@ -114,46 +111,63 @@ ops/.agent/hub/router.md
 ops/.agents/skills/_registry.md
 ```
 
-Y registra OPERA en `ops/project_control.json`.
+Y el estado de OPERA queda registrado en `ops/project_control.json`.
 
-### 6. Flujo diario
+### 7. Gestión del entorno
+
+TrackOps usa un contrato explícito para secretos y configuración sensible:
+
+- `/.env`
+  archivo real del workspace
+- `/.env.example`
+  contrato público de variables
+- `app/.env`
+  puente de compatibilidad para herramientas del producto
+
+Comandos:
+
+```bash
+trackops env status
+trackops env sync
+```
+
+Reglas:
+
+- TrackOps nunca muestra valores en CLI, dashboard o docs operativos
+- `env status` solo muestra claves requeridas, presentes y faltantes
+- `env sync` regenera el contrato y el puente sin sobrescribir valores reales existentes
+
+### 8. Fuente de verdad y trabajo diario
+
+TrackOps opera así:
 
 ```bash
 trackops status
 trackops next
 trackops sync
 trackops env status
+trackops dashboard
 ```
 
 Reglas clave:
 
-- en split layout, `ops/project_control.json` es la fuente de verdad
-- en legacy layout, la fuente sigue siendo `project_control.json`
-- `/.env` es el archivo real de secretos del workspace
-- `/.env.example` es el contrato público de variables
+- split layout: la fuente de verdad es `ops/project_control.json`
+- legacy layout: la fuente sigue siendo `project_control.json`
 - no edites a mano `task_plan.md`, `progress.md` ni `findings.md`
 - usa `trackops sync` para regenerarlos
 
-### 7. Dashboard
+El dashboard:
 
-```bash
-trackops dashboard
-```
+- arranca localmente
+- busca un puerto libre si el preferido está ocupado
+- puede copiar la URL local al portapapeles
 
-Comportamiento:
-
-- intenta `4173` primero
-- si está ocupado, busca el siguiente puerto libre
-- acepta `--port`, `--host`, `--public`, `--strict-port`
-- copia la URL local al portapapeles cuando puede
-- muestra URL de red cuando lo expones fuera de localhost
-
-### 8. Skills del proyecto vs skill global
+### 9. Skills del proyecto
 
 Hay dos conceptos distintos:
 
 - skill global `trackops`
-  vive en `skills.sh` y prepara la máquina
+  prepara la capacidad en tu agente
 - `trackops skill ...`
   gestiona skills nativas del proyecto dentro de `ops/.agents/skills/` en split layout
 
@@ -163,9 +177,10 @@ Ejemplos:
 trackops skill catalog
 trackops skill install commiter
 trackops skill list
+trackops skill remove commiter
 ```
 
-### 9. CLI
+### 10. CLI principal
 
 #### Core
 
@@ -203,7 +218,9 @@ trackops skill remove <nombre>
 trackops skill catalog
 ```
 
-### 10. Release y mantenimiento
+### 11. Release y mantenimiento
+
+Antes de publicar:
 
 ```bash
 trackops workspace status
@@ -214,17 +231,20 @@ npm run skill:smoke
 npm run release:check
 ```
 
-`skill:sync-version` mantiene alineado [skills/trackops/skill.json](./skills/trackops/skill.json) con `package.json`.
+En proyectos split:
 
-En proyectos split, `trackops release` publica solo `app/` en la rama configurada e incluye `.env.example`; nunca publica `/.env`, `ops/` ni `.trackops-workspace.json`.
+- el código publicado sale de `app/`
+- la operación vive en `ops/`
+- el changelog del producto vive en `app/CHANGELOG.md`
+- `trackops release` nunca publica `/.env`, `ops/` ni `.trackops-workspace.json`
 
 ### FAQ
 
 **¿La skill global instala OPERA en todos mis proyectos?**  
-No. Solo prepara la máquina y el agente. OPERA se activa repo a repo con `trackops opera install`.
+No. Solo prepara la máquina y el agente. OPERA se activa repo a repo.
 
-**¿Puedo seguir usando `npx trackops ...` sin `skills.sh`?**  
-Sí. La skill global es el camino recomendado para agentes, no un reemplazo obligatorio del paquete npm.
+**¿Puedo seguir usando `npx trackops ...` sin la skill global?**  
+Sí. La skill global es el camino principal para agentes, no un requisito obligatorio para el paquete npm.
 
 **¿Dónde queda el estado global de la skill?**  
 En `~/.trackops/runtime.json`.
@@ -236,28 +256,25 @@ En split layout, en `ops/project_control.json`. En legacy layout, en `project_co
 
 ## English
 
-### Operating model
+### 1. What TrackOps is today
 
-TrackOps now works with two clearly separated layers:
+TrackOps is a local orchestration and operational automation system for projects and AI-agent development.
 
-1. `global`
-   the `trackops` skill installed from `skills.sh`
-2. `local per project`
-   explicit repo activation with `trackops init` and, optionally, `trackops opera install`
+Its job is straightforward:
 
-The global skill must not create files inside arbitrary repositories. It only prepares the capability on the machine.
+- prepare the agent’s global capability
+- activate operational control per repository only when you decide
+- keep the real app separate from the operational layer
 
-### 1. Install the global skill
+### 2. Install the global skill
 
-The canonical skill lives in [skills/trackops](./skills/trackops).
-
-Base install command with `skills`:
+The primary distribution path for TrackOps is a global skill:
 
 ```bash
 npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
 ```
 
-Replace `codex` with the target you need. The installer currently exposes these agents:
+Supported targets:
 
 - `antigravity`
 - `claude-code`
@@ -267,36 +284,27 @@ Replace `codex` with the target you need. The installer currently exposes these 
 - `github-copilot`
 - `kiro-cli`
 
-TrackOps operational v1 support:
+The global skill prepares the machine. It does not create files inside repositories by itself.
 
-- `skills.sh`
-- `Codex`
-- `Claude Code`
-- `Cursor`
+### 3. First use: bootstrap the runtime
 
-### 2. First use: bootstrap the runtime
-
-The global skill ensures the npm runtime on first use:
+On first real use, the skill ensures the npm runtime:
 
 ```bash
 node scripts/bootstrap-trackops.js
 ```
 
-That bootstrap:
+That step:
 
 - validates `Node.js >= 18`
 - validates `npm`
 - installs or updates `trackops`
 - verifies the command
-- writes `~/.trackops/runtime.json`
+- records state in `~/.trackops/runtime.json`
 
-If you need the pinned contract, see [skills/trackops/skill.json](./skills/trackops/skill.json).
+### 4. Local project activation
 
-`skills` always installs from committed Git state. If you change the skill in this local repo, commit and push before expecting the remote install command to pick up those changes.
-
-### 3. Local project activation
-
-Inside a specific repository:
+When you want to manage a repository:
 
 ```bash
 trackops init
@@ -306,17 +314,17 @@ trackops opera install
 Official interpretation:
 
 - `trackops init`
-  creates a split workspace by default with `app/`, `ops/`, `.trackops-workspace.json`, `/.env`, and `/.env.example`
+  activates the local orchestrator
 - `trackops opera install`
-  installs OPERA on top of an initialized project and writes only inside `ops/`
+  adds the optional OPERA framework
 - `trackops init --with-opera`
-  remains available as a shortcut
+  exists as a shortcut
 - `trackops init --legacy-layout`
-  keeps the old single-root layout when compatibility is explicitly required
+  exists only for compatibility
 
-The global install does not give TrackOps permission to mutate repositories without an explicit local command.
+### 5. What `trackops init` creates
 
-### 4. What `trackops init` creates
+By default, TrackOps creates a split workspace:
 
 ```text
 .trackops-workspace.json
@@ -331,9 +339,18 @@ ops/.githooks/
 ops/.tmp/
 ```
 
-It also creates `app/.env` as a bridge to the root `.env`. In split layout it no longer injects `ops:*` scripts into `app/package.json`.
+Meaning:
 
-### 5. What `trackops opera install` adds
+- `app/`
+  contains the real product
+- `ops/`
+  contains TrackOps and OPERA operations
+
+TrackOps separates your real product into `app/` and operations into `ops/`, so they do not get mixed.
+
+### 6. What OPERA adds
+
+When you install OPERA:
 
 ```text
 ops/genesis.md
@@ -342,48 +359,65 @@ ops/.agent/hub/router.md
 ops/.agents/skills/_registry.md
 ```
 
-And it records OPERA inside `ops/project_control.json`.
+And OPERA state is recorded in `ops/project_control.json`.
 
-### 6. Daily flow
+### 7. Environment management
+
+TrackOps uses an explicit contract for secrets and sensitive configuration:
+
+- `/.env`
+  real workspace file
+- `/.env.example`
+  public variable contract
+- `app/.env`
+  compatibility bridge for product tooling
+
+Commands:
+
+```bash
+trackops env status
+trackops env sync
+```
+
+Rules:
+
+- TrackOps never prints values in CLI, dashboard, or operational docs
+- `env status` only shows required, present, and missing keys
+- `env sync` regenerates the contract and the bridge without overwriting existing real values
+
+### 8. Source of truth and daily workflow
+
+TrackOps is operated like this:
 
 ```bash
 trackops status
 trackops next
 trackops sync
 trackops env status
+trackops dashboard
 ```
 
 Key rules:
 
-- in split layout, `ops/project_control.json` is the source of truth
-- in legacy layout, the source remains `project_control.json`
-- `/.env` is the real workspace secrets file
-- `/.env.example` is the public environment contract
+- split layout: the source of truth is `ops/project_control.json`
+- legacy layout: the source remains `project_control.json`
 - do not hand-edit `task_plan.md`, `progress.md`, or `findings.md`
 - use `trackops sync` to regenerate them
 
-### 7. Dashboard
+The dashboard:
 
-```bash
-trackops dashboard
-```
+- starts locally
+- finds a free port if the preferred one is busy
+- can copy the local URL to the clipboard
 
-Behavior:
-
-- tries `4173` first
-- falls forward to the next free port when needed
-- accepts `--port`, `--host`, `--public`, `--strict-port`
-- copies the local URL to the clipboard when possible
-- shows a network URL when exposed outside localhost
-
-### 8. Project skills vs the global skill
+### 9. Project skills
 
 There are two different concepts:
 
 - global `trackops` skill
-  lives in `skills.sh` and prepares the machine
+  prepares capability in your agent
 - `trackops skill ...`
-  manages project-native skills inside `ops/.agents/skills/` in split layout
+  manages project-native skills under `ops/.agents/skills/` in split layout
 
 Examples:
 
@@ -391,9 +425,10 @@ Examples:
 trackops skill catalog
 trackops skill install commiter
 trackops skill list
+trackops skill remove commiter
 ```
 
-### 9. CLI
+### 10. Main CLI
 
 #### Core
 
@@ -431,7 +466,9 @@ trackops skill remove <name>
 trackops skill catalog
 ```
 
-### 10. Release and maintenance
+### 11. Release and maintenance
+
+Before publishing:
 
 ```bash
 trackops workspace status
@@ -442,20 +479,23 @@ npm run skill:smoke
 npm run release:check
 ```
 
-`skill:sync-version` keeps [skills/trackops/skill.json](./skills/trackops/skill.json) aligned with `package.json`.
+In split projects:
 
-In split projects, `trackops release` publishes only `app/` to the configured branch and includes `.env.example`; it never publishes `/.env`, `ops/`, or `.trackops-workspace.json`.
+- published code comes from `app/`
+- operations live in `ops/`
+- the product changelog lives in `app/CHANGELOG.md`
+- `trackops release` never publishes `/.env`, `ops/`, or `.trackops-workspace.json`
 
 ### FAQ
 
 **Does the global skill install OPERA into all my projects?**  
-No. It only prepares the machine and the agent. OPERA is activated repo by repo with `trackops opera install`.
+No. It only prepares the machine and the agent. OPERA is activated repository by repository.
 
-**Can I still use `npx trackops ...` without `skills.sh`?**  
-Yes. The global skill is the recommended path for agents, not a mandatory replacement for the npm package.
+**Can I still use `npx trackops ...` without the global skill?**  
+Yes. The global skill is the main path for agents, not a hard requirement for the npm package.
 
 **Where is the global skill state stored?**  
 In `~/.trackops/runtime.json`.
 
-**Where is the local project state stored?**  
+**Where is local project state stored?**  
 In split layout, in `ops/project_control.json`. In legacy layout, in `project_control.json`.
