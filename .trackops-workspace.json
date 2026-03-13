@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "layout": "split",
+  "appDir": "app",
+  "opsDir": "ops",
+  "env": {
+    "rootFile": ".env",
+    "exampleFile": ".env.example",
+    "appBridgeFile": "app/.env",
+    "bridgeMode": "symlink-or-copy"
+  },
+  "branches": {
+    "development": "develop",
+    "publish": "master"
+  },
+  "publish": {
+    "mode": "subtree-flatten",
+    "sourceDir": "app",
+    "includeRootFiles": [
+      ".env.example"
+    ],
+    "requireCleanWorktree": true
+  }
+}

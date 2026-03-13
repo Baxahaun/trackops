@@ -1,22 +1,4 @@
-node_modules/
-.tmp/
-*.log
-.DS_Store
-Thumbs.db
-.env
-.claude/
-
-# Artefactos generados por TrackOps u OPERA al ejecutarse sobre un proyecto
-/project_control.json
-/task_plan.md
-/progress.md
-/findings.md
-/genesis.md
-/.agent/
-/.agents/
-/.githooks/
-CHANGELOG.md
-
-# Archivos locales del entorno del repo
+/.env
+/app/.env
+/ops/.tmp/
 /trackops.code-workspace
-/Captura de pantalla *.png

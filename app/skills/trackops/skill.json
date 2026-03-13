@@ -1,0 +1,27 @@
+{
+  "name": "trackops",
+  "skillVersion": "1.0.1",
+  "trackopsVersion": "1.0.1",
+  "npmPackage": "trackops",
+  "bootstrapPolicy": "first_use",
+  "supportedAgentsV1": [
+    "antigravity",
+    "claude-code",
+    "codex",
+    "cursor",
+    "gemini-cli",
+    "github-copilot",
+    "kiro-cli"
+  ],
+  "distribution": {
+    "source": "Baxahaun/trackops",
+    "skill": "trackops",
+    "fullDepth": true
+  },
+  "repository": {
+    "provider": "github",
+    "owner": "Baxahaun",
+    "repo": "trackops",
+    "skillPath": "skills/trackops"
+  }
+}

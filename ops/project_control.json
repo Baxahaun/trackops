@@ -1,0 +1,1226 @@
+{
+  "meta": {
+    "projectName": "TrackOps",
+    "controlVersion": 2,
+    "locale": "es",
+    "phases": [
+      {
+        "id": "O",
+        "label": "Orquestar",
+        "index": 1
+      },
+      {
+        "id": "P",
+        "label": "Probar",
+        "index": 2
+      },
+      {
+        "id": "E",
+        "label": "Estructurar",
+        "index": 3
+      },
+      {
+        "id": "R",
+        "label": "Refinar",
+        "index": 4
+      },
+      {
+        "id": "A",
+        "label": "Automatizar",
+        "index": 5
+      }
+    ],
+    "updatedAt": "2026-03-13T16:49:17.122Z",
+    "executionSource": "project_control.json",
+    "currentFocus": "Consolidar TrackOps como skill global instalable desde skills.sh con activacion local explicita por proyecto",
+    "focusPhase": "A",
+    "deliveryTarget": "Skill global TrackOps lista para distribuirse con bootstrap de primer uso y activacion local estable para orquestador y framework",
+    "opera": {
+      "installed": true,
+      "version": "1.0.0",
+      "installedAt": "2026-03-11T07:53:36.664Z",
+      "skills": [
+        "changelog-updater",
+        "commiter",
+        "project-starter-skill"
+      ]
+    },
+    "workspace": {
+      "layout": "split",
+      "workspaceRoot": ".",
+      "appDir": "app",
+      "opsDir": "ops",
+      "developmentBranch": "develop",
+      "publishBranch": "master",
+      "publishMode": "subtree-flatten"
+    },
+    "environment": {
+      "rootEnvFile": ".env",
+      "exampleFile": ".env.example",
+      "appBridgeFile": "app/.env",
+      "bridgeMode": "symlink",
+      "requiredKeys": [],
+      "optionalKeys": [],
+      "lastAuditAt": "2026-03-13T16:49:17.122Z"
+    }
+  },
+  "checks": {
+    "lastBuild": {
+      "status": "pass",
+      "date": "2026-03-13",
+      "note": "npm run release:check valida la skill global, la coherencia package.json/skill.json y el empaquetado del release."
+    },
+    "lastTest": {
+      "status": "pass",
+      "date": "2026-03-13",
+      "note": "npm test cubre CLI, dashboard y el flujo skill global + activacion local sin romper la base existente."
+    },
+    "lastReview": {
+      "status": "pass",
+      "date": "2026-03-13",
+      "note": "La iniciativa split-workspace se archiva como fuera de foco y la fuente de verdad pasa a reflejar el modelo skill global + activacion local."
+    }
+  },
+  "rituals": {
+    "startOfSession": [
+      "trackops status",
+      "trackops next"
+    ],
+    "beforeImplementation": [
+      "trackops task start <task-id>"
+    ],
+    "endOfSession": [
+      "trackops task review|complete|block <task-id> <note>",
+      "trackops sync"
+    ],
+    "beforeCommit": [
+      "trackops status",
+      "trackops sync"
+    ]
+  },
+  "milestones": [
+    {
+      "date": "2026-03-12",
+      "title": "Analisis operativo y realineacion documental",
+      "items": [
+        "Verificado smoke test del dashboard y endpoints base.",
+        "Detectado bug P0 en los scripts npm generados por trackops init.",
+        "Reclasificado el backlog de skills como resuelto tras la validacion runtime.",
+        "Actualizada la fuente de verdad operativa para reflejar el producto standalone."
+      ]
+    },
+    {
+      "date": "2026-03-12",
+      "title": "Correccion de scripts npm post-init",
+      "items": [
+        "Los scripts generados por trackops init pasan a usar npx --yes trackops.",
+        "Los scripts locales del repo pasan a ejecutar node bin/trackops.js.",
+        "Validado npm run ops:status en el repo y en un proyecto temporal recien inicializado."
+      ]
+    },
+    {
+      "date": "2026-03-12",
+      "title": "Cierre del backlog de alineacion tecnica",
+      "items": [
+        "Se añade npm test con prueba minima automatizada del nucleo y del panel.",
+        "Se fija .agents/skills/_registry.md como ruta canonica para habilidades.",
+        "OPERA queda como narrativa oficial y ETAPA como alias heredado documentado.",
+        "La documentacion del panel se alinea con el puerto 4173 y las 7 vistas reales.",
+        "Se define npm run release:check y la guia basica de versionado."
+      ]
+    },
+    {
+      "date": "2026-03-12",
+      "title": "Cierre de sesion publica y apoyo inicial",
+      "items": [
+        "README y UserGUIDE quedan alineados con estado beta y descargo de responsabilidad bilingue.",
+        "La landing publica conserva su estilo y suma selector de idioma con copy actualizado.",
+        "Se integra apoyo economico inicial con Ko-fi en GitHub, npm, README y footer publico.",
+        "El bloque de apoyo se recoloca en el lado derecho del pie con mas presencia visual pero sin invadir la experiencia."
+      ]
+    },
+    {
+      "date": "2026-03-13",
+      "title": "Pivot a skill global y activacion local",
+      "items": [
+        "TrackOps se consolida como skill global canónica en skills/trackops para distribuirse desde skills.sh.",
+        "El bootstrap de primer uso instala o actualiza el runtime npm y registra el estado en ~/.trackops/runtime.json.",
+        "El runtime vuelve a separar la instalacion global de la activacion local mediante trackops init y trackops opera install.",
+        "El backlog del refactor split-workspace se archiva para que la fuente de verdad solo proponga trabajo alineado con la estrategia actual."
+      ]
+    }
+  ],
+  "decisionsPending": [],
+  "tasks": [
+    {
+      "id": "ops-bootstrap",
+      "title": "Configurar proyecto con trackops",
+      "phase": "O",
+      "stream": "Operations",
+      "priority": "P0",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "Verificar estructura inicial, ajustar fases y confirmar integracion operativa.",
+      "acceptance": [
+        "La estructura base del proyecto queda validada.",
+        "La fuente de verdad operativa refleja el estado real del producto."
+      ],
+      "history": [
+        {
+          "at": "2026-03-11T07:53:36.370Z",
+          "action": "create",
+          "note": "trackops init"
+        },
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "complete",
+          "note": "Diagnostico operativo completo y backlog realineado."
+        }
+      ]
+    },
+    {
+      "id": "fix-skills-api-404",
+      "title": "Corregir 404 en endpoints de AI Skills",
+      "phase": "O",
+      "stream": "Bugfix",
+      "priority": "P0",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "Los endpoints /api/skills/local y /api/skills/discover figuraban como rotos, pero el smoke test confirma que responden 200.",
+      "acceptance": [
+        "Llamadas a /api/skills/local devuelven 200 OK.",
+        "Llamadas a /api/skills/discover devuelven 200 OK."
+      ],
+      "history": [
+        {
+          "at": "2026-03-11T18:15:00.000Z",
+          "action": "create",
+          "note": "Reportado durante QA subagent"
+        },
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "complete",
+          "note": "Verificado en runtime: ambos endpoints responden 200."
+        }
+      ]
+    },
+    {
+      "id": "fix-skills-ui-null",
+      "title": "Corregir TypeError innerHTML en skills.js",
+      "phase": "O",
+      "stream": "Bugfix",
+      "priority": "P1",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [
+        "fix-skills-api-404"
+      ],
+      "summary": "El backlog mantenia un TypeError de innerHTML, pero la vista ya incluye guard clause para los nodos requeridos.",
+      "acceptance": [
+        "El componente maneja el estado de carga y renderizado sin excepciones nulas."
+      ],
+      "history": [
+        {
+          "at": "2026-03-11T18:15:00.000Z",
+          "action": "create",
+          "note": "Reportado durante QA subagent"
+        },
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "complete",
+          "note": "Verificado en codigo: loadData aborta si faltan los contenedores del DOM."
+        }
+      ]
+    },
+    {
+      "id": "fix-init-generated-npm-scripts",
+      "title": "Corregir los scripts npm generados por trackops init",
+      "phase": "O",
+      "stream": "CLI",
+      "priority": "P0",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "Los scripts ops:* generados ya usan npx --yes trackops y quedan ejecutables tras init sin instalacion global previa.",
+      "acceptance": [
+        "npm run ops:status funciona en un proyecto recien inicializado sin instalacion global.",
+        "La estrategia elegida queda documentada en README y docs/GUIDE."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "create",
+          "note": "Abierto tras reproducir el fallo en un proyecto temporal."
+        },
+        {
+          "at": "2026-03-12T12:16:37.384Z",
+          "action": "start",
+          "note": "Implementacion iniciada: separar scripts de proyecto inicializado y scripts locales del repo."
+        },
+        {
+          "at": "2026-03-12T12:25:00.000Z",
+          "action": "complete",
+          "note": "Validado npm run ops:status en el repo y en un proyecto temporal recien inicializado."
+        }
+      ]
+    },
+    {
+      "id": "define-trackops-genesis",
+      "title": "Completar genesis.md y dogfoodear la metodologia",
+      "phase": "O",
+      "stream": "Strategy",
+      "priority": "P1",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "La constitucion del proyecto ya recoge el objetivo, las integraciones, el payload y las invariantes base de TrackOps.",
+      "acceptance": [
+        "genesis.md define objetivo singular, integraciones, payload, invariantes y pipeline.",
+        "Las decisiones criticas del producto quedan reflejadas en la constitucion."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "create",
+          "note": "Abierto tras el analisis de self-dogfooding."
+        },
+        {
+          "at": "2026-03-12T10:55:00.000Z",
+          "action": "complete",
+          "note": "genesis.md actualizado con la linea base real del producto."
+        }
+      ]
+    },
+    {
+      "id": "add-core-cli-dashboard-smoke-tests",
+      "title": "Anadir smoke tests del core CLI y dashboard",
+      "phase": "P",
+      "stream": "Quality",
+      "priority": "P0",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [
+        "fix-init-generated-npm-scripts"
+      ],
+      "summary": "No existe suite automatizada para init, status, dashboard ni endpoints base.",
+      "acceptance": [
+        "Existe una bateria minima para init, status, next y dashboard.",
+        "Los endpoints /api/state, /api/skills/local y /api/skills/discover quedan cubiertos."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "create",
+          "note": "Abierto a partir de los gaps de calidad detectados."
+        },
+        {
+          "at": "2026-03-12T12:29:30.370Z",
+          "action": "start",
+          "note": "Implementacion iniciada: prueba automatica minima para init, estado, sincronizacion y panel."
+        },
+        {
+          "at": "2026-03-12T12:31:54.695Z",
+          "action": "complete",
+          "note": "Se añade npm test con prueba minima para init, estado, siguiente tarea, sync y panel local."
+        }
+      ]
+    },
+    {
+      "id": "unify-skills-directory-convention",
+      "title": "Unificar la convención .agent/.agents para skills",
+      "phase": "E",
+      "stream": "Architecture",
+      "priority": "P1",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "La instalacion usa .agents/skills mientras el indice y algunas plantillas referencian .agent/skills/_registry.md.",
+      "acceptance": [
+        "Existe una unica convencion canonica para skills y registry.",
+        "Runtime, templates y documentacion usan la misma ruta."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "create",
+          "note": "Abierto tras detectar deriva entre runtime, templates y docs."
+        },
+        {
+          "at": "2026-03-12T12:32:55.672Z",
+          "action": "start",
+          "note": "Implementacion iniciada: fijar .agents/skills como ruta canonica en runtime, plantillas y docs."
+        },
+        {
+          "at": "2026-03-12T12:35:18.508Z",
+          "action": "complete",
+          "note": "Se fija .agents/skills/_registry.md como ruta canonica en runtime, plantillas, guia y repo."
+        }
+      ]
+    },
+    {
+      "id": "unify-opera-etapa-branding",
+      "title": "Unificar la narrativa OPERA/ETAPA en todo el producto",
+      "phase": "R",
+      "stream": "Product",
+      "priority": "P1",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "El producto comunica OPERA casi en todo, pero package metadata y algunos aliases siguen usando ETAPA.",
+      "acceptance": [
+        "README, docs, package metadata y ayuda CLI usan una narrativa coherente.",
+        "Los aliases legacy quedan explicados o retirados de forma deliberada."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "create",
+          "note": "Abierto tras detectar incoherencia de marca/metodologia."
+        },
+        {
+          "at": "2026-03-12T12:37:34.745Z",
+          "action": "start",
+          "note": "Implementacion iniciada: OPERA como narrativa oficial y ETAPA como alias heredado de compatibilidad."
+        },
+        {
+          "at": "2026-03-12T12:40:04.032Z",
+          "action": "complete",
+          "note": "OPERA queda como narrativa oficial; ETAPA pasa a alias heredado documentado para compatibilidad."
+        }
+      ]
+    },
+    {
+      "id": "align-dashboard-docs-with-runtime",
+      "title": "Alinear la documentacion del dashboard con el runtime real",
+      "phase": "R",
+      "stream": "Docs",
+      "priority": "P1",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "La guia documenta 3737 y 6 vistas, mientras el servidor usa 4173 y la app ya expone 7 vistas.",
+      "acceptance": [
+        "docs/GUIDE, README y CHANGELOG reflejan el puerto y las vistas reales.",
+        "La estrategia de puerto queda explicitada como fija o dinamica."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "create",
+          "note": "Abierto tras detectar deriva entre docs y runtime."
+        },
+        {
+          "at": "2026-03-12T12:37:49.005Z",
+          "action": "start",
+          "note": "Implementacion iniciada: alinear puerto 4173 y 7 vistas con la documentacion y la web de presentacion."
+        },
+        {
+          "at": "2026-03-12T12:39:58.979Z",
+          "action": "complete",
+          "note": "Documentacion, web de presentacion y changelog alineados con puerto 4173 y 7 vistas reales."
+        }
+      ]
+    },
+    {
+      "id": "formalize-release-hygiene",
+      "title": "Formalizar la higiene de release y versionado",
+      "phase": "A",
+      "stream": "Release",
+      "priority": "P2",
+      "status": "completed",
+      "required": false,
+      "dependsOn": [
+        "add-core-cli-dashboard-smoke-tests",
+        "unify-opera-etapa-branding",
+        "align-dashboard-docs-with-runtime"
+      ],
+      "summary": "La version 1.0.0, el changelog y la narrativa pre-1.0 no estan alineados y falta una rutina minima de publicacion.",
+      "acceptance": [
+        "Semantica de versionado y estado del producto quedan definidos.",
+        "CHANGELOG y metadata npm quedan consistentes con la politica de release."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T10:45:00.000Z",
+          "action": "create",
+          "note": "Abierto tras el analisis de readiness y packaging."
+        },
+        {
+          "at": "2026-03-12T12:40:33.133Z",
+          "action": "start",
+          "note": "Implementacion iniciada: definir regla simple de versionado y comprobacion previa a publicar."
+        },
+        {
+          "at": "2026-03-12T12:43:27.389Z",
+          "action": "complete",
+          "note": "Se define npm run release:check, se documenta la politica basica de versiones y se valida el empaquetado en seco."
+        }
+      ]
+    },
+    {
+      "id": "publish-beta-positioning-and-bilingual-guides",
+      "title": "Declarar el estado beta y alinear las guias bilingues",
+      "phase": "R",
+      "stream": "Docs",
+      "priority": "P2",
+      "status": "completed",
+      "required": false,
+      "dependsOn": [
+        "unify-opera-etapa-branding",
+        "align-dashboard-docs-with-runtime"
+      ],
+      "summary": "README, UserGUIDE y la web publica declaran el estado beta, incluyen descargo de responsabilidad y mantienen la lectura en espanol e ingles.",
+      "acceptance": [
+        "README y UserGUIDE reflejan el estado beta y el descargo de responsabilidad en ambos idiomas.",
+        "La web publica conserva su estilo y permite alternar el copy entre espanol e ingles."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T17:10:00.000Z",
+          "action": "create",
+          "note": "Abierto al mover la guia de usuario a raiz y consolidar el posicionamiento publico del producto."
+        },
+        {
+          "at": "2026-03-12T17:18:00.000Z",
+          "action": "start",
+          "note": "Implementacion iniciada: actualizar README, UserGUIDE, web publica y panel con copy coherente para beta."
+        },
+        {
+          "at": "2026-03-12T17:34:00.000Z",
+          "action": "complete",
+          "note": "Estado beta y descargo bilingue integrados en documentacion publica; la landing mantiene su apariencia con copy actualizado."
+        }
+      ]
+    },
+    {
+      "id": "add-initial-funding-support",
+      "title": "Integrar apoyo economico inicial con Ko-fi y GitHub",
+      "phase": "A",
+      "stream": "Community",
+      "priority": "P2",
+      "status": "completed",
+      "required": false,
+      "dependsOn": [
+        "formalize-release-hygiene"
+      ],
+      "summary": "TrackOps expone una via discreta de donacion puntual en GitHub, npm, README y la landing publica.",
+      "acceptance": [
+        "Existe un archivo FUNDING para GitHub y package.json publica la URL de apoyo.",
+        "La landing y el README muestran el apoyo economico sin romper el tono ni la estructura del producto."
+      ],
+      "history": [
+        {
+          "at": "2026-03-12T17:40:00.000Z",
+          "action": "create",
+          "note": "Abierto tras definir Ko-fi como canal principal de apoyo economico inicial."
+        },
+        {
+          "at": "2026-03-12T17:47:00.000Z",
+          "action": "start",
+          "note": "Implementacion iniciada: integrar funding en GitHub, npm, README y el footer publico."
+        },
+        {
+          "at": "2026-03-12T18:05:00.000Z",
+          "action": "complete",
+          "note": "Ko-fi queda expuesto en FUNDING, package.json, README y footer derecho de la landing con presencia discreta."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-contract",
+      "title": "Definir el contrato del workspace dividido",
+      "phase": "O",
+      "stream": "Architecture",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [],
+      "summary": "Objetivo 1 · Hito H1 · Definir el contrato de .trackops-workspace.json, meta.workspace, reglas de descubrimiento y zonas de no-escritura.",
+      "acceptance": [
+        "El layout app/ + ops/ queda cerrado con roots resueltos.",
+        "Queda prohibido escribir artefactos operativos dentro de app/."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-release-model",
+      "title": "Formalizar el modelo develop -> master",
+      "phase": "O",
+      "stream": "Release",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-contract"
+      ],
+      "summary": "Objetivo 1 · Hito H1 · Formalizar el modelo develop -> master con master aplanando solo el contenido de app/.",
+      "acceptance": [
+        "Quedan definidas las ramas por defecto y la politica de publicacion.",
+        "La publicacion a master no crea commits implicitos y se alinea con commiter."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-migration-policy",
+      "title": "Definir la politica de migracion legacy",
+      "phase": "O",
+      "stream": "Migration",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-contract"
+      ],
+      "summary": "Objetivo 1 · Hito H1 · Definir como migran los proyectos legacy de raiz unica al layout dividido.",
+      "acceptance": [
+        "Se documentan precondiciones, abortos y copias de seguridad de migracion.",
+        "Las reglas de movimiento entre app/ y ops/ quedan cerradas."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-impact-audit",
+      "title": "Auditar el impacto del workspace dividido",
+      "phase": "O",
+      "stream": "Operations",
+      "priority": "P1",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-contract"
+      ],
+      "summary": "Objetivo 1 · Hito H1 · Inventariar modulos, docs, templates, APIs y flujos afectados por la separacion.",
+      "acceptance": [
+        "Existe un mapa completo de impacto en CLI, server, dashboard, docs, skills y bootstrap."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-resolution-tests",
+      "title": "Disenar pruebas de resolucion de contexto",
+      "phase": "P",
+      "stream": "Quality",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-contract"
+      ],
+      "summary": "Objetivo 2 · Hito H2 · Disenar pruebas para resolver contexto desde workspace/, app/, ops/ y modo legacy.",
+      "acceptance": [
+        "Quedan definidos casos de descubrimiento de roots y de no contaminacion de app/."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-migration-tests",
+      "title": "Disenar smoke tests de migracion",
+      "phase": "P",
+      "stream": "Quality",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-migration-policy"
+      ],
+      "summary": "Objetivo 2 · Hito H2 · Disenar smoke tests de migracion para proyectos existentes.",
+      "acceptance": [
+        "Los escenarios de arbol limpio, arbol sucio, backup y rollback quedan cubiertos."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-release-tests",
+      "title": "Disenar pruebas del comando de publicacion",
+      "phase": "P",
+      "stream": "Quality",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-release-model"
+      ],
+      "summary": "Objetivo 2 · Hito H2 · Disenar pruebas del comando que publica master a partir de app/.",
+      "acceptance": [
+        "Se valida que master no contiene ops/ y que app/ se aplana correctamente.",
+        "Las precondiciones de rama limpia quedan cubiertas."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-api-compat-tests",
+      "title": "Definir pruebas de compatibilidad API/UI",
+      "phase": "P",
+      "stream": "Quality",
+      "priority": "P1",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-impact-audit"
+      ],
+      "summary": "Objetivo 2 · Hito H2 · Definir el contrato esperado de server y dashboard para roots separados.",
+      "acceptance": [
+        "El payload incluye workspaceRoot, appRoot y opsRoot.",
+        "La navegacion UI queda cubierta para el modelo separado."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-context-engine",
+      "title": "Refactorizar el resolvedor de contexto",
+      "phase": "E",
+      "stream": "Core",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-resolution-tests",
+        "split-workspace-api-compat-tests"
+      ],
+      "summary": "Objetivo 3 · Hito H3 · Reemplazar la nocion de root unico por un resolvedor de contexto de workspace.",
+      "acceptance": [
+        "Config, CLI y registry resuelven workspaceRoot, appRoot y opsRoot."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-init-layout",
+      "title": "Separar el layout de trackops init",
+      "phase": "E",
+      "stream": "CLI",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-context-engine",
+        "split-workspace-migration-policy"
+      ],
+      "summary": "Objetivo 3 · Hito H3 · Cambiar trackops init para crear app/ y ops/ sin tocar el package.json del producto.",
+      "acceptance": [
+        "La nueva instalacion separa artefactos ops en ops/.",
+        "El package.json del producto deja de recibir scripts operativos por defecto."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-opera-relocation",
+      "title": "Reubicar OPERA dentro de ops/",
+      "phase": "E",
+      "stream": "OPERA",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-context-engine",
+        "split-workspace-init-layout"
+      ],
+      "summary": "Objetivo 3 · Hito H3 · Reubicar instalacion, bootstrap, skills, hooks y docs de OPERA dentro de ops/.",
+      "acceptance": [
+        "OPERA lee app/ pero escribe solo en ops/."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-server-registry",
+      "title": "Adaptar server y registry al workspace",
+      "phase": "E",
+      "stream": "Platform",
+      "priority": "P1",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-context-engine"
+      ],
+      "summary": "Objetivo 3 · Hito H3 · Adaptar server, API y portfolio local al modelo de workspace.",
+      "acceptance": [
+        "Backend y dashboard dejan de asumir project_control.json en la raiz unica."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-migrate-command",
+      "title": "Implementar el comando de migracion",
+      "phase": "E",
+      "stream": "Migration",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-init-layout",
+        "split-workspace-migration-tests"
+      ],
+      "summary": "Objetivo 3 · Hito H3 · Implementar el comando que migra desde el layout legacy.",
+      "acceptance": [
+        "La migracion mueve codigo a app/ y artefactos ops a ops/.",
+        "La metadata y las garantias de seguridad quedan actualizadas."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-release-command",
+      "title": "Implementar trackops release",
+      "phase": "E",
+      "stream": "Release",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-release-tests",
+        "split-workspace-server-registry"
+      ],
+      "summary": "Objetivo 3 · Hito H3 · Implementar trackops release para publicar master a partir de app/.",
+      "acceptance": [
+        "La publicacion usa subtree split con precondiciones estrictas.",
+        "master queda libre de artefactos operativos."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-templates-guides",
+      "title": "Actualizar plantillas y guias al layout separado",
+      "phase": "R",
+      "stream": "Docs",
+      "priority": "P1",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-opera-relocation",
+        "split-workspace-server-registry"
+      ],
+      "summary": "Objetivo 4 · Hito H4 · Actualizar plantillas, README, UserGUIDE y skills para reflejar el layout separado.",
+      "acceptance": [
+        "Toda referencia publica y operativa usa app/ y ops/ correctamente."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-legacy-ux",
+      "title": "Afinar la UX para proyectos legacy",
+      "phase": "R",
+      "stream": "Product",
+      "priority": "P1",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-migrate-command",
+        "split-workspace-templates-guides"
+      ],
+      "summary": "Objetivo 4 · Hito H4 · Afinar mensajes para proyectos legacy y evitar movimientos silenciosos.",
+      "acceptance": [
+        "Los errores, prompts y recomendaciones de migracion son claros y seguros."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-dashboard-copy",
+      "title": "Ajustar el copy del dashboard",
+      "phase": "R",
+      "stream": "UI",
+      "priority": "P2",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-server-registry",
+        "split-workspace-templates-guides"
+      ],
+      "summary": "Objetivo 4 · Hito H4 · Ajustar textos y vistas del dashboard al modelo de roots separados.",
+      "acceptance": [
+        "La UI comunica roots separados y no induce a editar artefactos equivocados."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-regression-guards",
+      "title": "Blindar regresiones del modelo dividido",
+      "phase": "A",
+      "stream": "Quality",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-migrate-command",
+        "split-workspace-release-command",
+        "split-workspace-legacy-ux"
+      ],
+      "summary": "Objetivo 5 · Hito H5 · Ampliar la suite para impedir regresiones del modelo dividido.",
+      "acceptance": [
+        "Los tests verifican que app/ y master nunca reciben artefactos ops."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-dogfood-trackops",
+      "title": "Dogfoodear la separacion en este repositorio",
+      "phase": "A",
+      "stream": "Operations",
+      "priority": "P0",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-regression-guards"
+      ],
+      "summary": "Objetivo 5 · Hito H5 · Aplicar la separacion app/ + ops/ directamente a este repositorio en develop.",
+      "acceptance": [
+        "Este proyecto queda migrado, operativo y publicable con el nuevo layout."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    },
+    {
+      "id": "split-workspace-release-checks",
+      "title": "Formalizar el circuito final de release",
+      "phase": "A",
+      "stream": "Release",
+      "priority": "P1",
+      "status": "cancelled",
+      "required": true,
+      "dependsOn": [
+        "split-workspace-release-command",
+        "split-workspace-regression-guards",
+        "split-workspace-dogfood-trackops"
+      ],
+      "summary": "Objetivo 5 · Hito H5 · Formalizar el circuito final de release y validacion sobre el flujo nuevo.",
+      "acceptance": [
+        "trackops release queda documentado, comprobado y alineado con commiter."
+      ],
+      "history": [
+        {
+          "at": "2026-03-13T10:27:22.573Z",
+          "action": "create",
+          "note": "Backlog registrado para separar app y ops sin ejecutar aun el refactor."
+        },
+        {
+          "at": "2026-03-13T14:35:00.513Z",
+          "action": "cancel",
+          "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "init-npm-scripts-broken",
+      "severity": "high",
+      "status": "resolved",
+      "title": "trackops init ya deja scripts npm ejecutables en proyectos nuevos",
+      "detail": "Los scripts ops:* generados usan npx --yes trackops y el propio repo ejecuta node bin/trackops.js para desarrollo local.",
+      "impact": "Se recupera la experiencia post-init y npm run ops:* funciona sin instalacion global previa."
+    },
+    {
+      "id": "control-backlog-stale",
+      "severity": "high",
+      "status": "resolved",
+      "title": "La fuente de verdad operativa ya refleja el estado real del producto",
+      "detail": "project_control.json, task_plan.md, progress.md y findings.md quedaron realineados con el backlog y las validaciones reales.",
+      "impact": "TrackOps vuelve a orquestarse con un estado operativo coherente con el codigo y las pruebas realizadas."
+    },
+    {
+      "id": "split-workspace-backlog-superseded",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "El backlog split-workspace queda archivado por cambio estrategico",
+      "detail": "Las 20 tareas del refactor app/ops se cancelan como iniciativa fuera de foco tras consolidar TrackOps como skill global con activacion local por proyecto.",
+      "impact": "trackops next deja de proponer trabajo obsoleto y la fuente de verdad vuelve a reflejar la estrategia real del producto."
+    },
+    {
+      "id": "genesis-underdocumented",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "genesis.md ya define la constitucion base del proyecto",
+      "detail": "La constitucion ahora recoge el objetivo, integraciones, payload, invariantes y pipeline de TrackOps.",
+      "impact": "Se recupera la coherencia minima de self-dogfooding y la fuente de verdad deja de estar vacia."
+    },
+    {
+      "id": "opera-etapa-drift",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "OPERA queda como narrativa oficial y ETAPA solo como alias heredado",
+      "detail": "La metadata del paquete, la ayuda y la documentacion ya presentan OPERA como referencia principal y explican ETAPA solo por compatibilidad.",
+      "impact": "La identidad del producto queda coherente y se elimina la ambiguedad metodologica."
+    },
+    {
+      "id": "skills-path-drift",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "La ruta de habilidades queda unificada en .agents/skills",
+      "detail": "El runtime, las plantillas, la guia y el propio repositorio usan ahora .agents/skills/_registry.md como indice canonico.",
+      "impact": "Se simplifica la evolucion del sistema de habilidades y desaparece la duplicidad de rutas."
+    },
+    {
+      "id": "dashboard-docs-runtime-drift",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "La documentacion del dashboard ya refleja el funcionamiento real",
+      "detail": "La guia, la web de presentacion y el changelog ya describen el puerto 4173 y las 7 vistas reales del panel.",
+      "impact": "Se recupera la confianza en la documentacion visible del producto."
+    },
+    {
+      "id": "quality-gates-missing",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "El core ya cuenta con una prueba minima automatizada y una comprobacion previa a publicar",
+      "detail": "npm test cubre init, estado, siguiente tarea, sync y panel; npm run release:check valida prueba de humo y empaquetado.",
+      "impact": "Se reduce el riesgo de regresiones y queda una rutina clara antes de publicar."
+    },
+    {
+      "id": "public-beta-positioning-missing",
+      "severity": "low",
+      "status": "resolved",
+      "title": "La posicion publica del producto ya declara su estado beta en ambos idiomas",
+      "detail": "README, UserGUIDE, landing publica y panel local presentan el estado beta y el descargo de responsabilidad con copy coherente.",
+      "impact": "La comunicacion externa queda alineada con la madurez real del producto y reduce expectativas incorrectas."
+    },
+    {
+      "id": "funding-path-missing",
+      "severity": "low",
+      "status": "resolved",
+      "title": "TrackOps ya ofrece una via simple de apoyo economico",
+      "detail": "Se integra Ko-fi como canal principal de donacion puntual en GitHub, npm, README y landing publica.",
+      "impact": "El proyecto gana una salida de sostenibilidad sin introducir backend ni complejidad operativa adicional."
+    },
+    {
+      "id": "skills-api-runtime-verified",
+      "severity": "low",
+      "status": "resolved",
+      "title": "Los endpoints base de skills responden correctamente en runtime",
+      "detail": "El smoke test del dashboard confirma 200 en /api/skills/local y /api/skills/discover.",
+      "impact": "Se puede retirar el backlog fantasma asociado a 404 en AI Skills."
+    },
+    {
+      "id": "skills-ui-null-guard-verified",
+      "severity": "low",
+      "status": "resolved",
+      "title": "La vista de skills ya protege contra nodos nulos",
+      "detail": "loadData aborta de forma segura si faltan los contenedores del DOM antes de tocar innerHTML.",
+      "impact": "El bug reportado de TypeError deja de ser trabajo pendiente actual."
+    }
+  ],
+  "timeEntries": [
+    {
+      "id": "te-mmozkapm-ph2mw",
+      "taskId": "split-workspace-contract",
+      "taskTitle": "Definir el contrato del workspace dividido",
+      "startedAt": "2026-03-13T14:22:23.290Z",
+      "stoppedAt": "2026-03-13T14:23:07.622Z",
+      "durationMs": 44332
+    },
+    {
+      "id": "te-mmozl8xe-q80l4",
+      "taskId": "split-workspace-contract",
+      "taskTitle": "Definir el contrato del workspace dividido",
+      "startedAt": "2026-03-13T14:23:07.634Z",
+      "stoppedAt": "2026-03-13T14:35:00.513Z",
+      "durationMs": 712879
+    }
+  ]
+}

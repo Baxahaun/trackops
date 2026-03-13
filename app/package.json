@@ -1,0 +1,57 @@
+{
+  "name": "trackops",
+  "version": "1.0.1",
+  "description": "Operational project control with task management, document generation, multi-project dashboard, and optional OPERA methodology",
+  "main": "lib/control.js",
+  "bin": {
+    "trackops": "bin/trackops.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "locales/",
+    "skills/",
+    "scripts/",
+    "ui/",
+    "templates/"
+  ],
+  "keywords": [
+    "project-management",
+    "task-management",
+    "dashboard",
+    "ops",
+    "opera",
+    "methodology",
+    "cli",
+    "devops",
+    "tracking",
+    "agile"
+  ],
+  "author": {
+    "name": "Xavier Crespo Gríman",
+    "email": "crespoxac@gmail.com",
+    "url": "https://baxahaun.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Baxahaun/trackops.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Baxahaun/trackops/issues"
+  },
+  "homepage": "https://github.com/Baxahaun/trackops#readme",
+  "funding": "https://baxahaun.github.io/trackops/#support",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node scripts/smoke-tests.js",
+    "test:smoke": "node scripts/smoke-tests.js",
+    "skill:sync-version": "node scripts/sync-skill-version.js",
+    "skill:validate": "node scripts/validate-skill.js",
+    "skill:smoke": "node scripts/skills-marketplace-smoke.js",
+    "release:check": "npm test && npm run skill:validate && npm run skill:smoke && npm pack --dry-run"
+  }
+}
