@@ -6,6 +6,7 @@ y el proyecto mantiene versionado pragmatico mientras se consolida la politica f
 
 ## 2026-03-13
 
+- ✨ **feat(workspace)**: se migra TrackOps al layout split `app/` + `ops/` y se incorpora gestion explicita de `/.env`, `/.env.example`, el puente `app/.env`, el manifest `.trackops-workspace.json`, los comandos `workspace`, `env` y `release`, y la reubicacion completa del runtime, OPERA, dashboard, skills y documentacion para operar sin mezclar la capa operativa con el producto real (`c019094`).
 - ✨ **feat(skills)**: se redefine TrackOps como skill global canónica instalable desde `skills.sh`, separando la capacidad global del agente de la activación local por proyecto. Se agrega `skills/trackops` con bootstrap de primer uso para asegurar el runtime npm, se retira del camino público el modelo de adapters por vendor dentro del repo, y se alinean CLI, documentación, validaciones de release y smoke tests con el flujo `trackops init` + `trackops opera install` (`3095e2c`).
 - 🐛 **fix(branding)**: se corrige y unifica el favicon de TrackOps entre la web publica y el panel local. La landing pasa a declarar su favicon oficial, el panel deja de depender de una ruta absoluta fragil y se incorpora un activo limpio para pestanas de navegador en `docs/assets/favicon.svg` (`161f973`).
 
