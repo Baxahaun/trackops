@@ -126,6 +126,7 @@ async function _refreshState() {
       state.update('phases',       payload.i18n.phases || []);
       state.update('statusLabels', payload.i18n.statusLabels || {});
       state.update('locale',       payload.i18n.locale || 'es');
+      state.update('messages',     payload.i18n.messages || {});
     }
 
     // Actualizar proyectos si el payload incluye info de proyectos

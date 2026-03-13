@@ -7,6 +7,20 @@ import * as state from '../state.js';
 import * as api from '../api.js';
 import { flash } from './flash.js';
 import { esc, formatDate } from '../utils.js';
+import { t } from '../i18n.js';
+
+function applyLocaleState(payload) {
+  if (!payload) return;
+  state.update('payload', payload);
+  if (payload.i18n) {
+    state.update({
+      phases: payload.i18n.phases || [],
+      statusLabels: payload.i18n.statusLabels || {},
+      locale: payload.i18n.locale || 'es',
+      messages: payload.i18n.messages || {},
+    });
+  }
+}
 
 export async function render() {
   const payload   = state.getPayload();
@@ -20,8 +34,8 @@ export async function render() {
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Configuración</p>
-          <h2>Configuración del Proyecto</h2>
+          <p class="eyebrow">${t('ui.settings.eyebrow', {}, 'Settings')}</p>
+          <h2>${t('ui.settings.title', {}, 'Project settings')}</h2>
         </div>
       </div>
 
@@ -63,12 +77,17 @@ export async function render() {
                   <p class="value">${formatDate(control.meta?.updatedAt || '', 'date')}</p>
                 </div>
                 <div class="info-row">
-                  <p class="label-sm">Idioma</p>
-                  <p class="value">${esc(payload?.i18n?.locale || 'es')}</p>
+                  <p class="label-sm">${t('ui.topbar.language', {}, 'Language')}</p>
+                  <div class="project-select-wrapper locale-select-wrapper">
+                    <select id="settings-locale-select" aria-label="${t('ui.topbar.languageAria', {}, 'Select dashboard language')}">
+                      <option value="es" ${(payload?.i18n?.locale || 'es') === 'es' ? 'selected' : ''}>${t('ui.topbar.languageEs', {}, 'ES')}</option>
+                      <option value="en" ${(payload?.i18n?.locale || 'es') === 'en' ? 'selected' : ''}>${t('ui.topbar.languageEn', {}, 'EN')}</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
-          ` : '<p class="text-muted">Sin proyecto cargado.</p>'}
+          ` : `<p class="text-muted">${t('ui.settings.noProject', {}, 'No project loaded.')}</p>`}
 
           <!-- Estado del Repo -->
           ${runtime ? `
@@ -217,7 +236,7 @@ export function bindEvents() {
   document.getElementById('register-project-btn')?.addEventListener('click', async () => {
     const input = document.getElementById('new-project-path');
     const root  = input?.value.trim();
-    if (!root) { flash('Introduce la ruta del proyecto.', 'warning'); return; }
+    if (!root) { flash(t('ui.settings.enterPath', {}, 'Enter the project path.'), 'warning'); return; }
     try {
       await api.registerProject(root);
       flash('Proyecto registrado.', 'success');
@@ -236,6 +255,27 @@ export function bindEvents() {
       window.dispatchEvent(new CustomEvent('ops:refresh'));
     } catch (err) {
       flash(err.message, 'error');
+    }
+  });
+
+  document.getElementById('settings-locale-select')?.addEventListener('change', async e => {
+    const select = e.target;
+    const previousLocale = state.get('locale') || 'es';
+    const nextLocale = select.value;
+
+    if (nextLocale === previousLocale) return;
+
+    select.disabled = true;
+    try {
+      const result = await api.updateProjectLocale(nextLocale);
+      applyLocaleState(result.state);
+      flash(t('ui.topbar.localeUpdated', {}, 'Language updated.'), 'success');
+      window.dispatchEvent(new CustomEvent('ops:refresh'));
+    } catch (err) {
+      select.value = previousLocale;
+      flash(err.message, 'error');
+    } finally {
+      select.disabled = false;
     }
   });
 }

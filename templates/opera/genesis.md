@@ -8,7 +8,7 @@
 
 _¿Cuál es el resultado singular deseado de este proyecto?_
 
-> TODO: Definir el objetivo principal del proyecto.
+> {{DESIRED_OUTCOME}}
 
 ---
 
@@ -18,7 +18,7 @@ _¿Qué servicios externos necesitamos? ¿Están listas las claves?_
 
 | Servicio | Estado | Clave / Config |
 |----------|--------|----------------|
-| —        | —      | —              |
+{{SERVICES_TABLE}}
 
 ---
 
@@ -26,7 +26,7 @@ _¿Qué servicios externos necesitamos? ¿Están listas las claves?_
 
 _¿Dónde viven los datos primarios?_
 
-> TODO: Describir la fuente de datos principal.
+> {{SOURCE_OF_TRUTH}}
 
 ---
 
@@ -34,7 +34,7 @@ _¿Dónde viven los datos primarios?_
 
 _¿Cómo y dónde debe entregarse el resultado final?_
 
-> TODO: Describir destino y formato de entrega.
+> {{PAYLOAD}}
 
 ---
 
@@ -42,7 +42,7 @@ _¿Cómo y dónde debe entregarse el resultado final?_
 
 _Restricciones, tono y reglas específicas del dominio._
 
-> TODO: Definir restricciones de negocio.
+{{BEHAVIOR_RULES}}
 
 ---
 
@@ -51,16 +51,7 @@ _Restricciones, tono y reglas específicas del dominio._
 > **Regla "Datos-Primero"**: Este schema debe estar definido antes de escribir cualquier código.
 
 ```json
-{
-  "input": {
-    "source": "",
-    "schema": {}
-  },
-  "output": {
-    "destination": "",
-    "schema": {}
-  }
-}
+{{DATA_SCHEMA}}
 ```
 
 ---
@@ -69,7 +60,7 @@ _Restricciones, tono y reglas específicas del dominio._
 
 _Decisiones técnicas inamovibles. Cambiarlas requiere aprobación explícita (Nivel Rojo)._
 
-- TODO: Listar invariantes.
+{{ARCHITECTURAL_INVARIANTS}}
 
 ---
 
@@ -77,11 +68,7 @@ _Decisiones técnicas inamovibles. Cambiarlas requiere aprobación explícita (N
 
 _Documenta el grafo de dependencias entre herramientas._
 
-<!-- Ejemplo:
-### tool_fetch.py → tool_transform.py
-- Output: `.tmp/raw_data.json`
-- Formato: JSON array según schema X
--->
+{{PIPELINE_ITEMS}}
 
 ---
 
@@ -89,6 +76,4 @@ _Documenta el grafo de dependencias entre herramientas._
 
 _Referencias a las plantillas de output definidas en `templates/`._
 
-<!-- Ejemplo:
-- `templates/report.md` — Plantilla para reportes
--->
+{{TEMPLATE_ITEMS}}

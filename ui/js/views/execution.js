@@ -7,26 +7,26 @@ import * as state from '../state.js';
 import * as api from '../api.js';
 import { flash } from './flash.js';
 import { esc, formatDate } from '../utils.js';
-
-const QUICK_COMMANDS = [
-  { label: 'status',       cmd: 'npx trackops status' },
-  { label: 'sincronizar docs', cmd: 'npx trackops sync' },
-  { label: 'siguientes tareas', cmd: 'npx trackops next' },
-  { label: 'refrescar repo', cmd: 'npx trackops refresh-repo' },
-  { label: 'git status',   cmd: 'git status --short' },
-  { label: 'git log',      cmd: 'git log --oneline -10' },
-];
+import { t } from '../i18n.js';
 
 export async function render() {
   const sessions = state.get('sessions');
   const selected = sessions.find(s => s.id === state.get('selectedSessionId'));
+  const quickCommands = [
+    { label: t('ui.execution.quick.status', {}, 'status'), cmd: 'npx trackops status' },
+    { label: t('ui.execution.quick.sync', {}, 'sync docs'), cmd: 'npx trackops sync' },
+    { label: t('ui.execution.quick.next', {}, 'next tasks'), cmd: 'npx trackops next' },
+    { label: t('ui.execution.quick.repo', {}, 'refresh repo'), cmd: 'npx trackops refresh-repo' },
+    { label: 'git status', cmd: 'git status --short' },
+    { label: 'git log', cmd: 'git log --oneline -10' },
+  ];
 
   return `
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Ejecución</p>
-          <h2>Consola de Comandos</h2>
+          <p class="eyebrow">${t('ui.execution.eyebrow', {}, 'Execution')}</p>
+          <h2>${t('ui.execution.title', {}, 'Command Console')}</h2>
         </div>
       </div>
 
@@ -38,26 +38,26 @@ export async function render() {
           <!-- Command input -->
           <div class="panel">
             <div class="panel-header">
-              <p class="panel-title">Ejecutar</p>
+              <p class="panel-title">${t('ui.execution.run', {}, 'Run')}</p>
             </div>
             <div class="panel-body" style="display:flex;flex-direction:column;gap:var(--space-3)">
               <div class="field">
-                <label for="cmd-input">Comando</label>
+                <label for="cmd-input">${t('ui.execution.command', {}, 'Command')}</label>
                 <textarea id="cmd-input" rows="3"
                   placeholder="npx trackops status"
-                  aria-label="Introduce el comando a ejecutar"
+                  aria-label="${t('ui.execution.commandAria', {}, 'Enter the command to run')}"
                   style="font-family:var(--font-mono);font-size:var(--text-sm)"></textarea>
               </div>
-              <button class="btn btn-primary" type="button" id="run-cmd-btn" aria-label="Ejecutar comando">
-                ${icon('execution', 15)} Ejecutar
+              <button class="btn btn-primary" type="button" id="run-cmd-btn" aria-label="${t('ui.execution.runButtonAria', {}, 'Run command')}">
+                ${icon('execution', 15)} ${t('ui.execution.run', {}, 'Run')}
               </button>
             </div>
             <div class="panel-footer">
-              <p class="label-sm" style="margin-bottom:var(--space-2)">Comandos rápidos</p>
+              <p class="label-sm" style="margin-bottom:var(--space-2)">${t('ui.execution.quickTitle', {}, 'Quick commands')}</p>
               <div class="preset-strip">
-                ${QUICK_COMMANDS.map(c => `
+                ${quickCommands.map(c => `
                   <button class="chip" type="button" data-quick="${esc(c.cmd)}"
-                    aria-label="Ejecutar ${esc(c.label)}">
+                    aria-label="${t('ui.execution.runQuick', { label: c.label }, `Run ${c.label}`)}">
                     ${esc(c.label)}
                   </button>
                 `).join('')}
@@ -68,12 +68,12 @@ export async function render() {
           <!-- Lista de sesiones -->
           <div class="panel">
             <div class="panel-header">
-              <p class="panel-title">Sesiones</p>
+              <p class="panel-title">${t('ui.execution.sessions', {}, 'Sessions')}</p>
               <span class="badge badge-muted">${sessions.length}</span>
             </div>
             <div class="panel-body" style="max-height:360px;overflow-y:auto">
               ${sessions.length === 0
-                ? `<div class="empty-state">Sin sesiones activas.</div>`
+                ? `<div class="empty-state">${t('ui.execution.noSessions', {}, 'No active sessions.')}</div>`
                 : `<div class="stack stack-sm">
                     ${sessions.slice().reverse().map(s => `
                       <div class="session-pill ${s.id === state.get('selectedSessionId') ? 'is-selected' : ''}"
@@ -98,18 +98,18 @@ export async function render() {
             <div class="terminal-dots" aria-hidden="true">
               <span></span><span></span><span></span>
             </div>
-            <p class="terminal-title">${selected ? esc(selected.command) : 'ops@terminal — sin sesión activa'}</p>
+            <p class="terminal-title">${selected ? esc(selected.command) : t('ui.execution.noSessionTitle', {}, 'ops@terminal — no active session')}</p>
             <div style="display:flex;gap:var(--space-2)">
               ${selected && selected.status === 'running' ? `
-                <button class="btn btn-ghost btn-sm" id="kill-session-btn" type="button" aria-label="Terminar proceso">
-                  ${icon('stop', 13)} Detener
+                <button class="btn btn-ghost btn-sm" id="kill-session-btn" type="button" aria-label="${t('ui.execution.stopAria', {}, 'Stop process')}">
+                  ${icon('stop', 13)} ${t('ui.execution.stop', {}, 'Stop')}
                 </button>
               ` : ''}
             </div>
           </div>
-          <pre class="terminal-output" id="terminal-output" aria-label="Salida del comando" aria-live="polite">${selected ? esc(selected.output) : '# Ejecuta un comando para ver la salida aquí…\n'}</pre>
+          <pre class="terminal-output" id="terminal-output" aria-label="${t('ui.execution.output', {}, 'Command output')}" aria-live="polite">${selected ? esc(selected.output) : `${t('ui.execution.outputPlaceholder', {}, '# Run a command to see its output here…')}\n`}</pre>
           ${selected ? `<div class="panel-footer" style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:var(--text-xs)">
-            <span class="text-muted">Iniciado: ${formatDate(selected.startedAt)}</span>
+            <span class="text-muted">${t('ui.execution.started', {}, 'Started')}: ${formatDate(selected.startedAt)}</span>
             <span class="badge ${_sessionBadgeClass(selected.status)}">${esc(selected.status)}${selected.exitCode != null ? ` (${selected.exitCode})` : ''}</span>
           </div>` : ''}
         </div>
@@ -174,7 +174,7 @@ async function _runCommand() {
   if (!cmd) return;
 
   const btn = document.getElementById('run-cmd-btn');
-  if (btn) { btn.disabled = true; btn.innerHTML = `${icon('spinner', 15)} Ejecutando…`; }
+  if (btn) { btn.disabled = true; btn.innerHTML = `${icon('spinner', 15)} ${t('ui.execution.running', {}, 'Running…')}`; }
 
   try {
     const result = await api.runCommand(cmd);
@@ -203,7 +203,7 @@ async function _runCommand() {
   } catch (err) {
     flash(err.message, 'error');
   } finally {
-    if (btn) { btn.disabled = false; btn.innerHTML = `${icon('execution', 15)} Ejecutar`; }
+    if (btn) { btn.disabled = false; btn.innerHTML = `${icon('execution', 15)} ${t('ui.execution.run', {}, 'Run')}`; }
   }
 }
 

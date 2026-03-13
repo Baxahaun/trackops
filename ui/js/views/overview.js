@@ -8,6 +8,7 @@ import * as state from '../state.js';
 import * as router from '../router.js';
 import * as timeTracker from '../time-tracker.js';
 import { esc, formatDate, lastDays, extractHistory } from '../utils.js';
+import { t } from '../i18n.js';
 
 /** Renderiza la vista Overview completa */
 export async function render() {
@@ -15,8 +16,8 @@ export async function render() {
   if (!payload) {
     return `<div class="empty-state" style="margin:3rem auto;max-width:440px">
       ${icon('alertCircle', 32)}
-      <p>No se pudo cargar el estado del proyecto.</p>
-      <button class="btn btn-primary" onclick="window.dispatchEvent(new CustomEvent('ops:refresh'))">Reintentar</button>
+      <p>${t('ui.overview.loadError', {}, 'Could not load project state.')}</p>
+      <button class="btn btn-primary" onclick="window.dispatchEvent(new CustomEvent('ops:refresh'))">${t('ui.overview.retry', {}, 'Retry')}</button>
     </div>`;
   }
 
@@ -25,15 +26,15 @@ export async function render() {
   const html = `
     <div class="view-enter">
       <!-- ── KPI CARDS ── -->
-      <div class="grid-4" style="margin-bottom:var(--space-5)" aria-label="Métricas del proyecto" role="region">
-        ${_renderKPI('Trabajo abierto',  derived.totals.all - derived.totals.completed - derived.totals.cancelled,
-          `${derived.totals.pending} pendientes · ${derived.totals.inProgress} activas`, 'tasks', 'accent')}
-        ${_renderKPI('Completado',  derived.totals.completed,
-          `${derived.totals.all ? Math.round(derived.totals.completed/derived.totals.all*100) : 0}% del total`, 'checkCircle', 'success')}
-        ${_renderKPI('Bloqueado',   derived.totals.blocked,
-          derived.blockers[0]?.title || 'Sin bloqueos', 'shield', 'danger')}
-        ${_renderKPI('En Revisión', derived.totals.inReview,
-          derived.reviewTasks[0]?.title || 'Sin tareas en revisión', 'alertCircle', 'warning')}
+      <div class="grid-4" style="margin-bottom:var(--space-5)" aria-label="${t('ui.overview.metrics', {}, 'Project metrics')}" role="region">
+        ${_renderKPI(t('ui.overview.openWork', {}, 'Open work'),  derived.totals.all - derived.totals.completed - derived.totals.cancelled,
+          t('ui.overview.openWorkSub', { pending: derived.totals.pending, inProgress: derived.totals.inProgress }, `${derived.totals.pending} pending · ${derived.totals.inProgress} active`), 'tasks', 'accent')}
+        ${_renderKPI(t('ui.overview.completed', {}, 'Completed'),  derived.totals.completed,
+          t('ui.overview.completedSub', { percent: derived.totals.all ? Math.round(derived.totals.completed/derived.totals.all*100) : 0 }, '0% of total'), 'checkCircle', 'success')}
+        ${_renderKPI(t('ui.overview.blocked', {}, 'Blocked'), derived.totals.blocked,
+          derived.blockers[0]?.title || t('ui.overview.noBlockers', {}, 'No blockers'), 'shield', 'danger')}
+        ${_renderKPI(t('ui.overview.inReview', {}, 'In review'), derived.totals.inReview,
+          derived.reviewTasks[0]?.title || t('ui.overview.noReview', {}, 'No tasks in review'), 'alertCircle', 'warning')}
       </div>
 
       <!-- ── FILA PRINCIPAL ── -->
@@ -43,19 +44,19 @@ export async function render() {
         <div style="display:flex;flex-direction:column;gap:var(--space-4)">
 
           <!-- Activity Chart -->
-          <div class="chart-card stagger-1" aria-label="Actividad de la última semana">
+          <div class="chart-card stagger-1" aria-label="${t('ui.overview.weeklyActivity', {}, 'Last week activity')}">
             <div style="display:flex;align-items:center;justify-content:space-between">
               <div>
-                <p class="chart-title">Actividad Semanal</p>
-                <p class="chart-subtitle">Cambios de estado registrados por día</p>
+                <p class="chart-title">${t('ui.overview.activityTitle', {}, 'Weekly activity')}</p>
+                <p class="chart-subtitle">${t('ui.overview.activitySubtitle', {}, 'State changes recorded per day')}</p>
               </div>
             </div>
             ${_renderActivityChart(control.tasks)}
           </div>
 
           <!-- Phase Chart -->
-          <div class="chart-card stagger-2" aria-label="Progreso por fase">
-            <p class="chart-title">Progreso por Fase</p>
+          <div class="chart-card stagger-2" aria-label="${t('ui.overview.phaseProgress', {}, 'Progress by phase')}">
+            <p class="chart-title">${t('ui.overview.phaseProgress', {}, 'Progress by phase')}</p>
             ${_renderPhaseChart(derived.phaseStats)}
           </div>
 
@@ -65,22 +66,22 @@ export async function render() {
         <div style="display:flex;flex-direction:column;gap:var(--space-4)">
 
           <!-- Donut de progreso global -->
-          <div class="chart-card stagger-3" style="align-items:center" aria-label="Progreso global del proyecto">
-            <p class="chart-title" style="width:100%">Progreso Global</p>
+          <div class="chart-card stagger-3" style="align-items:center" aria-label="${t('ui.overview.globalProgress', {}, 'Global project progress')}">
+            <p class="chart-title" style="width:100%">${t('ui.overview.globalProgress', {}, 'Global progress')}</p>
             ${_renderDonut(derived.totals)}
           </div>
 
           <!-- Próxima tarea -->
-          <div class="chart-card stagger-4" aria-label="Próxima tarea">
-            <p class="chart-title" style="margin-bottom:var(--space-3)">Próximo Movimiento</p>
-            ${derived.nextTask ? _renderNextTask(derived.nextTask) : '<p class="text-muted" style="font-size:var(--text-sm)">🎉 No hay tareas abiertas</p>'}
+          <div class="chart-card stagger-4" aria-label="${t('ui.overview.nextTask', {}, 'Next task')}">
+            <p class="chart-title" style="margin-bottom:var(--space-3)">${t('ui.overview.nextMove', {}, 'Next move')}</p>
+            ${derived.nextTask ? _renderNextTask(derived.nextTask) : `<p class="text-muted" style="font-size:var(--text-sm)">🎉 ${t('ui.overview.noOpenTasks', {}, 'No open tasks')}</p>`}
           </div>
 
         </div>
       </div>
 
       <!-- ── FILA INFERIOR: Time Tracker + Portfolio + Repo ── -->
-      <div class="grid-3" aria-label="Controles y portfolio">
+      <div class="grid-3" aria-label="${t('ui.overview.controlsPortfolio', {}, 'Controls and portfolio')}">
 
         <!-- Time Tracker -->
         <div class="stagger-1">
@@ -88,10 +89,10 @@ export async function render() {
         </div>
 
         <!-- Portfolio de proyectos -->
-        <div class="chart-card stagger-2" aria-label="Proyectos registrados">
+        <div class="chart-card stagger-2" aria-label="${t('ui.overview.registeredProjects', {}, 'Registered projects')}">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
-            <p class="chart-title">Portfolio</p>
-            <span class="badge badge-muted">${state.get('projects').length} proyectos</span>
+            <p class="chart-title">${t('ui.overview.portfolio', {}, 'Portfolio')}</p>
+            <span class="badge badge-muted">${t('ui.overview.projectsCount', { count: state.get('projects').length }, `${state.get('projects').length} projects`)}</span>
           </div>
           <div class="stack stack-sm" id="portfolio-list">
             ${_renderPortfolio()}
@@ -99,8 +100,8 @@ export async function render() {
         </div>
 
         <!-- Salud operativa -->
-        <div class="chart-card stagger-3" aria-label="Salud operativa del repositorio">
-          <p class="chart-title" style="margin-bottom:var(--space-4)">Salud Operativa</p>
+        <div class="chart-card stagger-3" aria-label="${t('ui.overview.operationalHealth', {}, 'Operational health')}">
+          <p class="chart-title" style="margin-bottom:var(--space-4)">${t('ui.overview.operationalHealth', {}, 'Operational health')}</p>
           ${_renderRepoHealth(runtime, docsDirty, derived)}
         </div>
 
@@ -162,7 +163,7 @@ function _renderActivityChart(tasks) {
 
 function _renderPhaseChart(phaseStats) {
   if (!phaseStats?.length) {
-    return '<p class="text-muted" style="font-size:var(--text-sm)">Sin fases configuradas.</p>';
+    return `<p class="text-muted" style="font-size:var(--text-sm)">${t('ui.overview.noPhases', {}, 'No phases configured.')}</p>`;
   }
 
   return `
@@ -241,25 +242,25 @@ function _renderDonut(totals) {
       </svg>
       <div class="donut-label">
         <span class="donut-percent">${pct}%</span>
-        <span class="donut-sub">completado</span>
+        <span class="donut-sub">${t('ui.overview.completedLower', {}, 'completed')}</span>
       </div>
     </div>
     <div class="donut-legend">
       <div class="donut-legend-item">
         <span class="donut-legend-dot" style="background:var(--success)"></span>
-        Completado (${completed})
+        ${t('ui.overview.completed', {}, 'Completed')} (${completed})
       </div>
       <div class="donut-legend-item">
         <span class="donut-legend-dot" style="background:var(--accent)"></span>
-        En progreso (${inProgress})
+        ${t('status.in_progress', {}, 'In progress')} (${inProgress})
       </div>
       <div class="donut-legend-item">
         <span class="donut-legend-dot" style="background:var(--danger)"></span>
-        Bloqueado (${blocked})
+        ${t('status.blocked', {}, 'Blocked')} (${blocked})
       </div>
       <div class="donut-legend-item">
         <span class="donut-legend-dot" style="background:var(--text-muted)"></span>
-        Pendiente (${pending})
+        ${t('status.pending', {}, 'Pending')} (${pending})
       </div>
     </div>
   `;
@@ -286,9 +287,9 @@ function _renderNextTask(task) {
         type="button"
         data-view="board"
         style="margin-top:var(--space-2);width:fit-content"
-        aria-label="Ir al tablero para gestionar ${esc(task.title)}"
+        aria-label="${t('ui.overview.openBoardFor', { title: task.title }, `Open board to manage ${task.title}`)}"
       >
-        ${icon('arrowRight', 14)} Ver en el tablero
+        ${icon('arrowRight', 14)} ${t('ui.overview.viewBoard', {}, 'View in board')}
       </button>
     </div>
   `;
@@ -301,7 +302,7 @@ function _renderPortfolio() {
   const currentId = state.get('currentProjectId');
 
   if (!projects.length) {
-    return '<div class="empty-state">No hay proyectos registrados.</div>';
+    return `<div class="empty-state">${t('ui.overview.noProjects', {}, 'No registered projects.')}</div>`;
   }
 
   return projects.map(p => `
@@ -311,9 +312,9 @@ function _renderPortfolio() {
         <p class="project-path">${esc(p.root)}</p>
       </div>
       <div class="project-row-actions">
-        <span class="badge badge-${p.available ? 'success' : 'warning'}">${p.available ? 'Activo' : 'No disponible'}</span>
+        <span class="badge badge-${p.available ? 'success' : 'warning'}">${p.available ? t('ui.overview.active', {}, 'Active') : t('ui.overview.unavailable', {}, 'Unavailable')}</span>
         ${p.available && p.id !== currentId
-          ? `<button class="btn btn-ghost btn-sm" type="button" data-switch-project="${esc(p.id)}">Abrir</button>`
+          ? `<button class="btn btn-ghost btn-sm" type="button" data-switch-project="${esc(p.id)}">${t('ui.overview.open', {}, 'Open')}</button>`
           : ''}
       </div>
     </div>
@@ -343,12 +344,12 @@ function _renderRepoHealth(runtime, docsDirty, derived) {
     : 0;
 
   const items = [
-    { label: 'Tasa completada', value: `${completionRate}%`, cls: completionRate >= 75 ? 'good' : completionRate >= 40 ? '' : 'bad' },
-    { label: 'Presión de bloqueos', value: `${blockerRate}%`, cls: blockerRate === 0 ? 'good' : blockerRate > 20 ? 'bad' : 'warn' },
-    { label: 'Hallazgos abiertos', value: String((derived.openFindings || []).length), cls: (derived.openFindings||[]).length === 0 ? 'good' : 'warn' },
-    { label: 'Repo',           value: runtime?.clean ? 'Limpio' : 'Con cambios', cls: runtime?.clean ? 'good' : 'warn' },
-    { label: 'Desfase documental', value: docsDirty?.length ? docsDirty.join(', ') : 'OK', cls: docsDirty?.length ? 'warn' : 'good' },
-    { label: 'Último commit',  value: runtime?.lastCommit ? `${runtime.lastCommit.shortHash} · ${formatDate(runtime.lastCommit.date, 'date')}` : '—', cls: '' },
+    { label: t('ui.overview.metric.completion', {}, 'Completion rate'), value: `${completionRate}%`, cls: completionRate >= 75 ? 'good' : completionRate >= 40 ? '' : 'bad' },
+    { label: t('ui.overview.metric.blockerPressure', {}, 'Blocker pressure'), value: `${blockerRate}%`, cls: blockerRate === 0 ? 'good' : blockerRate > 20 ? 'bad' : 'warn' },
+    { label: t('ui.overview.metric.findings', {}, 'Open findings'), value: String((derived.openFindings || []).length), cls: (derived.openFindings||[]).length === 0 ? 'good' : 'warn' },
+    { label: t('ui.overview.metric.repo', {}, 'Repo'), value: runtime?.clean ? t('ui.overview.repoClean', {}, 'Clean') : t('ui.overview.repoDirty', {}, 'Changes present'), cls: runtime?.clean ? 'good' : 'warn' },
+    { label: t('ui.overview.metric.docDrift', {}, 'Documentation drift'), value: docsDirty?.length ? docsDirty.join(', ') : 'OK', cls: docsDirty?.length ? 'warn' : 'good' },
+    { label: t('ui.overview.metric.lastCommit', {}, 'Last commit'), value: runtime?.lastCommit ? `${runtime.lastCommit.shortHash} · ${formatDate(runtime.lastCommit.date, 'date')}` : '—', cls: '' },
   ];
 
   return `

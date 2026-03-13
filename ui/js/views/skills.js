@@ -1,5 +1,6 @@
 import * as api from '../api.js';
 import * as flash from './flash.js';
+import { t } from '../i18n.js';
 
 export function init() {
   // Sin estado local init por ahora
@@ -10,13 +11,13 @@ export async function render() {
     <div class="view-enter">
       <header class="section-header">
         <div>
-          <h2 class="section-title">Centro de habilidades</h2>
-          <p class="section-desc">Gestiona las habilidades de tu copiloto e integra nuevos flujos de la comunidad.</p>
+          <h2 class="section-title">${t('ui.skills.title', {}, 'Skill hub')}</h2>
+          <p class="section-desc">${t('ui.skills.desc', {}, 'Manage your copilot skills and install new community workflows.')}</p>
         </div>
         <div class="actions">
           <button class="btn btn-ghost btn-sm" id="btn-refresh-skills">
             <svg viewBox="0 0 24 24" fill="none" class="icon" style="width:16px;height:16px"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Refrescar
+            ${t('ui.skills.refresh', {}, 'Refresh')}
           </button>
         </div>
       </header>
@@ -26,21 +27,21 @@ export async function render() {
         <!-- Panel Izquierdo: Capacidades Locales -->
         <div class="panel">
           <div class="panel-header">
-            <h3 class="panel-title">Capacidades Instaladas</h3>
+            <h3 class="panel-title">${t('ui.skills.installed', {}, 'Installed capabilities')}</h3>
           </div>
           <div id="skills-local-list" class="stack" style="gap: var(--space-4); max-height: calc(100vh - 200px); overflow-y: auto; padding: 2px;">
-            <div class="card"><div class="card-body"><p class="text-sm color-muted">Cargando...</p></div></div>
+            <div class="card"><div class="card-body"><p class="text-sm color-muted">${t('ui.skills.loading', {}, 'Loading...')}</p></div></div>
           </div>
         </div>
 
         <!-- Panel Derecho: Discover (skills.sh) -->
         <div class="panel" style="border-color: var(--accent);">
           <div class="panel-header" style="justify-content: space-between;">
-            <h3 class="panel-title" style="color: var(--accent);">✨ Descubrir</h3>
-            <span class="badge badge-success">Recomendado</span>
+            <h3 class="panel-title" style="color: var(--accent);">✨ ${t('ui.skills.discover', {}, 'Discover')}</h3>
+            <span class="badge badge-success">${t('ui.skills.recommended', {}, 'Recommended')}</span>
           </div>
           <div id="skills-discover-list" class="stack" style="gap: var(--space-4); max-height: calc(100vh - 200px); overflow-y: auto; padding: 2px;">
-             <div class="card"><div class="card-body"><p class="text-sm color-muted">Conectando...</p></div></div>
+             <div class="card"><div class="card-body"><p class="text-sm color-muted">${t('ui.skills.connecting', {}, 'Connecting...')}</p></div></div>
           </div>
         </div>
 
@@ -62,8 +63,8 @@ export async function loadData() {
   
   if (!localEl || !discoverEl) return;
 
-  localEl.innerHTML = `<p class="text-sm text-muted">Cargando datos locales...</p>`;
-  discoverEl.innerHTML = `<p class="text-sm text-muted">Conectando a skills.sh...</p>`;
+  localEl.innerHTML = `<p class="text-sm text-muted">${t('ui.skills.loadingLocal', {}, 'Loading local data...')}</p>`;
+  discoverEl.innerHTML = `<p class="text-sm text-muted">${t('ui.skills.connectingRemote', {}, 'Connecting to skills.sh...')}</p>`;
 
   try {
     const [localRes, discoverRes] = await Promise.all([

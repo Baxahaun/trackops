@@ -30,6 +30,7 @@ const _state = {
   locale:           'es',
   statusLabels:     {},
   phases:           [],
+  messages:         {},
 
   // Búsqueda
   searchQuery:      '',

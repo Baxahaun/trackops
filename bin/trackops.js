@@ -15,11 +15,11 @@ function resolveRoot() {
   return root;
 }
 
-function run() {
+async function run() {
   try {
     switch (command) {
       case "init":
-        require("../lib/init").cmdInit(args);
+        await require("../lib/init").cmdInit(args);
         break;
 
       case "status":
@@ -35,7 +35,7 @@ function run() {
         break;
 
       case "dashboard":
-        require("../lib/server").run();
+        await require("../lib/server").run(args);
         break;
 
       case "refresh-repo":
@@ -62,11 +62,12 @@ function run() {
         const opera = require("../lib/opera");
         const sub = args[0];
         const root = config.resolveProjectRoot() || process.cwd();
-        if (sub === "install") opera.cmdInstall(root, args.slice(1));
+        if (sub === "install") await opera.cmdInstall(root, args.slice(1));
+        else if (sub === "bootstrap") await opera.cmdBootstrap(root, args.slice(1));
         else if (sub === "status") opera.cmdStatus(root);
         else if (sub === "configure") opera.cmdConfigure(root, args.slice(1));
         else if (sub === "upgrade") opera.cmdUpgrade(root);
-        else { console.log("Usage: trackops opera <install|status|configure|upgrade>"); }
+        else { console.log("Usage: trackops opera <install|bootstrap|status|configure|upgrade>"); }
         break;
       }
 

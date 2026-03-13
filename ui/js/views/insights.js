@@ -6,10 +6,11 @@ import { icon } from '../icons.js';
 import * as state from '../state.js';
 import * as timeTracker from '../time-tracker.js';
 import { esc, formatDate, formatDurationShort, extractHistory } from '../utils.js';
+import { t } from '../i18n.js';
 
 export async function render() {
   const payload = state.getPayload();
-  if (!payload) return '<div class="empty-state" style="margin:3rem">Sin datos del proyecto.</div>';
+  if (!payload) return `<div class="empty-state" style="margin:3rem">${t('ui.insights.noData', {}, 'No project data.')}</div>`;
 
   const { derived, control, runtime } = payload;
   const statusLabels = state.getStatusLabels();
@@ -19,8 +20,8 @@ export async function render() {
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Analíticas</p>
-          <h2>Analíticas del Proyecto</h2>
+          <p class="eyebrow">${t('ui.insights.eyebrow', {}, 'Insights')}</p>
+          <h2>${t('ui.insights.title', {}, 'Project insights')}</h2>
         </div>
       </div>
 
@@ -30,14 +31,14 @@ export async function render() {
         <!-- KPI de salud -->
         <div class="chart-card stagger-1">
           <div class="section-header" style="margin-bottom:var(--space-3)">
-            <p class="chart-title">Salud Operativa</p>
+            <p class="chart-title">${t('ui.insights.health', {}, 'Operational health')}</p>
           </div>
           ${_renderHealthGrid(derived, runtime, payload.docsDirty)}
         </div>
 
         <!-- Distribución por estado -->
         <div class="chart-card stagger-2">
-          <p class="chart-title" style="margin-bottom:var(--space-4)">Distribución por Estado</p>
+          <p class="chart-title" style="margin-bottom:var(--space-4)">${t('ui.insights.distribution', {}, 'Distribution by status')}</p>
           ${_renderDistribution(derived.totals, statusLabels)}
         </div>
 
@@ -49,15 +50,15 @@ export async function render() {
         <!-- Time tracking summary -->
         <div class="chart-card stagger-3">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
-            <p class="chart-title">Seguimiento de tiempo</p>
-            <span class="badge badge-accent">${icon('clock', 12)} Hoy</span>
+            <p class="chart-title">${t('ui.insights.time', {}, 'Time tracking')}</p>
+            <span class="badge badge-accent">${icon('clock', 12)} ${t('ui.insights.today', {}, 'Today')}</span>
           </div>
           ${_renderTimeTracking()}
         </div>
 
         <!-- Phase progress detallado -->
         <div class="chart-card stagger-4">
-          <p class="chart-title" style="margin-bottom:var(--space-4)">Progreso por Fase</p>
+          <p class="chart-title" style="margin-bottom:var(--space-4)">${t('ui.insights.phaseProgress', {}, 'Progress by phase')}</p>
           ${_renderPhaseProgress(derived.phaseStats)}
         </div>
 
@@ -68,7 +69,7 @@ export async function render() {
 
         <!-- Activity timeline -->
         <div class="chart-card stagger-1">
-          <p class="chart-title" style="margin-bottom:var(--space-4)">Actividad Reciente</p>
+          <p class="chart-title" style="margin-bottom:var(--space-4)">${t('ui.insights.recentActivity', {}, 'Recent activity')}</p>
           ${_renderActivityTimeline(history, statusLabels)}
         </div>
 
@@ -78,9 +79,9 @@ export async function render() {
           <!-- Findings -->
           <div class="chart-card stagger-2">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-4)">
-              <p class="chart-title">Hallazgos</p>
+              <p class="chart-title">${t('ui.insights.findings', {}, 'Findings')}</p>
               <span class="badge badge-${derived.openFindings?.length ? 'warning' : 'success'}">
-                ${(derived.openFindings || []).length} abiertos
+                ${t('ui.insights.openCount', { count: (derived.openFindings || []).length }, `${(derived.openFindings || []).length} open`)}
               </span>
             </div>
             ${_renderFindings(derived.openFindings || [], derived.resolvedFindings || [])}
@@ -89,7 +90,7 @@ export async function render() {
           <!-- Decisiones pendientes -->
           ${(control.decisionsPending || []).length > 0 ? `
             <div class="chart-card stagger-3">
-              <p class="chart-title" style="margin-bottom:var(--space-4)">Decisiones Pendientes</p>
+              <p class="chart-title" style="margin-bottom:var(--space-4)">${t('ui.insights.pendingDecisions', {}, 'Pending decisions')}</p>
               ${_renderDecisions(control.decisionsPending)}
             </div>
           ` : ''}

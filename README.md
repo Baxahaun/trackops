@@ -66,8 +66,10 @@ No necesitas instalar nada globalmente. Ve a cualquier proyecto y ejecuta:
 
 ```bash
 npx trackops init               # Inicializa el motor en tu proyecto
-npx trackops dashboard           # Levanta el centro de control web
+npx trackops dashboard           # Levanta el centro de control web en un puerto libre
 ```
+
+El dashboard empieza en `4173`, salta automaticamente al siguiente puerto libre si hace falta y copia la URL local al portapapeles cuando la plataforma lo permite.
 
 Tras `init`, también quedan disponibles atajos npm para el proyecto:
 
@@ -135,11 +137,11 @@ Las fases son totalmente configurables por proyecto vía `project_control.json`.
 
 | Comando | Descripción |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en]` | Inicializar en el directorio actual. `--with-etapa` se mantiene solo como alias heredado. |
+| `trackops init [--with-opera] [--locale es\|en] [--no-bootstrap]` | Inicializar en el directorio actual. Si no pasas `--locale` y hay TTY, TrackOps pedirá idioma. `--with-etapa` se mantiene solo como alias heredado. |
 | `trackops status` | Estado: foco, fase, tareas, bloqueadores, repo |
 | `trackops next` | Próximas tareas ejecutables priorizadas |
 | `trackops sync` | Regenerar task_plan.md, progress.md, findings.md |
-| `trackops dashboard` | Lanzar dashboard web local |
+| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Lanzar dashboard web local en un puerto libre |
 | `trackops task <acción> <id> [nota]` | start, review, complete, block, pending, cancel, note |
 | `trackops refresh-repo [--quiet]` | Actualizar runtime con estado del repo |
 | `trackops register` | Registrar en el portfolio multi-proyecto |
@@ -152,9 +154,10 @@ Las fases son totalmente configurables por proyecto vía `project_control.json`.
 
 | Comando | Descripción |
 |---------|-------------|
-| `trackops opera install` | Instalar metodología OPERA |
-| `trackops opera status` | Estado de instalación e integridad |
-| `trackops opera configure [--phases '...']` | Reconfigurar fases o idioma |
+| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Instalar OPERA y, por defecto, arrancar su bootstrap |
+| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Reanudar o rehacer el bootstrap OPERA |
+| `trackops opera status` | Estado de instalación, integridad y bootstrap |
+| `trackops opera configure [--phases '...'] [--locale es\|en]` | Reconfigurar fases o idioma |
 | `trackops opera upgrade` | Actualizar templates a la versión del paquete |
 
 </details>
@@ -257,8 +260,10 @@ No global install needed. Go to any project and run:
 
 ```bash
 npx trackops init               # Initialize the engine in your project
-npx trackops dashboard           # Launch the web control center
+npx trackops dashboard           # Launch the web control center on an available port
 ```
+
+The dashboard starts at `4173`, automatically falls forward to the next free port when needed, and copies the local URL to the clipboard when the platform supports it.
 
 After `init`, npm shortcuts are also ready to use inside the project:
 
@@ -326,11 +331,11 @@ Phases are fully configurable per project via `project_control.json`.
 
 | Command | Description |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en]` | Initialize in current directory. `--with-etapa` remains as a legacy alias only. |
+| `trackops init [--with-opera] [--locale es\|en] [--no-bootstrap]` | Initialize in current directory. If `--locale` is omitted and a TTY is available, TrackOps will ask for the language. `--with-etapa` remains a legacy alias. |
 | `trackops status` | State: focus, phase, tasks, blockers, repo |
 | `trackops next` | Next prioritized executable tasks |
 | `trackops sync` | Regenerate task_plan.md, progress.md, findings.md |
-| `trackops dashboard` | Launch local web dashboard |
+| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Launch local web dashboard on an available port |
 | `trackops task <action> <id> [note]` | start, review, complete, block, pending, cancel, note |
 | `trackops refresh-repo [--quiet]` | Update runtime with repo state |
 | `trackops register` | Register in multi-project portfolio |
@@ -343,9 +348,10 @@ Phases are fully configurable per project via `project_control.json`.
 
 | Command | Description |
 |---------|-------------|
-| `trackops opera install` | Install OPERA methodology |
-| `trackops opera status` | Installation state and integrity |
-| `trackops opera configure [--phases '...']` | Reconfigure phases or locale |
+| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Install OPERA and, by default, start its bootstrap |
+| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Resume or rerun the OPERA bootstrap |
+| `trackops opera status` | Installation, integrity, and bootstrap state |
+| `trackops opera configure [--phases '...'] [--locale es\|en]` | Reconfigure phases or locale |
 | `trackops opera upgrade` | Update templates to package version |
 
 </details>

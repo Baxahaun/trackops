@@ -179,6 +179,9 @@
   height: 36px;
   padding: 0 2.5rem 0 0.85rem;
 }
+.locale-select-wrapper select {
+  min-width: 110px;
+}
 
 .repo-badge {
   display: flex;

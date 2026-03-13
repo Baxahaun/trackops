@@ -15,6 +15,7 @@ Thumbs.db
 /.agent/
 /.agents/
 /.githooks/
+CHANGELOG.md
 
 # Archivos locales del entorno del repo
 /trackops.code-workspace

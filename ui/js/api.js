@@ -64,11 +64,18 @@ export async function registerProject(root) {
  * Instala trackops en un nuevo proyecto
  * @param {string} root
  */
-export async function installProject(root) {
+export async function installProject(root, options = {}) {
   return call('/api/projects/install', {
     method: 'POST',
     projectAware: false,
-    body: JSON.stringify({ root }),
+    body: JSON.stringify({ root, ...options }),
+  });
+}
+
+export async function updateProjectLocale(locale) {
+  return call('/api/projects/locale', {
+    method: 'POST',
+    body: JSON.stringify({ projectId: state.get('currentProjectId'), locale }),
   });
 }
 

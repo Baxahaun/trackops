@@ -2,6 +2,8 @@
  * utils.js — Funciones de utilidad globales
  */
 
+import * as state from './state.js';
+
 /**
  * Escapa caracteres HTML para prevenir XSS
  * @param {*} value
@@ -27,13 +29,14 @@ export function formatDate(value, style = 'datetime') {
   try {
     const date = new Date(value);
     if (isNaN(date.getTime())) return value;
+    const locale = state.get('locale') === 'en' ? 'en-US' : 'es-ES';
     if (style === 'date') {
-      return new Intl.DateTimeFormat('es-ES', { dateStyle: 'medium' }).format(date);
+      return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' }).format(date);
     }
     if (style === 'time') {
-      return new Intl.DateTimeFormat('es-ES', { timeStyle: 'short' }).format(date);
+      return new Intl.DateTimeFormat(locale, { timeStyle: 'short' }).format(date);
     }
-    return new Intl.DateTimeFormat('es-ES', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+    return new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(date);
   } catch {
     return value;
   }

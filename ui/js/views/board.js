@@ -8,45 +8,46 @@ import * as api from '../api.js';
 import * as router from '../router.js';
 import { flash } from './flash.js';
 import { esc, debounce } from '../utils.js';
+import { t } from '../i18n.js';
 
 const COLUMNS = [
-  { id: 'pending',     label: 'Pendiente' },
-  { id: 'in_progress', label: 'En Progreso' },
-  { id: 'in_review',  label: 'En Revisión' },
-  { id: 'blocked',    label: 'Bloqueado' },
-  { id: 'completed',  label: 'Completado' },
+  { id: 'pending',     label: 'Pending' },
+  { id: 'in_progress', label: 'In Progress' },
+  { id: 'in_review',  label: 'In Review' },
+  { id: 'blocked',    label: 'Blocked' },
+  { id: 'completed',  label: 'Completed' },
 ];
 
 let _dragTaskId = null;
 
 export async function render() {
   const payload = state.getPayload();
-  if (!payload) return '<div class="empty-state" style="margin:3rem">Sin datos del proyecto.</div>';
+  if (!payload) return `<div class="empty-state" style="margin:3rem">${t('ui.board.noData', {}, 'No project data.')}</div>`;
 
   const tasks = _filterTasks(payload.derived.tasks);
   const hasCancelled = tasks.some(t => t.status === 'cancelled');
   const columns = hasCancelled
-    ? [...COLUMNS, { id: 'cancelled', label: 'Cancelado' }]
-    : COLUMNS;
+    ? [...COLUMNS, { id: 'cancelled', label: t('status.cancelled', {}, 'Cancelled') }]
+    : COLUMNS.map(col => ({ ...col, label: t(`status.${col.id}`, {}, col.label) }));
 
   const html = `
     <div class="view-enter">
       <div class="section-header">
         <div class="section-header-left">
-          <p class="eyebrow">Tablero</p>
-          <h2>Tablero Operativo</h2>
+          <p class="eyebrow">${t('ui.board.eyebrow', {}, 'Board')}</p>
+          <h2>${t('ui.board.title', {}, 'Operational board')}</h2>
         </div>
         <div style="display:flex;gap:var(--space-2)">
           <button class="btn btn-ghost btn-sm" id="board-filter-done" type="button">
-            ${icon('check', 14)} ${_showCompleted() ? 'Ocultar completadas' : 'Mostrar completadas'}
+            ${icon('check', 14)} ${_showCompleted() ? t('ui.board.hideCompleted', {}, 'Hide completed') : t('ui.board.showCompleted', {}, 'Show completed')}
           </button>
-          <button class="btn btn-primary btn-sm" id="new-task-btn" type="button" aria-label="Crear nueva tarea">
-            ${icon('plus', 14)} Nueva tarea
+          <button class="btn btn-primary btn-sm" id="new-task-btn" type="button" aria-label="${t('ui.board.newTask', {}, 'Create new task')}">
+            ${icon('plus', 14)} ${t('ui.tasks.new', {}, 'New task')}
           </button>
         </div>
       </div>
 
-      <div class="board-grid" id="board" aria-label="Tablero de tareas por estado" role="region">
+      <div class="board-grid" id="board" aria-label="${t('ui.board.aria', {}, 'Task board by status')}" role="region">
         ${columns.map(col => {
           const colTasks = tasks.filter(t => t.status === col.id);
           return _renderColumn(col, colTasks);
@@ -81,18 +82,18 @@ function _showCompleted() {
 
 function _renderColumn(col, tasks) {
   return `
-    <section class="board-column col-${col.id}" data-status="${col.id}" aria-label="Columna ${col.label}">
+    <section class="board-column col-${col.id}" data-status="${col.id}" aria-label="${t('ui.board.column', { label: col.label }, `Column ${col.label}`)}">
       <div class="board-column-header">
         <h3 class="board-column-title" id="col-${col.id}">
           <span class="board-column-dot" aria-hidden="true"></span>
           ${esc(col.label)}
         </h3>
-        <span class="board-column-count" aria-label="${tasks.length} tareas">${tasks.length}</span>
+        <span class="board-column-count" aria-label="${t('ui.board.tasksCount', { count: tasks.length }, `${tasks.length} tasks`)}">${tasks.length}</span>
       </div>
       <div class="board-column-body" aria-labelledby="col-${col.id}" role="list">
         ${tasks.map(t => _renderCard(t)).join('')}
         ${tasks.length === 0
-          ? `<div class="empty-state" style="padding:var(--space-5);min-height:80px;border-style:dashed">Sin tareas</div>`
+          ? `<div class="empty-state" style="padding:var(--space-5);min-height:80px;border-style:dashed">${t('ui.board.noTasks', {}, 'No tasks')}</div>`
           : ''}
       </div>
     </section>
@@ -115,17 +116,17 @@ function _renderCard(task) {
       draggable="true"
       role="listitem"
       tabindex="0"
-      aria-label="${esc(task.title)}, ${statusLabels[task.status] || task.status}, prioridad ${task.priority}"
+      aria-label="${esc(task.title)}, ${statusLabels[task.status] || task.status}, ${t('ui.board.priority', { priority: task.priority }, `priority ${task.priority}`)}"
       aria-selected="${isSelected}"
     >
       <strong class="task-card-title">${esc(task.title)}</strong>
       <span class="task-card-id">${esc(task.id)}</span>
-      <p class="task-card-summary">${esc(task.summary || 'Sin descripción.')}</p>
+      <p class="task-card-summary">${esc(task.summary || t('ui.board.noDescription', {}, 'No description.'))}</p>
       <div class="task-card-meta">
         <span class="badge badge-${priorityVariant[task.priority] || 'muted'}">${esc(task.priority)}</span>
         <span class="badge badge-muted">${esc(phaseInfo?.label || task.phase)}</span>
         ${task.stream ? `<span class="badge badge-muted">${esc(task.stream)}</span>` : ''}
-        ${task.blocker ? `<span class="badge badge-danger" title="${esc(task.blocker)}">${icon('alertTriangle', 10)} Bloqueada</span>` : ''}
+        ${task.blocker ? `<span class="badge badge-danger" title="${esc(task.blocker)}">${icon('alertTriangle', 10)} ${t('status.blocked', {}, 'Blocked')}</span>` : ''}
       </div>
     </article>
   `;
@@ -244,8 +245,8 @@ function _bindDragDrop(board) {
     if (!action) return;
 
     try {
-      await api.taskAction(taskId, action, `Movida a ${newStatus} desde el tablero.`);
-      flash(`Tarea movida a ${newStatus}.`, 'success');
+      await api.taskAction(taskId, action, t('ui.board.movedFromBoard', { status: newStatus }, `Moved to ${newStatus} from the board.`));
+      flash(t('ui.board.movedSuccess', { status: newStatus }, `Task moved to ${newStatus}.`), 'success');
       window.dispatchEvent(new CustomEvent('ops:refresh'));
     } catch (err) {
       flash(err.message, 'error');

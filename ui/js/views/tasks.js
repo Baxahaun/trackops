@@ -8,10 +8,11 @@ import * as api from '../api.js';
 import { flash } from './flash.js';
 import { esc, splitLines, formatDate } from '../utils.js';
 import * as timeTracker from '../time-tracker.js';
+import { t } from '../i18n.js';
 
 export async function render() {
   const payload = state.getPayload();
-  if (!payload) return '<div class="empty-state" style="margin:3rem">Sin datos del proyecto.</div>';
+  if (!payload) return `<div class="empty-state" style="margin:3rem">${t('ui.tasks.noData', {}, 'No project data.')}</div>`;
 
   const tasks   = _filterTasks(payload.derived.tasks);
   const selTask  = state.findTask(state.get('selectedTaskId'));
@@ -23,10 +24,10 @@ export async function render() {
       <div class="section-header">
         <div class="section-header-left">
           <p class="eyebrow">Task Studio</p>
-          <h2>Gestión de Tareas</h2>
+          <h2>${t('ui.tasks.title', {}, 'Task Management')}</h2>
         </div>
         <button class="btn btn-primary btn-sm" id="new-task-btn-top" type="button">
-          ${icon('plus', 14)} Nueva tarea
+          ${icon('plus', 14)} ${t('ui.tasks.new', {}, 'New task')}
         </button>
       </div>
 
@@ -35,17 +36,17 @@ export async function render() {
         <!-- Lista de tareas -->
         <div style="display:flex;flex-direction:column;gap:var(--space-3)">
           <!-- Quick filter -->
-          <div style="display:flex;gap:var(--space-2);flex-wrap:wrap" role="group" aria-label="Filtros de estado">
+          <div style="display:flex;gap:var(--space-2);flex-wrap:wrap" role="group" aria-label="${t('ui.tasks.filters', {}, 'Status filters')}">
             ${_renderStatusFilters(statusLabels, payload.derived.totals)}
           </div>
 
-          <div class="stack stack-sm" id="task-list" aria-label="Lista de tareas" role="list">
+          <div class="stack stack-sm" id="task-list" aria-label="${t('ui.tasks.list', {}, 'Task list')}" role="list">
             ${_renderTaskList(tasks, statusLabels, phases)}
           </div>
         </div>
 
         <!-- Editor de tarea -->
-        <div class="panel" id="task-editor" aria-label="Editor de tarea" aria-live="polite">
+        <div class="panel" id="task-editor" aria-label="${t('ui.tasks.editor', {}, 'Task editor')}" aria-live="polite">
           ${_renderEditor(selTask, phases)}
         </div>
 
@@ -74,12 +75,12 @@ function _filterTasks(tasks) {
 
 function _renderStatusFilters(statusLabels, totals) {
   const filters = [
-    { id: '',            label: 'Todas',        count: totals.all },
-    { id: 'pending',     label: 'Pendiente',    count: totals.pending },
-    { id: 'in_progress', label: 'En progreso',  count: totals.inProgress },
-    { id: 'in_review',   label: 'En revisión',  count: totals.inReview },
-    { id: 'blocked',     label: 'Bloqueadas',   count: totals.blocked },
-    { id: 'completed',   label: 'Completadas',  count: totals.completed },
+    { id: '',            label: t('ui.tasks.all', {}, 'All'), count: totals.all },
+    { id: 'pending',     label: statusLabels.pending || t('status.pending', {}, 'Pending'), count: totals.pending },
+    { id: 'in_progress', label: statusLabels.in_progress || t('status.in_progress', {}, 'In progress'), count: totals.inProgress },
+    { id: 'in_review',   label: statusLabels.in_review || t('status.in_review', {}, 'In review'), count: totals.inReview },
+    { id: 'blocked',     label: statusLabels.blocked || t('status.blocked', {}, 'Blocked'), count: totals.blocked },
+    { id: 'completed',   label: statusLabels.completed || t('status.completed', {}, 'Completed'), count: totals.completed },
   ];
   const active = sessionStorage.getItem('tasks-filter') || '';
   return filters.map(f => `
@@ -92,7 +93,7 @@ function _renderStatusFilters(statusLabels, totals) {
 }
 
 function _renderTaskList(tasks, statusLabels, phases) {
-  if (!tasks.length) return '<div class="empty-state">No hay tareas que coincidan.</div>';
+  if (!tasks.length) return `<div class="empty-state">${t('ui.tasks.noMatch', {}, 'No matching tasks.')}</div>`;
   const selectedId = state.get('selectedTaskId');
   const priorityVariant = { P0: 'danger', P1: 'warning', P2: 'accent', P3: 'muted' };
 
@@ -124,30 +125,30 @@ function _renderEditor(task, phases) {
   ).join('');
 
   const statuses = [
-    { id: 'pending',     label: 'Pendiente' },
-    { id: 'in_progress', label: 'En progreso' },
-    { id: 'in_review',   label: 'En revisión' },
-    { id: 'blocked',     label: 'Bloqueada' },
-    { id: 'completed',   label: 'Completada' },
-    { id: 'cancelled',   label: 'Cancelada' },
+    { id: 'pending',     label: t('status.pending', {}, 'Pending') },
+    { id: 'in_progress', label: t('status.in_progress', {}, 'In progress') },
+    { id: 'in_review',   label: t('status.in_review', {}, 'In review') },
+    { id: 'blocked',     label: t('status.blocked', {}, 'Blocked') },
+    { id: 'completed',   label: t('status.completed', {}, 'Completed') },
+    { id: 'cancelled',   label: t('status.cancelled', {}, 'Cancelled') },
   ];
 
   return `
     <div class="panel-header">
       <div class="panel-header-left">
         <p class="eyebrow">Task Studio</p>
-        <h3 class="panel-title" id="editor-title">${isNew ? 'Nueva tarea' : esc(task.title)}</h3>
+        <h3 class="panel-title" id="editor-title">${isNew ? t('ui.tasks.new', {}, 'New task') : esc(task.title)}</h3>
       </div>
       <div class="panel-header-right">
         ${!isNew ? `
-          <button class="btn btn-ghost btn-sm" id="timer-quick-btn" type="button" title="Iniciar timer para esta tarea">
+          <button class="btn btn-ghost btn-sm" id="timer-quick-btn" type="button" title="${t('ui.tasks.timerTitle', {}, 'Start timer for this task')}">
             ${icon('timer', 14)} Timer
           </button>
-          <button class="btn btn-ghost btn-sm" id="duplicate-btn" type="button" aria-label="Duplicar tarea">
+          <button class="btn btn-ghost btn-sm" id="duplicate-btn" type="button" aria-label="${t('ui.tasks.duplicate', {}, 'Duplicate task')}">
             ${icon('copy', 14)}
           </button>
         ` : ''}
-        <button class="btn btn-ghost btn-sm" id="clear-task-btn" type="button" aria-label="Limpiar formulario">
+        <button class="btn btn-ghost btn-sm" id="clear-task-btn" type="button" aria-label="${t('ui.tasks.clear', {}, 'Clear form')}">
           ${icon('x', 14)}
         </button>
       </div>
@@ -155,12 +156,12 @@ function _renderEditor(task, phases) {
 
     <!-- Action strip -->
     ${!isNew ? `
-      <div class="panel-footer" style="display:flex;gap:var(--space-2);flex-wrap:wrap" role="group" aria-label="Acciones rápidas de tarea">
-        <button class="chip is-active" type="button" data-task-action="start" aria-label="Iniciar tarea">Iniciar</button>
-        <button class="chip" type="button" data-task-action="review" aria-label="Pasar a revisión">Revisión</button>
-        <button class="chip" type="button" data-task-action="complete" aria-label="Completar tarea">Completar</button>
-        <button class="chip" type="button" data-task-action="block" aria-label="Bloquear tarea">Bloquear</button>
-        <button class="chip" type="button" data-task-action="pending" aria-label="Volver a pendiente">Pendiente</button>
+      <div class="panel-footer" style="display:flex;gap:var(--space-2);flex-wrap:wrap" role="group" aria-label="${t('ui.tasks.quickActions', {}, 'Quick task actions')}">
+        <button class="chip is-active" type="button" data-task-action="start" aria-label="${t('ui.tasks.start', {}, 'Start task')}">${t('ui.tasks.startLabel', {}, 'Start')}</button>
+        <button class="chip" type="button" data-task-action="review" aria-label="${t('ui.tasks.review', {}, 'Send to review')}">${t('ui.tasks.reviewLabel', {}, 'Review')}</button>
+        <button class="chip" type="button" data-task-action="complete" aria-label="${t('ui.tasks.complete', {}, 'Complete task')}">${t('ui.tasks.completeLabel', {}, 'Complete')}</button>
+        <button class="chip" type="button" data-task-action="block" aria-label="${t('ui.tasks.block', {}, 'Block task')}">${t('ui.tasks.blockLabel', {}, 'Block')}</button>
+        <button class="chip" type="button" data-task-action="pending" aria-label="${t('ui.tasks.pending', {}, 'Return to pending')}">${t('status.pending', {}, 'Pending')}</button>
       </div>
     ` : ''}
 
@@ -168,20 +169,20 @@ function _renderEditor(task, phases) {
       <form id="task-form" class="stack stack-md" novalidate>
 
         <div class="field">
-          <label for="task-title">Título <span aria-hidden="true" style="color:var(--danger)">*</span></label>
+          <label for="task-title">${t('ui.tasks.field.title', {}, 'Title')} <span aria-hidden="true" style="color:var(--danger)">*</span></label>
           <input id="task-title" name="title" type="text" required
             value="${isNew ? '' : esc(task.title)}"
-            placeholder="Describe la tarea"
+            placeholder="${t('ui.tasks.placeholder.title', {}, 'Describe the task')}"
             aria-required="true" />
         </div>
 
         <div class="field-row">
           <div class="field">
-            <label for="task-phase">Fase</label>
+            <label for="task-phase">${t('ui.tasks.field.phase', {}, 'Phase')}</label>
             <select id="task-phase" name="phase">${phases_opts}</select>
           </div>
           <div class="field">
-            <label for="task-priority">Prioridad</label>
+            <label for="task-priority">${t('ui.tasks.field.priority', {}, 'Priority')}</label>
             <select id="task-priority" name="priority">
               ${['P0','P1','P2','P3'].map(p => `<option value="${p}" ${!isNew && task.priority === p ? 'selected' : ''}>${p}</option>`).join('')}
             </select>
@@ -190,13 +191,13 @@ function _renderEditor(task, phases) {
 
         <div class="field-row">
           <div class="field">
-            <label for="task-status">Estado</label>
+            <label for="task-status">${t('ui.tasks.field.status', {}, 'Status')}</label>
             <select id="task-status" name="status">
               ${statuses.map(s => `<option value="${s.id}" ${!isNew && task.status === s.id ? 'selected' : ''}>${s.label}</option>`).join('')}
             </select>
           </div>
           <div class="field">
-            <label for="task-stream">Stream</label>
+            <label for="task-stream">${t('ui.tasks.field.stream', {}, 'Stream')}</label>
             <input id="task-stream" name="stream" type="text"
               value="${isNew ? 'Operations' : esc(task.stream || '')}"
               placeholder="Operations" />
@@ -205,42 +206,42 @@ function _renderEditor(task, phases) {
 
         <div class="checkbox-field">
           <input id="task-required" type="checkbox" name="required" ${isNew || task.required !== false ? 'checked' : ''} />
-          <label for="task-required">Tarea requerida para entrega</label>
+          <label for="task-required">${t('ui.tasks.field.required', {}, 'Required for delivery')}</label>
         </div>
 
         <div class="field">
-          <label for="task-summary">Resumen</label>
+          <label for="task-summary">${t('ui.tasks.field.summary', {}, 'Summary')}</label>
           <textarea id="task-summary" name="summary" rows="3"
-            placeholder="Descripción breve de la tarea">${isNew ? '' : esc(task.summary || '')}</textarea>
+            placeholder="${t('ui.tasks.placeholder.summary', {}, 'Short description of the task')}">${isNew ? '' : esc(task.summary || '')}</textarea>
         </div>
 
         <div class="field">
-          <label for="task-acceptance">Criterios de aceptación</label>
+          <label for="task-acceptance">${t('ui.tasks.field.acceptance', {}, 'Acceptance criteria')}</label>
           <textarea id="task-acceptance" name="acceptance" rows="3"
-            placeholder="Un criterio por línea">${isNew ? '' : esc((task.acceptance || []).join('\n'))}</textarea>
+            placeholder="${t('ui.tasks.placeholder.acceptance', {}, 'One criterion per line')}">${isNew ? '' : esc((task.acceptance || []).join('\n'))}</textarea>
         </div>
 
         <div class="field">
-          <label for="task-depends">Dependencias</label>
+          <label for="task-depends">${t('ui.tasks.field.depends', {}, 'Dependencies')}</label>
           <textarea id="task-depends" name="dependsOn" rows="2"
-            placeholder="ID de tarea dependiente, uno por línea">${isNew ? '' : esc((task.dependsOn || []).join('\n'))}</textarea>
+            placeholder="${t('ui.tasks.placeholder.depends', {}, 'Dependent task ID, one per line')}">${isNew ? '' : esc((task.dependsOn || []).join('\n'))}</textarea>
         </div>
 
         <div class="field">
-          <label for="task-blocker">Bloqueador</label>
+          <label for="task-blocker">${t('ui.tasks.field.blocker', {}, 'Blocker')}</label>
           <textarea id="task-blocker" name="blocker" rows="2"
-            placeholder="Describe el bloqueo si aplica">${isNew ? '' : esc(task.blocker || '')}</textarea>
+            placeholder="${t('ui.tasks.placeholder.blocker', {}, 'Describe the blocker if applicable')}">${isNew ? '' : esc(task.blocker || '')}</textarea>
         </div>
 
         <div class="field">
-          <label for="task-note">Nota de actualización</label>
+          <label for="task-note">${t('ui.tasks.field.note', {}, 'Update note')}</label>
           <textarea id="task-note" name="note" rows="2"
-            placeholder="Nota que se añadirá al historial (opcional)"></textarea>
+            placeholder="${t('ui.tasks.placeholder.note', {}, 'Optional note to append to history')}"></textarea>
         </div>
 
         <div class="form-actions">
           <button class="btn btn-primary" type="submit" id="save-task-btn">
-            ${icon('check', 16)} ${isNew ? 'Crear tarea' : 'Guardar cambios'}
+            ${icon('check', 16)} ${isNew ? t('ui.tasks.create', {}, 'Create task') : t('ui.tasks.save', {}, 'Save changes')}
           </button>
         </div>
 
@@ -248,7 +249,7 @@ function _renderEditor(task, phases) {
 
       ${!isNew && task.history?.length ? `
         <div style="margin-top:var(--space-6)">
-          <p class="eyebrow" style="margin-bottom:var(--space-3)">Historial</p>
+          <p class="eyebrow" style="margin-bottom:var(--space-3)">${t('ui.tasks.history', {}, 'History')}</p>
           <div class="stack stack-sm">
             ${task.history.slice(-5).reverse().map(h => `
               <div class="info-row">
@@ -321,7 +322,7 @@ function _bindEditorForm() {
     state.update('selectedTaskId', null);
     const editor = document.getElementById('task-editor');
     if (editor) {
-      editor.innerHTML = _renderEditor({ ...task, title: `${task.title} (copia)`, status: 'pending', history: [] }, state.getPhases());
+      editor.innerHTML = _renderEditor({ ...task, title: `${task.title} (${t('ui.tasks.copySuffix', {}, 'copy')})`, status: 'pending', history: [] }, state.getPhases());
       _bindEditorForm();
       document.getElementById('task-title')?.focus();
     }
@@ -329,21 +330,21 @@ function _bindEditorForm() {
 
   // Timer quick start
   document.getElementById('timer-quick-btn')?.addEventListener('click', async () => {
-    const task = state.findTask(state.get('selectedTaskId'));
-    if (!task) return;
-    await timeTracker.start(task.id, task.title);
+      const task = state.findTask(state.get('selectedTaskId'));
+      if (!task) return;
+      await timeTracker.start(task.id, task.title);
   });
 
   // Action strip
   document.querySelectorAll('[data-task-action]').forEach(btn => {
     btn.addEventListener('click', async () => {
       const taskId = state.get('selectedTaskId');
-      if (!taskId) { flash('Selecciona una tarea primero.', 'warning'); return; }
+      if (!taskId) { flash(t('ui.tasks.selectFirst', {}, 'Select a task first.'), 'warning'); return; }
       const action = btn.dataset.taskAction;
       const note   = document.getElementById('task-note')?.value?.trim() || '';
       try {
-        await api.taskAction(taskId, action, note || `Cambio a "${action}" desde el board.`);
-        flash('Estado actualizado.', 'success');
+        await api.taskAction(taskId, action, note || t('ui.tasks.defaultActionNote', { action }, `Change to "${action}" from the board.`));
+        flash(t('ui.tasks.updated', {}, 'Status updated.'), 'success');
         window.dispatchEvent(new CustomEvent('ops:refresh'));
       } catch (err) {
         flash(err.message, 'error');

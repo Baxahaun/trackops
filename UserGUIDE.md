@@ -58,7 +58,7 @@ npx trackops status              # Ver estado del proyecto
 npx trackops next                # Ver próximas tareas
 npx trackops task start ops-bootstrap  # Empezar a trabajar
 npx trackops sync                # Generar Markdown para tu IA
-npx trackops dashboard           # Abrir centro de control web
+npx trackops dashboard           # Abrir centro de control web en un puerto libre
 ```
 
 ---
@@ -133,11 +133,11 @@ El archivo `project_control.json` es la **única fuente de verdad** del proyecto
 
 | Comando | Descripción |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en] [--name "..."]` | Inicializar en el directorio actual. `--with-etapa` se conserva solo por compatibilidad. |
+| `trackops init [--with-opera] [--locale es\|en] [--name "..."] [--no-bootstrap]` | Inicializar en el directorio actual. Si no pasas `--locale` y hay TTY, TrackOps pedirá idioma. `--with-etapa` se conserva solo por compatibilidad. |
 | `trackops status` | Estado completo: foco, fase, tareas, bloqueadores, repo git |
 | `trackops next` | Próximas tareas ejecutables (sin dependencias bloqueantes) |
 | `trackops sync` | Regenerar `task_plan.md`, `progress.md`, `findings.md` |
-| `trackops dashboard` | Lanzar dashboard web local |
+| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Lanzar dashboard web local en un puerto libre |
 | `trackops refresh-repo [--quiet]` | Actualizar estado del repo git en el runtime |
 | `trackops register` | Registrar proyecto en el portfolio multi-proyecto |
 | `trackops projects` | Listar proyectos registrados |
@@ -157,9 +157,10 @@ trackops task note     <task-id> <nota>   # Añadir nota sin cambiar estado
 #### Metodología OPERA
 
 ```bash
-trackops opera install                    # Instalar OPERA en el proyecto
-trackops opera status                     # Ver estado e integridad
-trackops opera configure [--phases '...'] # Reconfigurar fases
+trackops opera install [--locale es|en] [--non-interactive] [--no-bootstrap] # Instalar OPERA
+trackops opera bootstrap [--locale es|en] [--non-interactive]                  # Reanudar bootstrap
+trackops opera status                                                          # Ver estado e integridad
+trackops opera configure [--phases '...'] [--locale es|en]                     # Reconfigurar fases o idioma
 trackops opera upgrade                    # Actualizar templates
 ```
 
@@ -189,7 +190,7 @@ El dashboard central interactivo es el centro de mando local.
 ```bash
 npx trackops dashboard
 ```
-Por defecto, se abre en **http://localhost:4173**. Si necesitas otro puerto, puedes definir `OPS_UI_PORT`.
+Empieza por **http://localhost:4173** y, si ese puerto esta ocupado, busca automaticamente el siguiente libre. Puedes sugerir otro puerto con `OPS_UI_PORT` o `--port`, forzar error con `--strict-port`, y exponer una ruta de red con `--public` o `--host`. Cuando la plataforma lo permite, TrackOps copia automaticamente la URL local al portapapeles.
 
 **Navegación Principal (7 Vistas):**
 
@@ -459,9 +460,10 @@ O edita `project_control.json`:
 Pierdes el estado del proyecto. Siempre inclúyelo en git. Los archivos `.md` generados son secundarios — la fuente de verdad es `project_control.json`.
 
 **¿Puedo tener múltiples instancias del dashboard abiertas?**
-Sí, en puertos distintos. El servidor usa el puerto 4173 por defecto. Si necesitas otro, defínelo así:
+Sí. El dashboard intenta arrancar desde el puerto 4173 y, si está ocupado, salta al siguiente libre. Si quieres empezar desde otro puerto o exigir uno concreto:
 ```bash
 $env:OPS_UI_PORT=4174; npx trackops dashboard
+npx trackops dashboard --strict-port --port 4174
 ```
 
 **¿Cómo integro TrackOps con CI/CD?**
@@ -525,7 +527,7 @@ npx trackops status              # View project state
 npx trackops next                # View next tasks
 npx trackops task start ops-bootstrap  # Start working
 npx trackops sync                # Generate Markdown for your AI
-npx trackops dashboard           # Open web control center
+npx trackops dashboard           # Open web control center on an available port
 ```
 
 ---
@@ -600,11 +602,11 @@ The `project_control.json` file is the **single source of truth** for the projec
 
 | Command | Description |
 |---------|-------------|
-| `trackops init [--with-opera] [--locale es\|en] [--name "..."]` | Initialize in current directory. `--with-etapa` is kept only for compatibility. |
+| `trackops init [--with-opera] [--locale es\|en] [--name "..."] [--no-bootstrap]` | Initialize in current directory. If `--locale` is omitted and a TTY is available, TrackOps will ask for the language. `--with-etapa` is kept only for compatibility. |
 | `trackops status` | Full state: focus, phase, tasks, blockers, git repo |
 | `trackops next` | Next executable tasks (without blocking dependencies) |
 | `trackops sync` | Regenerate `task_plan.md`, `progress.md`, `findings.md` |
-| `trackops dashboard` | Launch local web dashboard |
+| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Launch local web dashboard on an available port |
 | `trackops refresh-repo [--quiet]` | Update git repo state in runtime |
 | `trackops register` | Register project in the multi-project portfolio |
 | `trackops projects` | List registered projects |
@@ -624,9 +626,10 @@ trackops task note     <task-id> <note>   # Add note without changing status
 #### OPERA Methodology
 
 ```bash
-trackops opera install                    # Install OPERA in project
-trackops opera status                     # View state and integrity
-trackops opera configure [--phases '...'] # Reconfigure phases
+trackops opera install [--locale es|en] [--non-interactive] [--no-bootstrap] # Install OPERA
+trackops opera bootstrap [--locale es|en] [--non-interactive]                  # Resume bootstrap
+trackops opera status                                                          # View state and integrity
+trackops opera configure [--phases '...'] [--locale es|en]                     # Reconfigure phases or locale
 trackops opera upgrade                    # Update templates
 ```
 
@@ -656,7 +659,7 @@ The central interactive dashboard is your local command center.
 ```bash
 npx trackops dashboard
 ```
-It runs by default on **http://localhost:4173**. If you need another port, set `OPS_UI_PORT`.
+It starts from **http://localhost:4173** and, if that port is busy, automatically moves to the next free one. You can suggest another starting port with `OPS_UI_PORT` or `--port`, force failure with `--strict-port`, and expose a network URL with `--public` or `--host`. When the platform allows it, TrackOps also copies the local URL to the clipboard automatically.
 
 **Main Navigation (7 Views):**
 
@@ -926,9 +929,10 @@ Or edit `project_control.json`:
 You lose the project state. Always include it in git. The generated `.md` files are secondary — the source of truth is `project_control.json`.
 
 **Can I have multiple dashboard instances open?**
-Yes, on different ports. The server uses port 4173 by default. If you need another one:
+Yes. The dashboard starts from port 4173 and, if needed, moves to the next free one automatically. If you want to start elsewhere or require an exact port:
 ```bash
 OPS_UI_PORT=4174 npx trackops dashboard
+trackops dashboard --strict-port --port 4174
 ```
 
 **How do I integrate TrackOps with CI/CD?**

@@ -7,6 +7,7 @@
  */
 
 import * as state from './state.js';
+import { t } from './i18n.js';
 
 const STORAGE_KEY = 'trackops-onboarding-v2';
 
@@ -15,8 +16,8 @@ const STORAGE_KEY = 'trackops-onboarding-v2';
 const STEPS = [
   // 0 — Bienvenida (sin target)
   {
-    title:    '¡Bienvenido a TrackOps!',
-    desc:     'Tu motor operativo local para desarrolladores. Vamos a hacer un tour rápido — solo tarda 2 minutos.',
+    titleKey: 'ui.onboarding.welcome.title',
+    descKey: 'ui.onboarding.welcome.desc',
     target:   null,
     view:     null,
     pos:      'center',
@@ -24,8 +25,8 @@ const STEPS = [
 
   // 1 — Sidebar / navegación
   {
-    title:    'Navegación principal',
-    desc:     'La barra lateral te lleva entre las vistas principales: resumen, tareas, tablero, ejecución y analíticas. El indicador naranja marca tareas pendientes.',
+    titleKey: 'ui.onboarding.nav.title',
+    descKey: 'ui.onboarding.nav.desc',
     target:   '#sidebar',
     view:     'overview',
     pos:      'right',
@@ -33,8 +34,8 @@ const STEPS = [
 
   // 2 — KPI cards
   {
-    title:    'Métricas de un vistazo',
-    desc:     'Cuatro KPI cards muestran en tiempo real: trabajo abierto, completado, bloqueado y en revisión. Los colores del borde superior indican el estado.',
+    titleKey: 'ui.onboarding.kpi.title',
+    descKey: 'ui.onboarding.kpi.desc',
     target:   '.kpi-grid',
     view:     'overview',
     pos:      'bottom',
@@ -42,8 +43,8 @@ const STEPS = [
 
   // 3 — Gráfico de actividad
   {
-    title:    'Actividad semanal',
-    desc:     'El gráfico de barras muestra los cambios de estado de los últimos 10 días. Identifica picos de trabajo y periodos de inactividad.',
+    titleKey: 'ui.onboarding.activity.title',
+    descKey: 'ui.onboarding.activity.desc',
     target:   '.chart-card',
     view:     'overview',
     pos:      'bottom',
@@ -51,8 +52,8 @@ const STEPS = [
 
   // 4 — Donut de progreso
   {
-    title:    'Progreso Global',
-    desc:     'El donut SVG desglosa el estado de todas las tareas: completadas (verde), en progreso (azul), bloqueadas (rojo) y pendientes (naranja).',
+    titleKey: 'ui.onboarding.progress.title',
+    descKey: 'ui.onboarding.progress.desc',
     target:   '.donut-wrapper',
     view:     'overview',
     pos:      'left',
@@ -60,8 +61,8 @@ const STEPS = [
 
   // 5 — Time Tracker
   {
-    title:    'Seguimiento de tiempo',
-    desc:     'Registra el tiempo dedicado a cada tarea. Pulsa iniciar, trabaja y luego detén el contador. La duración queda guardada para análisis posterior.',
+    titleKey: 'ui.onboarding.time.title',
+    descKey: 'ui.onboarding.time.desc',
     target:   '.time-tracker-card',
     view:     'overview',
     pos:      'top',
@@ -69,8 +70,8 @@ const STEPS = [
 
   // 6 — Topbar: búsqueda
   {
-    title:    'Búsqueda global',
-    desc:     'Filtra tareas en tiempo real desde cualquier vista con ⌘/Ctrl+F. El selector de proyecto te permite cambiar entre proyectos registrados.',
+    titleKey: 'ui.onboarding.search.title',
+    descKey: 'ui.onboarding.search.desc',
     target:   '.topbar-search',
     view:     'overview',
     pos:      'bottom',
@@ -78,8 +79,8 @@ const STEPS = [
 
   // 7 — Board (Kanban)
   {
-    title:    'Tablero Kanban',
-    desc:     'Arrastra las tarjetas entre columnas para cambiar el estado de una tarea. Cada movimiento actualiza el historial y regenera los docs Markdown.',
+    titleKey: 'ui.onboarding.board.title',
+    descKey: 'ui.onboarding.board.desc',
     target:   '.board-grid',
     view:     'board',
     pos:      'top',
@@ -87,8 +88,8 @@ const STEPS = [
 
   // 8 — Editor de tareas
   {
-    title:    'Editor de Tareas',
-    desc:     'Selecciona cualquier tarea para editarla en el panel derecho. Puedes cambiar prioridad, fase, criterios de aceptación y usar el action strip para transicionar estados.',
+    titleKey: 'ui.onboarding.tasks.title',
+    descKey: 'ui.onboarding.tasks.desc',
     target:   '.task-list',
     view:     'tasks',
     pos:      'right',
@@ -96,8 +97,8 @@ const STEPS = [
 
   // 9 — Ejecución / Consola
   {
-    title:    'Consola Integrada',
-    desc:     'Ejecuta comandos de terminal directamente desde el dashboard. Los Quick Commands incluyen los flujos más comunes: status, sync, git log…',
+    titleKey: 'ui.onboarding.execution.title',
+    descKey: 'ui.onboarding.execution.desc',
     target:   '.terminal-surface',
     view:     'execution',
     pos:      'top',
@@ -105,8 +106,8 @@ const STEPS = [
 
   // 10 — Analytics
   {
-    title:    'Analíticas del proyecto',
-    desc:     'Esta vista reúne salud operativa, distribución por estado, tiempo por tarea, progreso por fase y la actividad reciente.',
+    titleKey: 'ui.onboarding.insights.title',
+    descKey: 'ui.onboarding.insights.desc',
     target:   '.health-grid',
     view:     'insights',
     pos:      'bottom',
@@ -114,8 +115,8 @@ const STEPS = [
 
   // 11 — AI Skill Hub
   {
-    title:    'Centro de habilidades',
-    desc:     'Tu copiloto evoluciona. Descubre e instala nuevas habilidades específicas para tu contexto a través del repositorio integrado de la comunidad.',
+    titleKey: 'ui.onboarding.skills.title',
+    descKey: 'ui.onboarding.skills.desc',
     target:   '#view-skills',
     view:     'skills',
     pos:      'right',
@@ -123,8 +124,8 @@ const STEPS = [
 
   // 12 — Theme toggle
   {
-    title:    'Tema claro / oscuro',
-    desc:     'Alterna entre tema claro y oscuro con un clic. Tu preferencia se guarda automáticamente y respeta la configuración del sistema operativo.',
+    titleKey: 'ui.onboarding.theme.title',
+    descKey: 'ui.onboarding.theme.desc',
     target:   '#theme-toggle-btn',
     view:     'overview',
     pos:      'bottom',
@@ -132,8 +133,8 @@ const STEPS = [
 
   // 13 — Fin
   {
-    title:    '¡Todo listo!',
-    desc:     'Puedes relanzar este tour en cualquier momento desde "Ayuda & Tour" en la parte inferior del sidebar.',
+    titleKey: 'ui.onboarding.done.title',
+    descKey: 'ui.onboarding.done.desc',
     target:   null,
     view:     null,
     pos:      'center',
@@ -209,10 +210,11 @@ async function _renderStep() {
   }
 
   // Actualizar contenido del tooltip
-  document.getElementById('ob-step-label').textContent = `Paso ${_step + 1} de ${total}`;
-  document.getElementById('ob-title').textContent       = step.title;
-  document.getElementById('ob-desc').textContent        = step.desc;
-  document.getElementById('ob-next').textContent        = isLast ? '¡Empezar!' : 'Siguiente →';
+  document.getElementById('ob-step-label').textContent = t('ui.onboarding.step', { current: _step + 1, total }, `Step ${_step + 1} of ${total}`);
+  document.getElementById('ob-title').textContent       = t(step.titleKey, {}, step.titleKey);
+  document.getElementById('ob-desc').textContent        = t(step.descKey, {}, step.descKey);
+  document.getElementById('ob-prev').textContent        = t('ui.onboarding.prev', {}, 'Previous');
+  document.getElementById('ob-next').textContent        = isLast ? t('ui.onboarding.start', {}, 'Start') : t('ui.onboarding.next', {}, 'Next →');
   document.getElementById('ob-prev').style.visibility  = isFirst ? 'hidden' : 'visible';
 
   // Dots

@@ -6,31 +6,30 @@ import { icon } from '../icons.js';
 import * as state from '../state.js';
 import * as consoleLogger from '../console-logger.js';
 import * as onboarding from '../onboarding.js';
-
-const NAV_ITEMS = [
-  { id: 'overview',   label: 'Resumen',      icon: 'dashboard',  section: 'menu'    },
-  { id: 'tasks',      label: 'Tareas',       icon: 'tasks',      section: 'menu', badge: true },
-  { id: 'board',      label: 'Tablero',      icon: 'board',      section: 'menu'    },
-  { id: 'execution',  label: 'Ejecución',    icon: 'execution',  section: 'menu'    },
-  { id: 'skills',     label: 'Habilidades',  icon: 'zap',        section: 'menu'    },
-  { id: 'insights',   label: 'Analíticas',   icon: 'insights',   section: 'menu'    },
-];
-
-const GENERAL_ITEMS = [
-  { id: 'settings',   label: 'Configuración', icon: 'settings'   },
-  { id: 'help',       label: 'Ayuda & Tour', icon: 'help', action: 'tour' },
-  { id: 'console',    label: 'Registros',    icon: 'console', action: 'console', badge: 'error' },
-];
+import { t } from '../i18n.js';
 
 /** Renderiza el sidebar completo */
 export function render() {
   const el = document.getElementById('sidebar');
   if (!el) return;
+  const navItems = [
+    { id: 'overview',   label: t('ui.nav.overview', {}, 'Overview'), icon: 'dashboard', section: 'menu' },
+    { id: 'tasks',      label: t('ui.nav.tasks', {}, 'Tasks'), icon: 'tasks', section: 'menu', badge: true },
+    { id: 'board',      label: t('ui.nav.board', {}, 'Board'), icon: 'board', section: 'menu' },
+    { id: 'execution',  label: t('ui.nav.execution', {}, 'Execution'), icon: 'execution', section: 'menu' },
+    { id: 'skills',     label: t('ui.nav.skills', {}, 'Skills'), icon: 'zap', section: 'menu' },
+    { id: 'insights',   label: t('ui.nav.insights', {}, 'Insights'), icon: 'insights', section: 'menu' },
+  ];
+  const generalItems = [
+    { id: 'settings', label: t('ui.nav.settings', {}, 'Settings'), icon: 'settings' },
+    { id: 'help', label: t('ui.nav.help', {}, 'Help & Tour'), icon: 'help', action: 'tour' },
+    { id: 'console', label: t('ui.nav.logs', {}, 'Logs'), icon: 'console', action: 'console', badge: 'error' },
+  ];
 
   el.innerHTML = `
-    <nav class="sidebar" aria-label="Navegación principal">
+    <nav class="sidebar" aria-label="${t('ui.sidebar.aria', {}, 'Main navigation')}">
       <!-- Logo -->
-      <a href="#" class="sidebar-logo" aria-label="TrackOps — Ir al inicio">
+      <a href="#" class="sidebar-logo" aria-label="${t('ui.sidebar.home', {}, 'TrackOps — Go home')}">
         <div class="sidebar-logo-icon" aria-hidden="true">
           ${icon('infinity', 20)}
         </div>
@@ -39,16 +38,16 @@ export function render() {
 
       <!-- MENU -->
       <div class="sidebar-section">
-        <p class="sidebar-section-label">Menú</p>
+        <p class="sidebar-section-label">${t('ui.sidebar.menu', {}, 'Menu')}</p>
         <ul class="sidebar-nav" role="list">
-          ${NAV_ITEMS.map(item => _renderNavItem(item)).join('')}
+          ${navItems.map(item => _renderNavItem(item)).join('')}
         </ul>
       </div>
 
       <!-- GENERAL -->
       <div class="sidebar-footer">
-        <p class="sidebar-section-label" style="padding-bottom:var(--space-2)">General</p>
-        ${GENERAL_ITEMS.map(item => _renderGeneralItem(item)).join('')}
+        <p class="sidebar-section-label" style="padding-bottom:var(--space-2)">${t('ui.sidebar.general', {}, 'General')}</p>
+        ${generalItems.map(item => _renderGeneralItem(item)).join('')}
       </div>
     </nav>
   `;
@@ -68,11 +67,11 @@ function _renderNavItem(item) {
         data-view="${item.id}"
         type="button"
         aria-current="${isActive ? 'page' : 'false'}"
-        aria-label="${item.label}${pendingCount ? `, ${pendingCount} pendientes` : ''}"
+        aria-label="${item.label}${pendingCount ? `, ${t('ui.sidebar.pendingCount', { count: pendingCount }, `${pendingCount} pending`)}` : ''}"
       >
         <span class="nav-item-icon" aria-hidden="true">${icon(item.icon, 18)}</span>
         <span class="nav-item-label">${item.label}</span>
-        ${pendingCount ? `<span class="nav-item-badge" aria-label="${pendingCount} tareas">${pendingCount}</span>` : ''}
+        ${pendingCount ? `<span class="nav-item-badge" aria-label="${t('ui.sidebar.tasksBadge', { count: pendingCount }, `${pendingCount} tasks`)}">${pendingCount}</span>` : ''}
       </button>
     </li>
   `;
@@ -90,7 +89,7 @@ function _renderGeneralItem(item) {
     >
       <span class="nav-item-icon" aria-hidden="true">${icon(item.icon, 18)}</span>
       <span class="nav-item-label">${item.label}</span>
-      ${item.badge === 'error' ? `<span class="nav-item-badge danger" id="sidebar-console-badge" aria-label="errores" style="display:none">0</span>` : ''}
+      ${item.badge === 'error' ? `<span class="nav-item-badge danger" id="sidebar-console-badge" aria-label="${t('ui.sidebar.errors', {}, 'errors')}" style="display:none">0</span>` : ''}
     </button>
   `;
 }
