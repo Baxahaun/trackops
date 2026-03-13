@@ -1,0 +1,327 @@
+/* ═══════════════════════════════════════════════════════
+   CHARTS — Gráficas SVG custom, bar charts, donut
+   ═══════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────
+   CHART CARD CONTAINER
+   ─────────────────────────────────── */
+.chart-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.chart-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+.chart-subtitle {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* ───────────────────────────────────
+   BAR CHARTS HORIZONTALES
+   ─────────────────────────────────── */
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 36px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.bar-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar-track {
+  height: 8px;
+  background: var(--surface-3);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--accent), #818CF8);
+  transform-origin: left;
+  animation: barGrow 0.8s var(--ease-out) both;
+}
+
+.bar-fill.fill-success { background: linear-gradient(90deg, var(--success), #34D399); }
+.bar-fill.fill-warning { background: linear-gradient(90deg, var(--warning), #FCD34D); }
+.bar-fill.fill-danger  { background: linear-gradient(90deg, var(--danger),  #F87171); }
+.bar-fill.fill-info    { background: linear-gradient(90deg, var(--info),    #60A5FA); }
+
+.bar-value {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+/* ───────────────────────────────────
+   ACTIVIDAD VERTICAL (barras semanales)
+   ─────────────────────────────────── */
+.activity-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  height: 120px;
+}
+
+.activity-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  height: 100%;
+}
+
+.activity-bar {
+  width: 100%;
+  min-height: 4px;
+  border-radius: var(--radius-xs) var(--radius-xs) 2px 2px;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(99,102,241,0.4) 100%);
+  transform-origin: bottom;
+  animation: heightGrow 0.9s var(--ease-out) both;
+  transition: background var(--duration-fast);
+}
+.activity-bar:hover {
+  background: linear-gradient(180deg, var(--accent-hover) 0%, rgba(129,140,248,0.5) 100%);
+}
+
+.activity-bar-label {
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ───────────────────────────────────
+   DONUT CHART SVG
+   ─────────────────────────────────── */
+.donut-svg {
+  overflow: visible;
+}
+
+.donut-track {
+  fill: none;
+  stroke: var(--surface-3);
+  stroke-width: 12;
+}
+
+.donut-arc {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  transform: rotate(-90deg);
+  transition: stroke-dasharray 1.2s var(--ease-out);
+}
+
+.donut-arc.arc-completed  { stroke: var(--success); }
+.donut-arc.arc-progress   { stroke: var(--accent); }
+.donut-arc.arc-blocked    { stroke: var(--danger); }
+.donut-arc.arc-review     { stroke: var(--warning); }
+
+/* ───────────────────────────────────
+   PHASE PROGRESS BARS
+   ─────────────────────────────────── */
+.phase-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.phase-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.phase-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phase-name {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.phase-progress {
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.phase-track {
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.phase-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transform-origin: left;
+  animation: barGrow 1s var(--ease-out) both;
+}
+
+.phase-fill.done  { background: var(--success); }
+.phase-fill.active { background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%); }
+.phase-fill.partial { background: var(--warning); }
+
+/* ───────────────────────────────────
+   MINI SPARKLINE (para KPI cards)
+   ─────────────────────────────────── */
+.sparkline-svg {
+  width: 100%;
+  height: 40px;
+  overflow: visible;
+}
+
+.sparkline-path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sparkline-area {
+  fill: url(#sparkGrad);
+  opacity: 0.3;
+}
+
+/* ───────────────────────────────────
+   TIME ENTRIES TIMELINE (mini)
+   ─────────────────────────────────── */
+.time-entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.time-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  font-size: var(--text-xs);
+}
+
+.time-entry-task {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.time-entry-duration {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.time-entry-date {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* ───────────────────────────────────
+   HEALTH RAIL (KPI health)
+   ─────────────────────────────────── */
+.health-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-3);
+}
+
+.health-card {
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.health-card-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.health-card-value {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.health-card-value.good   { color: var(--success); }
+.health-card-value.warn   { color: var(--warning); }
+.health-card-value.bad    { color: var(--danger); }
+
+/* ───────────────────────────────────
+   CHART TOOLTIP
+   ─────────────────────────────────── */
+.chart-tooltip {
+  position: absolute;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-primary);
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+  z-index: var(--z-panel);
+}
+.chart-tooltip.is-visible { opacity: 1; }
