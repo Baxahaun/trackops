@@ -2,7 +2,7 @@
 name: "trackops"
 description: "Global TrackOps skill that prepares your agent for local project orchestration and operational automation, ensures the runtime on first use, and guides per-project activation with optional OPERA."
 metadata:
-  version: "1.0.1"
+  version: "1.1.0"
   type: "global"
   triggers:
     - "install trackops"
