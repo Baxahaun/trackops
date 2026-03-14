@@ -27,6 +27,11 @@ y el proyecto mantiene versionado pragmatico mientras se consolida la politica f
 
 - ✨ **feat(dashboard)**: rediseno y refactorizacion completa del UI local. Implementacion de 7 vistas independientes con soporte Vanilla JS/CSS puro, un sistema de Theming nativo, Onboarding interactivo (Tour con resalte de elementos), e integracion nativa y de On-Click con el ecosistema de IA comunitaria skills.sh para expandir las capacidades agenticas del controlador (`2c9fb67`).
 
+
+## [2026-03-15]
+
+- 🔧 **(git)** ignora env privado local (`9f8028c`)
+
 ## [2026-03-14]
 
 - 📦 **(release)** prepara version 2.0.0 (`e52e8db`)
