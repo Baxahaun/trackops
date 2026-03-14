@@ -11,6 +11,10 @@ y el proyecto mantiene versionado pragmatico mientras se consolida la politica f
 - ✨ **feat(skills)**: se redefine TrackOps como skill global canónica instalable desde `skills.sh`, separando la capacidad global del agente de la activación local por proyecto. Se agrega `skills/trackops` con bootstrap de primer uso para asegurar el runtime npm, se retira del camino público el modelo de adapters por vendor dentro del repo, y se alinean CLI, documentación, validaciones de release y smoke tests con el flujo `trackops init` + `trackops opera install` (`3095e2c`).
 - 🐛 **fix(branding)**: se corrige y unifica el favicon de TrackOps entre la web publica y el panel local. La landing pasa a declarar su favicon oficial, el panel deja de depender de una ruta absoluta fragil y se incorpora un activo limpio para pestanas de navegador en `docs/assets/favicon.svg` (`161f973`).
 
+## 2026-03-14
+
+- 📦 **build(release)**: se prepara la publicacion `1.1.0` sincronizando la version del paquete `trackops` y la metadata de la skill global para que npm y `skills.sh` apunten al mismo release (`pending`).
+
 ## 2026-03-12
 
 - ✨ **feat(product)**: se blinda el repositorio para que solo versione archivos propios del paquete `trackops`, dejando fuera los artefactos generados por su uso y por `OPERA`. Tambien se refina el soporte al proyecto con `USDC` en `Polygon`, se anade QR en la landing publica y se prepara la siguiente publicacion en npm con la version `1.0.1` (`38bed64`).
