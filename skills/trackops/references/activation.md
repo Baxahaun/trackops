@@ -7,7 +7,7 @@ The marketplace skill prepares TrackOps globally for the agent. It must not crea
 Install it with:
 
 ```bash
-npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
+npx skills add Baxahaun/trackops
 ```
 
 Replace `codex` with any supported target: `antigravity`, `claude-code`, `codex`, `cursor`, `gemini-cli`, `github-copilot`, or `kiro-cli`.

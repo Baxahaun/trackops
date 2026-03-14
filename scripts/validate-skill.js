@@ -72,7 +72,7 @@ function main() {
   }
 
   for (const requiredPhrase of [
-    "npx skills add Baxahaun/trackops --skill trackops --full-depth",
+    "npx skills add Baxahaun/trackops",
     "node scripts/bootstrap-trackops.js",
     "trackops init",
     "trackops opera install",

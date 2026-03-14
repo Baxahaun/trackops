@@ -23,8 +23,10 @@ Su trabajo es simple:
 La distribución principal de TrackOps es una skill global:
 
 ```bash
-npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
+npx skills add Baxahaun/trackops
 ```
+
+La visibilidad en `skills.sh` depende de instalaciones reales registradas por la telemetria anonima de la CLI. Si alguien instala con `DISABLE_TELEMETRY=1`, esa instalacion no contara para el buscador ni para el leaderboard.
 
 Targets soportados:
 
@@ -271,8 +273,10 @@ Its job is straightforward:
 The primary distribution path for TrackOps is a global skill:
 
 ```bash
-npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
+npx skills add Baxahaun/trackops
 ```
+
+Visibility in `skills.sh` depends on real installs captured by the CLI's anonymous telemetry. If someone installs with `DISABLE_TELEMETRY=1`, that install will not count for search or leaderboard ranking.
 
 Supported targets:
 
