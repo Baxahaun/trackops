@@ -29,4 +29,5 @@ y el proyecto mantiene versionado pragmatico mientras se consolida la politica f
 
 ## [2026-03-14]
 
+- 📦 **(release)** prepara version 2.0.0 (`e52e8db`)
 - ✨ **(opera)** implanta opera v3 (`6c983a6`)
