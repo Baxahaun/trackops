@@ -14,6 +14,7 @@ y el proyecto mantiene versionado pragmatico mientras se consolida la politica f
 ## 2026-03-14
 
 - 📦 **build(release)**: se prepara la publicacion `1.1.0` sincronizando la version del paquete `trackops` y la metadata de la skill global para que npm y `skills.sh` apunten al mismo release (`pending`).
+- 📚 **docs(skills)**: se corrige la integracion publica con `skills.sh` para usar el comando canonico `npx skills add Baxahaun/trackops`, se actualizan la landing, README, guias y referencias de la skill, y se documenta que la aparicion en busqueda depende de la telemetria anonima de instalaciones reales (`pending`).
 
 ## 2026-03-12
 
