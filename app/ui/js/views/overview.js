@@ -21,7 +21,7 @@ export async function render() {
     </div>`;
   }
 
-  const { derived, runtime, control, project, docsDirty } = payload;
+  const { derived, runtime, control, project, docsDirty, opera } = payload;
 
   const html = `
     <div class="view-enter">
@@ -102,7 +102,7 @@ export async function render() {
         <!-- Salud operativa -->
         <div class="chart-card stagger-3" aria-label="${t('ui.overview.operationalHealth', {}, 'Operational health')}">
           <p class="chart-title" style="margin-bottom:var(--space-4)">${t('ui.overview.operationalHealth', {}, 'Operational health')}</p>
-          ${_renderRepoHealth(runtime, docsDirty, derived)}
+          ${_renderRepoHealth(runtime, docsDirty, derived, opera)}
         </div>
 
       </div>
@@ -334,7 +334,7 @@ function _bindPortfolioEvents() {
 
 // ─────────────────────────────── REPO HEALTH ────────────────────────────────
 
-function _renderRepoHealth(runtime, docsDirty, derived) {
+function _renderRepoHealth(runtime, docsDirty, derived, opera) {
   const completionRate = derived.totals.all
     ? Math.round((derived.totals.completed / derived.totals.all) * 100)
     : 0;
@@ -350,6 +350,10 @@ function _renderRepoHealth(runtime, docsDirty, derived) {
     { label: t('ui.overview.metric.repo', {}, 'Repo'), value: runtime?.clean ? t('ui.overview.repoClean', {}, 'Clean') : t('ui.overview.repoDirty', {}, 'Changes present'), cls: runtime?.clean ? 'good' : 'warn' },
     { label: t('ui.overview.metric.docDrift', {}, 'Documentation drift'), value: docsDirty?.length ? docsDirty.join(', ') : 'OK', cls: docsDirty?.length ? 'warn' : 'good' },
     { label: t('ui.overview.metric.lastCommit', {}, 'Last commit'), value: runtime?.lastCommit ? `${runtime.lastCommit.shortHash} · ${formatDate(runtime.lastCommit.date, 'date')}` : '—', cls: '' },
+    { label: t('ui.overview.metric.contract', {}, 'Contract readiness'), value: opera?.contractReadiness || 'hypothesis', cls: opera?.contractReadiness === 'locked' || opera?.contractReadiness === 'verified' ? 'good' : 'warn' },
+    { label: t('ui.overview.metric.bootstrap', {}, 'OPERA bootstrap'), value: opera?.bootstrap?.status || 'awaiting_intake', cls: opera?.bootstrap?.status === 'completed' ? 'good' : opera?.bootstrap?.status === 'legacy_unsupported' ? 'bad' : 'warn' },
+    { label: t('ui.overview.metric.legacy', {}, 'Legacy status'), value: opera?.legacyStatus || 'supported', cls: opera?.legacyStatus === 'supported' ? 'good' : 'bad' },
+    { label: t('ui.overview.metric.localeSource', {}, 'Language source'), value: opera?.localeSource || 'project', cls: '' },
   ];
 
   return `

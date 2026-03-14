@@ -10,6 +10,7 @@ const env = require("./env");
 const workspace = require("./workspace");
 const { t, setLocale } = require("./i18n");
 const { detectSystemLocale, promptForLocale, resolveLocale } = require("./locale");
+const runtimeState = require("./runtime-state");
 
 const GENERATED_SCRIPT_COMMANDS = {
   ops: "npx --yes trackops",
@@ -33,13 +34,23 @@ function parseArgs(args) {
     phases: null,
     noBootstrap: false,
     legacyLayout: false,
+    bootstrapMode: "auto",
+    technicalLevel: null,
+    projectState: null,
+    docsState: null,
+    decisionOwnership: null,
   };
   for (let i = 0; i < args.length; i += 1) {
     if (args[i] === "--locale" && args[i + 1]) { options.locale = args[i + 1]; i += 1; }
     else if (args[i] === "--name" && args[i + 1]) { options.name = args[i + 1]; i += 1; }
-    else if (args[i] === "--with-opera" || args[i] === "--with-etapa") { options.withOpera = true; }
+    else if (args[i] === "--with-opera") { options.withOpera = true; }
     else if (args[i] === "--no-bootstrap") { options.noBootstrap = true; }
     else if (args[i] === "--legacy-layout") { options.legacyLayout = true; }
+    else if (args[i] === "--bootstrap-mode" && args[i + 1]) { options.bootstrapMode = args[i + 1]; i += 1; }
+    else if (args[i] === "--technical-level" && args[i + 1]) { options.technicalLevel = args[i + 1]; i += 1; }
+    else if (args[i] === "--project-state" && args[i + 1]) { options.projectState = args[i + 1]; i += 1; }
+    else if (args[i] === "--docs-state" && args[i + 1]) { options.docsState = args[i + 1]; i += 1; }
+    else if (args[i] === "--decision-ownership" && args[i + 1]) { options.decisionOwnership = args[i + 1]; i += 1; }
     else if (args[i] === "--phases" && args[i + 1]) {
       try { options.phases = JSON.parse(args[i + 1]); } catch (_e) { /* ignore */ }
       i += 1;
@@ -62,7 +73,7 @@ function detectProjectName(root) {
 }
 
 function buildDefaultControl(context, options) {
-  const locale = resolveLocale(options.locale, config.DEFAULT_LOCALE);
+  const locale = resolveLocale(options.locale, runtimeState.getGlobalLocale() || config.DEFAULT_LOCALE);
   const phases = options.phases || config.buildDefaultPhases(locale);
   const isSplit = context.layout === "split";
   setLocale(locale);
@@ -95,6 +106,16 @@ function buildDefaultControl(context, options) {
         requiredKeys: [],
         optionalKeys: [],
         lastAuditAt: null,
+      },
+      userProfile: {
+        technicalLevel: null,
+        explanationMode: null,
+        capturedAt: null,
+      },
+      discovery: {
+        projectState: null,
+        documentationState: null,
+        availableArtifacts: [],
       },
     },
     checks: {
@@ -188,7 +209,7 @@ function initSplitProject(root, options) {
   workspace.ensureRootGitignore(targetRoot);
 
   const control = buildDefaultControl(context, options);
-  control.meta.projectName = options.name || detectProjectName(context.appRoot);
+  control.meta.projectName = options.name || detectProjectName(context.workspaceRoot);
   config.saveControl(context, control);
 
   installHooks(context);
@@ -261,7 +282,7 @@ function initLegacyProject(root, options) {
 
 function initProject(root, options) {
   const normalized = { ...(options || {}) };
-  normalized.locale = resolveLocale(normalized.locale, config.DEFAULT_LOCALE);
+  normalized.locale = resolveLocale(normalized.locale, runtimeState.getGlobalLocale() || config.DEFAULT_LOCALE);
   setLocale(normalized.locale);
   if (normalized.legacyLayout) {
     return initLegacyProject(root, normalized);
@@ -271,9 +292,17 @@ function initProject(root, options) {
 
 async function cmdInit(args) {
   const options = parseArgs(args || []);
-  options.locale = resolveLocale(options.locale, null);
-  if (!options.locale) {
+  const explicitLocale = resolveLocale(options.locale, null);
+  const globalLocale = runtimeState.getGlobalLocale();
+  if (explicitLocale) {
+    options.locale = explicitLocale;
+  } else if (!globalLocale) {
     options.locale = await promptForLocale(detectSystemLocale());
+  } else {
+    options.locale = globalLocale;
+  }
+  if (!globalLocale) {
+    await runtimeState.ensureGlobalLocale({ preferredLocale: options.locale, interactive: false });
   }
   setLocale(options.locale || config.DEFAULT_LOCALE);
 
@@ -284,6 +313,11 @@ async function cmdInit(args) {
     await opera.install(result.root, {
       locale: options.locale,
       bootstrap: !options.noBootstrap,
+      bootstrapMode: options.bootstrapMode,
+      technicalLevel: options.technicalLevel,
+      projectState: options.projectState,
+      docsState: options.docsState,
+      decisionOwnership: options.decisionOwnership,
     });
   }
 }

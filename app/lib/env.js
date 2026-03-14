@@ -59,13 +59,30 @@ function normalizeEnvironmentMeta(control, context) {
 function inferRequiredKeys(control, contextOrRoot) {
   const envMeta = control.meta?.environment || {};
   const fromMeta = unique([...(envMeta.requiredKeys || []), ...(envMeta.optionalKeys || [])]);
+  const contractServices = readContractServices(contextOrRoot, control);
+  const bootstrapServices = unique([
+    ...(control.meta?.opera?.bootstrap?.discovery?.externalServices || []),
+    ...(control.meta?.opera?.bootstrap?.externalServices || []),
+  ]);
   const fromServices = unique(
-    (control.meta?.opera?.bootstrap?.discovery?.externalServices || [])
+    (contractServices.length ? contractServices : bootstrapServices)
       .flatMap((service) => SERVICE_ENV_KEYS[service] || []),
   );
   const context = config.ensureContext(contextOrRoot || process.cwd());
   const fromExample = parseEnvKeys(readText(context.env.exampleFile));
   return unique([...fromMeta, ...fromServices, ...fromExample]);
+}
+
+function readContractServices(contextOrRoot, control) {
+  const context = config.ensureContext(contextOrRoot || process.cwd());
+  const contractFile = context.paths.contractFile;
+  if (!fs.existsSync(contractFile)) return [];
+  try {
+    const contract = JSON.parse(fs.readFileSync(contractFile, "utf8"));
+    return Array.isArray(contract?.system?.externalServices) ? contract.system.externalServices : [];
+  } catch (_error) {
+    return [];
+  }
 }
 
 function ensureFileWithHeader(filePath, lines) {

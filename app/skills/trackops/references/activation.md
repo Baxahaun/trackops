@@ -2,38 +2,72 @@
 
 ## Global install
 
-The marketplace skill prepares TrackOps globally for the agent. It must not create repo files by itself.
-
-Install it with:
+Install the marketplace skill:
 
 ```bash
 npx skills add Baxahaun/trackops
 ```
 
-Replace `codex` with any supported target: `antigravity`, `claude-code`, `codex`, `cursor`, `gemini-cli`, `github-copilot`, or `kiro-cli`.
-
-Before using TrackOps commands, run:
+On first use, ensure the runtime with:
 
 ```bash
 node scripts/bootstrap-trackops.js
 ```
 
-That bootstrap validates prerequisites, installs or updates the TrackOps runtime, and records state in `~/.trackops/runtime.json`.
+The global skill must not create repository files by itself.
 
 ## Local activation
 
-Inside a repository, the normal flow is:
+Inside a repository:
 
 ```bash
 trackops init
 trackops opera install
 ```
 
-Rules:
+By default, `trackops init` creates a split workspace with:
 
-- Use `trackops init` when the repo is not yet managed by TrackOps.
-- By default, `trackops init` creates a split workspace with `app/`, `ops/`, `/.env`, `/.env.example`, and `.trackops-workspace.json`.
-- Use `trackops opera install` only after `trackops init` and only when the user wants OPERA.
-- Use `trackops init --with-opera` only as an explicit shortcut.
-- Use `trackops init --legacy-layout` only for compatibility with the old single-root layout.
-- Never assume that a global skill install authorizes local repo mutations by default.
+- `app/`
+- `ops/`
+- `/.env`
+- `/.env.example`
+- `.trackops-workspace.json`
+
+## OPERA routing
+
+OPERA always starts by classifying:
+
+- technical level
+- project state
+- documentation state
+
+If the project is still early or the user is non-technical, TrackOps writes:
+
+- `ops/bootstrap/agent-handoff.md`
+- `ops/bootstrap/agent-handoff.json`
+
+The agent then produces:
+
+- `ops/bootstrap/intake.json`
+- `ops/bootstrap/spec-dossier.md`
+- `ops/bootstrap/open-questions.md` when needed
+
+When the quality gate passes, OPERA compiles:
+
+- `ops/contract/operating-contract.json`
+- `ops/genesis.md`
+- `ops/policy/autonomy.json`
+
+Resume with:
+
+```bash
+trackops opera bootstrap --resume
+```
+
+Locale controls:
+
+```bash
+trackops locale get
+trackops locale set en
+trackops doctor locale
+```

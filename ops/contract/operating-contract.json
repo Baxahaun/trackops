@@ -1,0 +1,109 @@
+{
+  "version": 3,
+  "intent": {
+    "problemStatement": "Los equipos que trabajan con agentes IA necesitan una capa local que ordene el proyecto, traduzca entre usuario y agente y mantenga el control operativo fuera del producto.",
+    "targetUser": "Desarrolladores senior, equipos técnicos y usuarios no técnicos que construyen proyectos reales con agentes IA.",
+    "singularDesiredOutcome": "Activar y gobernar proyectos locales asistidos por IA con un contrato operativo explícito, bilingüe y reanudable.",
+    "deliveryTarget": "Runtime npm de TrackOps con workspace split, dashboard local, onboarding dual y OPERA v3 compilado."
+  },
+  "userModel": {
+    "technicalLevel": "senior",
+    "explanationMode": "expert",
+    "decisionOwnership": "shared",
+    "language": "es",
+    "needsPlainLanguage": false
+  },
+  "evidence": {
+    "projectState": "advanced",
+    "documentationState": "spec_dossier",
+    "sourceArtifacts": [],
+    "repoScan": {
+      "title": "trackops",
+      "description": "Operational project control with task management, document generation, multi-project dashboard, and optional OPERA methodology",
+      "stacks": [
+        "node"
+      ],
+      "services": [],
+      "testCommands": [
+        "npm test"
+      ],
+      "buildCommands": [],
+      "ciProviders": [],
+      "gitRemote": "https://github.com/Baxahaun/trackops.git",
+      "readmeSummary": "<p align=\"center\">\n  <img src=\"docs/assets/logo.svg\" alt=\"TrackOps Logo\" width=\"96\" height=\"96\" />\n</p>",
+      "payloadHint": "https://github.com/Baxahaun/trackops#readme",
+      "sourceOfTruthHint": "Detectados archivos de entorno",
+      "workflowFiles": []
+    }
+  },
+  "system": {
+    "sourceOfTruth": "ops/project_control.json como estado operativo y ops/contract/operating-contract.json como contrato estructurado de maquina.",
+    "externalServices": [],
+    "inputSchema": {
+      "workspace": {
+        "layout": "split|legacy",
+        "locale": "es|en",
+        "bootstrapMode": "auto|direct|handoff"
+      }
+    },
+    "outputSchema": {
+      "runtime": {
+        "contractFile": "ops/contract/operating-contract.json",
+        "policyFile": "ops/policy/autonomy.json",
+        "docs": [
+          "ops/genesis.md",
+          "ops/task_plan.md",
+          "ops/progress.md",
+          "ops/findings.md"
+        ]
+      }
+    },
+    "behaviorRules": [
+      "No mezclar producto y operacion.",
+      "No exponer secretos en docs, APIs ni dashboard.",
+      "Mantener paridad funcional y editorial entre espanol e ingles."
+    ],
+    "architecturalInvariants": [
+      "El producto vive en app/ y la capa operativa en ops/.",
+      "genesis.md es una vista humana compilada, no la fuente primaria.",
+      "El contrato operativo estructurado gobierna el runtime de OPERA."
+    ]
+  },
+  "execution": {
+    "pipeline": [
+      "bootstrap global del runtime",
+      "activacion local del workspace",
+      "routing entre direct_cli y agent_handoff",
+      "validacion del intake y spec dossier",
+      "compilacion del contrato operativo",
+      "sincronizacion de vistas humanas y dashboard"
+    ],
+    "templates": [
+      "ops/.agent/hub/agent.md",
+      "ops/.agent/hub/router.md",
+      "ops/genesis.md"
+    ],
+    "phaseModel": "opera-v3",
+    "taskSeeds": [
+      "opera-bootstrap",
+      "opera-prove-integrations",
+      "opera-structure-system",
+      "opera-refine-delivery",
+      "opera-automate-runtime"
+    ]
+  },
+  "governance": {
+    "policyFile": "ops/policy/autonomy.json",
+    "riskProfile": "standard",
+    "approvalRules": [
+      "destructive_changes_require_approval",
+      "production_deploy_requires_approval",
+      "external_side_effects_require_approval"
+    ]
+  },
+  "quality": {
+    "contractReadiness": "verified",
+    "openQuestions": [],
+    "lastValidatedAt": "2026-03-14T21:30:18.159Z"
+  }
+}

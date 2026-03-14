@@ -1,33 +1,31 @@
-# TrackOps — Publicacion y Versiones
+# TrackOps Release Flow
 
-## Estado del repositorio
+## Repository state
 
-Este repositorio ya usa layout split:
+This repository already uses the split layout:
 
 - `app/`
-  producto publicable
+  publishable product
 - `ops/`
-  capa operativa local del propio proyecto
+  local operational layer for the project itself
 
-La rama de trabajo es `develop`.
-La rama publicada es `master`.
+Working branch: `develop`  
+Published branch: `master`
 
-## Regla de versionado
+## Versioning rule
 
-TrackOps usa una politica simple:
+Use a new package version only when delivered behavior changes for users.
 
 - `major`
-  cambios incompatibles o migraciones manuales
+  incompatible changes or manual migrations
 - `minor`
-  capacidades nuevas compatibles
+  new capabilities without breaking the public contract
 - `patch`
-  correcciones, ajustes de documentacion y mejoras sin ruptura
+  fixes, documentation, copy, or operational adjustments without contract breakage
 
-La version del paquete solo debe cambiar cuando cambia el comportamiento entregado al usuario.
+## Release checklist
 
-## Flujo de release
-
-Antes de publicar, verifica:
+Before publishing:
 
 ```bash
 node app/bin/trackops.js workspace status
@@ -35,29 +33,30 @@ node app/bin/trackops.js env status
 npm --prefix app run release:check
 ```
 
-Checklist:
+Then verify:
 
-1. Revisa el estado operativo en `ops/project_control.json`.
-2. Asegura que `ops/task_plan.md`, `ops/progress.md` y `ops/findings.md` esten sincronizados.
-3. Revisa `app/CHANGELOG.md`.
-4. Ajusta la version en `app/package.json` solo si el alcance del cambio lo exige.
-5. Haz el commit final.
-6. Publica con `trackops release` cuando el worktree este limpio.
+1. `ops/project_control.json` is up to date.
+2. `ops/contract/operating-contract.json` matches the current operating contract.
+3. `ops/policy/autonomy.json` exists and reflects the current approval policy.
+4. `ops/task_plan.md`, `ops/progress.md`, and `ops/findings.md` are synchronized.
+5. `app/CHANGELOG.md` reflects the public change.
+6. `app/package.json` version matches the intended release scope.
+7. The git worktree is clean.
 
-## Que publica TrackOps
+## What `trackops release` publishes
 
-En el modelo split:
+In the split model:
 
-- se publica solo el contenido de `app/`
-- se incluye `.env.example`
-- no se publica `/.env`
-- no se publica `ops/`
-- no se publica `.trackops-workspace.json`
+- only `app/` is published
+- `.env.example` is included
+- `/.env` is never published
+- `ops/` is never published
+- `.trackops-workspace.json` is never published
 
-## Regla de oro
+## Rule of record
 
-Si el cambio modifica instalacion, comandos, layout, interfaz visible, skill global, dashboard o comportamiento operativo, debe quedar reflejado en:
+If a change affects installation, commands, onboarding, layout, dashboard behavior, global skill behavior, or OPERA bootstrap semantics, update:
 
 - `app/CHANGELOG.md`
-- `app/README.md` o `app/UserGUIDE.md`
-- `ops/project_control.json` si afecta backlog, hallazgos o estado operativo
+- `app/README.md` and/or `app/UserGUIDE.md`
+- `ops/project_control.json` if the operational backlog or findings changed

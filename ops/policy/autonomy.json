@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "defaultRiskProfile": "standard",
+  "levels": {
+    "green": [
+      "read_files",
+      "run_tests",
+      "update_operational_docs",
+      "write_tmp_files"
+    ],
+    "yellow": [
+      "install_dependencies",
+      "change_structure",
+      "modify_pipeline"
+    ],
+    "red": [
+      "delete_persistent_data",
+      "deploy_to_production",
+      "external_side_effects",
+      "security_changes"
+    ]
+  },
+  "approvalRules": {
+    "destructive_changes_require_approval": true,
+    "production_deploy_requires_approval": true,
+    "external_side_effects_require_approval": true
+  }
+}

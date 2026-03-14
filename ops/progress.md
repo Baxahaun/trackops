@@ -5,15 +5,15 @@
 ## Estado Actual
 - Fase: Automatizar (5/5)
 - Bloqueadores: Ninguno
-- Ultimo test: ✅ 2026-03-13 — npm test cubre CLI, dashboard y el flujo skill global + activacion local sin romper la base existente.
+- Ultimo test: ✅ 2026-03-14 — npm test cubre locale, onboarding dual, dashboard, APIs, upgrade estable y compilacion del contrato operativo.
 - Proximo paso: Sin tareas abiertas
-- Ultima actualizacion operativa: 2026-03-13
+- Ultima actualizacion operativa: 2026-03-14
 
 ---
 
 ## Resumen de Ejecucion
-- Total de tareas: 32
-- Completadas: 12
+- Total de tareas: 36
+- Completadas: 16
 - En progreso: 0
 - En revision: 0
 - Pendientes: 0
@@ -29,14 +29,14 @@
 - Sin bloqueadores activos.
 
 ### Actividad reciente
-- [2026-03-13] `split-workspace-release-checks` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
-- [2026-03-13] `split-workspace-dogfood-trackops` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
-- [2026-03-13] `split-workspace-regression-guards` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
-- [2026-03-13] `split-workspace-dashboard-copy` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
-- [2026-03-13] `split-workspace-legacy-ux` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
-- [2026-03-13] `split-workspace-templates-guides` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
-- [2026-03-13] `split-workspace-server-registry` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
-- [2026-03-13] `split-workspace-init-layout` cancel — Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco.
+- [2026-03-14] `opera-structure-system` complete — SOPs y grafo de dependencias sembrados en ops/architecture; skills auxiliares y estructura OPERA v3 verificadas.
+- [2026-03-14] `opera-automate-runtime` complete — Circuito automatizado configurado con workflows de validacion, upgrade estable y smoke suite pasando.
+- [2026-03-14] `opera-prove-integrations` complete — Audit de integraciones completado: entorno, endpoints y shapes validados con evidence en ops/reviews/integration-audit.md y smoke tests.
+- [2026-03-14] `opera-refine-delivery` complete — Entrega auditada contra contrato, docs sincronizadas y evidencia registrada en ops/reviews/delivery-audit.md.
+- [2026-03-14] `opera-automate-runtime` create — Sembrada por bootstrap OPERA.
+- [2026-03-14] `opera-refine-delivery` create — Sembrada por bootstrap OPERA.
+- [2026-03-14] `opera-structure-system` create — Sembrada por bootstrap OPERA.
+- [2026-03-14] `opera-prove-integrations` create — Sembrada por bootstrap OPERA.
 
 ---
 
@@ -56,7 +56,7 @@
 ### [2026-03-12] — Cierre del backlog de alineacion tecnica
 - Se añade npm test con prueba minima automatizada del nucleo y del panel.
 - Se fija .agents/skills/_registry.md como ruta canonica para habilidades.
-- OPERA queda como narrativa oficial y ETAPA como alias heredado documentado.
+- OPERA v3 queda como narrativa oficial unica del producto.
 - La documentacion del panel se alinea con el puerto 4173 y las 7 vistas reales.
 - Se define npm run release:check y la guia basica de versionado.
 
@@ -71,3 +71,9 @@
 - El bootstrap de primer uso instala o actualiza el runtime npm y registra el estado en ~/.trackops/runtime.json.
 - El runtime vuelve a separar la instalacion global de la activacion local mediante trackops init y trackops opera install.
 - El backlog del refactor split-workspace se archiva para que la fuente de verdad solo proponga trabajo alineado con la estrategia actual.
+
+### [2026-03-14] — Cierre operativo OPERA v3
+- Se cierran las cuatro tareas operativas sembradas por bootstrap: integraciones, estructura, entrega y automatizacion.
+- OPERA siembra ahora SOPs, grafo de dependencias y auditorias base en los workspaces gestionados.
+- La validacion automatizada queda formalizada con workflows y release:check pasando.
+- La narrativa y el estado historico quedan limpios de referencias activas al legado.

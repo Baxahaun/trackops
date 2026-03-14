@@ -2,34 +2,48 @@
 
 ## Missing prerequisites
 
-- If Node is missing or older than 18, install Node 18+ first.
-- If npm is missing, install a Node distribution that includes npm.
+- Install Node 18+ if Node is missing or too old.
+- Install a Node distribution that includes npm if npm is missing.
 
-## skills cannot find the TrackOps skill
+## Global install command failed
 
-- Install from the repository root:
+- Install from committed GitHub state:
   `npx skills add Baxahaun/trackops`
-- Confirm the remote repository already contains the latest committed skill changes.
-- Remember that skills installs from committed Git state, not from uncommitted local changes.
-- Search and leaderboard visibility on `skills.sh` are telemetry-driven according to the official FAQ. A brand-new skill may be installable before it appears in search, and installs made with `DISABLE_TELEMETRY=1` do not contribute to listing.
+- Then ensure the local runtime with:
+  `node scripts/bootstrap-trackops.js`
+- If the install succeeded but the CLI still looks unavailable, confirm that `~/.trackops/runtime.json` exists.
 
-## Global npm install failed
+## Runtime bootstrap failed
 
-- Re-run `node scripts/bootstrap-trackops.js` and inspect stderr.
-- If npm global permissions are blocked, configure a user-writable npm prefix instead of relying on `sudo`.
+- Re-run `node scripts/bootstrap-trackops.js`.
+- If npm global permissions fail, configure a user-writable npm prefix instead of using `sudo`.
 
-## Runtime cannot be verified
+## OPERA routed bootstrap to the agent
 
-If installation succeeds but `trackops` is still not executable:
+This is expected when:
 
-- Check whether the npm global bin directory is on `PATH`.
-- Re-open the terminal after updating shell profile settings.
-- Re-run `node scripts/bootstrap-trackops.js` once `trackops --version` works.
+- the user is non-technical
+- the project is still in idea stage
+- documentation is weak
 
-## Workspace environment looks inconsistent
+Use:
 
-If a split workspace is active and tools do not see the expected environment file:
+```bash
+trackops opera handoff --print
+trackops opera bootstrap --resume
+```
 
-- Run `trackops env status` to inspect required, present, and missing keys without exposing values.
-- Run `trackops env sync` to recreate `/.env`, `/.env.example`, and the `app/.env` bridge.
-- If bridge mode is `copy`, do not edit `app/.env` directly; TrackOps regenerates it from the root `.env`.
+## Resume does not complete
+
+TrackOps will not invent missing context.
+
+Check that both files exist and contain usable data:
+
+- `ops/bootstrap/intake.json`
+- `ops/bootstrap/spec-dossier.md`
+
+## Environment looks inconsistent
+
+- Run `trackops env status`.
+- Run `trackops env sync`.
+- If bridge mode is `copy`, do not edit `app/.env` directly.

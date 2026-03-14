@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "skill": "project-starter-skill",
+  "technicalLevel": "senior",
+  "explanationMode": "expert",
+  "decisionOwnership": "shared",
+  "projectState": "advanced",
+  "documentationState": "spec_dossier",
+  "availableArtifacts": [],
+  "problemStatement": "Los equipos que trabajan con agentes IA necesitan una capa local que ordene el proyecto, traduzca entre usuario y agente y mantenga el control operativo fuera del producto.",
+  "targetUser": "Desarrolladores senior, equipos técnicos y usuarios no técnicos que construyen proyectos reales con agentes IA.",
+  "singularDesiredOutcome": "Activar y gobernar proyectos locales asistidos por IA con un contrato operativo explícito, bilingüe y reanudable.",
+  "files": {
+    "intakeJson": "ops/bootstrap/intake.json",
+    "specDossier": "ops/bootstrap/spec-dossier.md",
+    "openQuestions": "ops/bootstrap/open-questions.md"
+  }
+}

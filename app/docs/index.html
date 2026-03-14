@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrackOps — Orquestacion operativa local para proyectos con agentes IA</title>
-    <meta name="description" content="TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Instala la skill global, activa cada repo por separado y manten app/ y ops/ sin mezclar.">
+    <meta name="description" content="TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Instala la skill global, activa cada repo por separado y deja que OPERA elija entre bootstrap directo o arranque guiado por agente.">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -641,14 +641,14 @@
                 </p>
 
                 <p class="gsap-reveal mt-10 text-lg md:text-xl text-gray-200 max-w-3xl font-outfit font-light leading-relaxed">
-                    <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Prepara a tus agentes, ordena el trabajo del proyecto y mantiene separadas la app real y la capa operativa.</span>
-                    <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects and AI-agent development. It prepares your agents, organizes project work, and keeps the real app separate from the operational layer.</span>
+                    <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Prepara al agente, ordena el proyecto y actua como intermediario entre la idea del usuario y una ejecucion con estructura real.</span>
+                    <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects built with AI agents. It prepares the agent, organizes the project, and acts as the layer between a user's idea and a structured execution flow.</span>
                 </p>
 
                 <div class="gsap-reveal mt-10 hero-meta-row">
                     <p class="hero-beta-text">
-                        <span class="lang-es">Beta publica. Usalo en trabajo real con revision humana y validacion tecnica.</span>
-                        <span class="lang-en">Public beta. Use it in real work with human review and technical validation.</span>
+                        <span class="lang-es">Beta publica. Si el proyecto ya esta definido, OPERA sigue por bootstrap directo. Si solo hay una idea, TrackOps deriva el arranque al agente.</span>
+                        <span class="lang-en">Public beta. If the project is already defined, OPERA continues through direct bootstrap. If there is only an idea, TrackOps routes onboarding to the agent.</span>
                     </p>
                 </div>
 
@@ -670,8 +670,8 @@
                 </div>
 
                 <p class="gsap-reveal mt-5 max-w-3xl font-outfit text-sm md:text-base leading-7 text-slate-300">
-                    <span class="lang-es">Despues, activa cada proyecto con <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. Si necesitas el framework operativo completo, anade <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>.</span>
-                    <span class="lang-en">Then activate each project with <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. If you need the full operating framework, add <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>.</span>
+                    <span class="lang-es">Despues, activa cada proyecto con <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. Si necesitas OPERA, instala <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: primero clasifica al usuario y el contexto, y luego decide entre bootstrap directo o handoff al agente.</span>
+                    <span class="lang-en">Then activate each project with <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. If you need OPERA, add <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: it classifies the user and context first, then decides between direct bootstrap and agent handoff.</span>
                 </p>
 
                 <p id="hero-command-status" class="hidden gsap-reveal mt-3 font-outfit text-sm text-emerald-300"></p>
@@ -714,12 +714,12 @@
                         <span class="lang-en">AI handles the code.<br>TrackOps handles the project.</span>
                     </p>
                     <p class="font-outfit text-lg text-slate-700 leading-relaxed mb-6">
-                        <span class="lang-es">Los asistentes de código generan a gran velocidad. Pero cuando el proyecto crece, la IA pierde el hilo: olvida lo ya hecho, ignora prioridades y empieza a contradecirse. El contexto se corrompe.</span>
-                        <span class="lang-en">Coding assistants move fast. But when the project grows, AI loses the thread: it forgets what is done, ignores priorities, and starts contradicting itself. Context gets corrupted.</span>
+                        <span class="lang-es">Los asistentes de código generan a gran velocidad. El problema empieza cuando el usuario no sabe todavía traducir su idea a una arquitectura, o cuando el agente pierde prioridades y contexto. TrackOps interviene justo ahi.</span>
+                        <span class="lang-en">Coding assistants move fast. The problem starts when the user still cannot translate the idea into a workable architecture, or when the agent loses priorities and context. TrackOps steps in right there.</span>
                     </p>
                     <p class="font-outfit text-lg text-slate-700 leading-relaxed">
-                        <span class="lang-es">La fuente de verdad operativa vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/project_control.json</code>. A partir de ahi, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> regenera <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/task_plan.md</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/progress.md</code> y <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/findings.md</code> para que cualquier agente lea el mismo estado sin improvisar. <span class="font-semibold text-navy">No dejes que tu IA adivine lo que tiene que hacer.</span></span>
-                        <span class="lang-en">The operational source of truth lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/project_control.json</code>. From there, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> regenerates <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/task_plan.md</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/progress.md</code>, and <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/findings.md</code> so every agent reads the same state instead of improvising. <span class="font-semibold text-navy">Do not let your AI guess what it should do.</span></span>
+                        <span class="lang-es">La fuente de verdad operativa vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/project_control.json</code>. Desde ahi, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> regenera <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/task_plan.md</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/progress.md</code> y <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/findings.md</code>. Y cuando el proyecto aun no esta claro, TrackOps abre un handoff al agente en <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/bootstrap/</code> para que discovery y ejecucion no se mezclen.</span>
+                        <span class="lang-en">The operational source of truth lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/project_control.json</code>. From there, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops sync</code> regenerates <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/task_plan.md</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/progress.md</code>, and <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/findings.md</code>. And when the project is still unclear, TrackOps opens an agent handoff under <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">ops/bootstrap/</code> so discovery and execution do not get mixed.</span>
                     </p>
                 </div>
 
@@ -753,7 +753,7 @@
             <div class="text-center mb-20 max-w-3xl mx-auto">
                 <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4"><span class="lang-es">Motor local &middot; Repo activado</span><span class="lang-en">Local engine &middot; Activated repo</span></p>
                 <h2 class="font-serif italic text-5xl md:text-6xl text-navy mb-6"><span class="lang-es">Operacion clara, producto separado</span><span class="lang-en">Clear operations, separate product</span></h2>
-                <p class="font-outfit text-slate-700 text-lg"><span class="lang-es">TrackOps se activa dentro de tu repo sin mezclar la app real con la capa operativa. El producto vive en <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code>. La operacion vive en <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>.</span><span class="lang-en">TrackOps activates inside your repo without mixing the real app with the operational layer. The product lives in <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code>. Operations live in <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>.</span></p>
+                <p class="font-outfit text-slate-700 text-lg"><span class="lang-es">TrackOps se activa dentro de tu repo sin mezclar la app real con la capa operativa. El producto vive en <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code>. La operacion vive en <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>. Si el proyecto aun es una idea, el arranque conversacional queda encapsulado en <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/bootstrap/</code>.</span><span class="lang-en">TrackOps activates inside your repo without mixing the real app with the operational layer. The product lives in <code class="bg-slate-100 px-1 rounded text-navy font-mono">app/</code>. Operations live in <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/</code>. If the project is still just an idea, the conversational bootstrap stays encapsulated in <code class="bg-slate-100 px-1 rounded text-navy font-mono">ops/bootstrap/</code>.</span></p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -824,7 +824,7 @@
                     <span class="lang-es">Tu agente sabe exactamente qué hacer. Siempre.</span><span class="lang-en">Your agent knows exactly what to do. Always.</span>
                 </p>
                 <p class="font-outfit text-lg text-gray-300 leading-relaxed mb-6">
-                    <span class="lang-es">La skill global prepara al agente. La activacion local le da un contrato operativo claro dentro del repo. En el layout moderno, el agente lee el estado en <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span><span class="lang-en">The global skill prepares the agent. Local activation gives it a clear operating contract inside the repo. In the modern layout, the agent reads state from <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span>
+                    <span class="lang-es">La skill global prepara al agente. La activacion local le da un contrato operativo claro dentro del repo. Y cuando el usuario no sabe aun traducir su idea a una especificacion, TrackOps crea un handoff para que el agente haga discovery antes de ejecutar. En el layout moderno, el agente lee el estado en <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span><span class="lang-en">The global skill prepares the agent. Local activation gives it a clear operating contract inside the repo. And when the user cannot yet translate the idea into a workable specification, TrackOps creates a handoff so the agent can do discovery before execution. In the modern layout, the agent reads state from <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span>
                 </p>
                 <ul class="flex flex-col gap-4 font-outfit text-gray-200 mt-8">
                     <li class="flex items-start gap-4">
@@ -853,6 +853,13 @@
                         <div>
                             <strong class="text-white block">ops/findings.md</strong>
                             <span class="text-sm"><span class="lang-es">Hallazgos, decisiones tecnicas previas y bloqueos resueltos.</span><span class="lang-en">Findings, prior technical decisions, and resolved blockers.</span></span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <i data-lucide="messages-square" class="w-6 h-6 text-accent mt-1 flex-shrink-0" aria-hidden="true"></i>
+                        <div>
+                            <strong class="text-white block">ops/bootstrap/</strong>
+                            <span class="text-sm"><span class="lang-es">Handoff, intake y spec dossier cuando el proyecto necesita discovery guiado antes de construir.</span><span class="lang-en">Handoff, intake, and spec dossier when the project needs guided discovery before building.</span></span>
                         </div>
                     </li>
                 </ul>
@@ -890,7 +897,7 @@ Al completar trabajo:
                 <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4"><span class="lang-es">Metodología Opcional &middot; 5 Fases</span><span class="lang-en">Optional Methodology &middot; 5 Phases</span></p>
                 <h2 class="font-serif italic text-5xl md:text-6xl text-navy mb-4"><span class="lang-es">Metodología O.P.E.R.A.</span><span class="lang-en">O.P.E.R.A. Methodology</span></h2>
                 <p class="font-outfit text-slate-700 max-w-2xl mx-auto text-lg">
-                    <span class="lang-es">OPERA es el framework operativo opcional para proyectos que necesitan un protocolo completo de ejecucion. TrackOps funciona sin OPERA, pero puedes anadirlo cuando el proyecto necesite mas estructura, validacion y entregables por fase.</span><span class="lang-en">OPERA is the optional operating framework for projects that need a complete execution protocol. TrackOps works without OPERA, but you can add it when the project needs more structure, validation, and phase deliverables.</span>
+                    <span class="lang-es">OPERA es el framework operativo opcional para proyectos que necesitan un protocolo completo de ejecucion. Empieza preguntando por el perfil del usuario, el estado del proyecto y la documentacion disponible. Con eso decide si seguir por bootstrap directo o derivar discovery al agente.</span><span class="lang-en">OPERA is the optional operating framework for projects that need a complete execution protocol. It starts by asking about the user profile, the current project state, and available documentation. From there it decides whether to continue through direct bootstrap or route discovery to the agent.</span>
                 </p>
                 <div class="mt-8 inline-flex flex-col items-center gap-3">
                     <div class="font-mono text-sm text-slate-700 bg-white border-2 border-slate-300 inline-block px-4 py-2 rounded-lg font-semibold">
@@ -918,7 +925,7 @@ Al completar trabajo:
                     <h4 class="font-sans font-bold text-xl text-navy mb-2"><span class="lang-es">Orquestar</span><span class="lang-en">Orchestrate</span></h4>
                     <p class="font-outfit text-sm text-slate-700 mb-4"><span class="lang-es">Visión, datos y reglas de negocio.</span><span class="lang-en">Vision, data, and business rules.</span></p>
                     <div class="mt-auto pt-4 border-t border-slate-200 font-mono text-xs text-slate-600">
-                        <span class="lang-es">Entregable:</span><span class="lang-en">Deliverable:</span> <span class="text-accent block mt-1">genesis.md</span>
+                        <span class="lang-es">Entregable:</span><span class="lang-en">Deliverable:</span> <span class="text-accent block mt-1">operating-contract.json + genesis.md</span>
                     </div>
                 </div>
 
@@ -993,7 +1000,7 @@ Al completar trabajo:
             <div class="md:w-1/2">
                 <h3 class="font-serif italic text-4xl text-navy mb-4"><span class="lang-es">Ecosistema de Skills</span><span class="lang-en">Skills Ecosystem</span></h3>
                 <p class="font-outfit text-slate-700 mb-6 leading-relaxed">
-                    <span class="lang-es">La skill global de TrackOps prepara al agente para trabajar con el runtime y activar repositorios. Despues, cada proyecto puede anadir skills nativas para protocolos concretos como commits, changelog o arranque guiado. No compiten entre si: una prepara el sistema y las otras enriquecen el proyecto.</span><span class="lang-en">The global TrackOps skill prepares the agent to work with the runtime and activate repositories. After that, each project can add native skills for specific protocols such as commits, changelog, or guided project setup. They do not compete: one prepares the system and the others enrich the project.</span>
+                    <span class="lang-es">La skill global de TrackOps prepara al agente para trabajar con el runtime y activar repositorios. Despues, cada proyecto puede anadir skills nativas para protocolos concretos como commits, changelog o arranque guiado. No compiten entre si: una prepara el sistema, otra estructura discovery, y las demas enriquecen la ejecucion diaria.</span><span class="lang-en">The global TrackOps skill prepares the agent to work with the runtime and activate repositories. After that, each project can add native skills for concrete protocols such as commits, changelog, or guided project start. They do not compete: one prepares the system, another structures discovery, and the rest enrich day-to-day execution.</span>
                 </p>
                 <div class="bg-[#0A0F1E] rounded-xl p-4 font-mono text-xs inline-block mb-8 border border-slate-800" style="color: #e2e8f0">
                     <p><span style="color: #64748b"><span class="lang-es"># Anadir una skill nativa del proyecto</span><span class="lang-en"># Add a native project skill</span></span></p>
@@ -1015,6 +1022,93 @@ Al completar trabajo:
         </div>
     </section>
 
+    <section class="bg-[#F7F7FB] text-navy border-t border-slate-200 px-8 py-24 md:px-16 lg:px-24">
+        <div class="max-w-6xl mx-auto">
+            <div class="max-w-3xl mb-14">
+                <p class="font-mono text-xs text-accent uppercase tracking-widest mb-4"><span class="lang-es">FAQ</span><span class="lang-en">FAQ</span></p>
+                <h2 class="font-serif italic text-4xl md:text-5xl text-navy mb-4"><span class="lang-es">Preguntas frecuentes</span><span class="lang-en">Frequently asked questions</span></h2>
+                <p class="font-outfit text-slate-700 text-lg leading-8">
+                    <span class="lang-es">Respuestas cortas para las dudas que aparecen antes de activar TrackOps o instalar OPERA en un proyecto real.</span>
+                    <span class="lang-en">Short answers to the questions that usually come up before activating TrackOps or installing OPERA in a real project.</span>
+                </p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿TrackOps modifica todos mis repos?</span><span class="lang-en">Does TrackOps modify all my repositories?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">No. La skill global solo prepara al agente y al runtime. Cada repo se activa de forma explícita con <code class="bg-slate-100 px-1.5 py-0.5 rounded">trackops init</code>.</span>
+                        <span class="lang-en">No. The global skill only prepares the agent and the runtime. Each repository is activated explicitly with <code class="bg-slate-100 px-1.5 py-0.5 rounded">trackops init</code>.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué diferencia hay entre TrackOps y OPERA?</span><span class="lang-en">What is the difference between TrackOps and OPERA?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">TrackOps activa y mantiene la capa operativa del proyecto. OPERA es el framework opcional que hace discovery, compila el contrato operativo y gobierna el arranque.</span>
+                        <span class="lang-en">TrackOps activates and maintains the operational layer of the project. OPERA is the optional framework that handles discovery, compiles the operating contract, and governs onboarding.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa si solo tengo una idea?</span><span class="lang-en">What happens if I only have an idea?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">OPERA no te fuerza a contestar arquitectura en terminal. Genera un handoff para el agente, el agente estructura el discovery y luego TrackOps reanuda con ese contexto.</span>
+                        <span class="lang-en">OPERA does not force you to answer architecture questions in the terminal. It generates a handoff for the agent, the agent structures discovery, and then TrackOps resumes from that context.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Dónde vive el estado real?</span><span class="lang-en">Where does the real state live?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">El backlog y el estado operativo viven en <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/project_control.json</code>. Si OPERA ya compiló contrato, la fuente de verdad de máquina vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/contract/operating-contract.json</code>.</span>
+                        <span class="lang-en">Backlog and operational state live in <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/project_control.json</code>. If OPERA has already compiled a contract, the machine source of truth lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/contract/operating-contract.json</code>.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa con `.env` y las claves?</span><span class="lang-en">What happens to `.env` and credentials?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">Los secretos reales viven en <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code>. El contrato público vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code>. TrackOps audita nombres de claves y nunca expone valores.</span>
+                        <span class="lang-en">Real secrets live in <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code>. The public contract lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code>. TrackOps audits key names and never exposes values.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Puedo usarlo en español o en inglés?</span><span class="lang-en">Can I use it in Spanish or English?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">Sí. Puedes fijar un idioma global para TrackOps y también sobrescribirlo por proyecto cuando haga falta.</span>
+                        <span class="lang-en">Yes. You can set a global language for TrackOps and also override it per project when needed.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa si ya tengo un repo avanzado?</span><span class="lang-en">What if I already have an advanced repo?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">TrackOps activa el workspace, detecta el contexto disponible y, si el proyecto ya está suficientemente definido, OPERA entra por bootstrap directo. No intenta redescubrir lo que ya está claro.</span>
+                        <span class="lang-en">TrackOps activates the workspace, detects the available context, and if the project is already defined enough, OPERA enters through direct bootstrap. It does not rediscover what is already clear.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa con proyectos OPERA antiguos?</span><span class="lang-en">What happens to older OPERA projects?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">TrackOps no intenta reinterpretar contratos legacy de forma silenciosa. Los marca como legacy y ofrece un reset explícito al modelo estable actual, con backup de los artefactos gestionados.</span>
+                        <span class="lang-en">TrackOps does not silently reinterpret legacy contracts. It marks them as legacy and offers an explicit reset to the current stable model, with backups of managed artifacts.</span>
+                    </p>
+                </article>
+
+                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Necesito OPERA para usar TrackOps?</span><span class="lang-en">Do I need OPERA to use TrackOps?</span></h3>
+                    <p class="font-outfit text-slate-700 leading-7">
+                        <span class="lang-es">No. TrackOps puede funcionar como capa de control operativo, layout split, dashboard, release y contrato de entorno. OPERA es la capa opcional que compila discovery y contexto en un contrato operativo más fuerte para agentes.</span>
+                        <span class="lang-en">No. TrackOps can work as the operational control layer, split layout, dashboard, release flow and environment contract. OPERA is the optional layer that compiles discovery and context into a stronger operational contract for agents.</span>
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <footer class="bg-charcoal text-white rounded-t-super pt-24 pb-12 px-8 md:px-16 lg:px-24 mt-[-2rem] relative z-30 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
         <div class="max-w-7xl mx-auto footer-grid">
             <div class="grid gap-12 lg:grid-cols-[1.05fr_0.55fr_0.95fr] lg:items-start">
@@ -1026,8 +1120,8 @@ Al completar trabajo:
                     </div>
                     <p class="font-serif italic text-4xl md:text-5xl text-gray-100 mt-8 leading-[0.95]"><span class="lang-es">Tú orquestas.<br>Tu IA ejecuta.</span><span class="lang-en">You orchestrate.<br>Your AI executes.</span></p>
                     <p class="footer-copy mt-6">
-                        <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Instala la skill global, activa cada repo por separado y manten <code class="bg-white/10 px-1 rounded font-mono text-xs">app/</code> y <code class="bg-white/10 px-1 rounded font-mono text-xs">ops/</code> sin mezclar.</span>
-                        <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects and AI-agent development. Install the global skill, activate each repository separately, and keep <code class="bg-white/10 px-1 rounded font-mono text-xs">app/</code> and <code class="bg-white/10 px-1 rounded font-mono text-xs">ops/</code> separate.</span>
+                        <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Instala la skill global, activa cada repo por separado y deja que OPERA elija entre bootstrap directo o arranque guiado por agente.</span>
+                        <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects built with AI agents. Install the global skill, activate each repository separately, and let OPERA choose between direct bootstrap and agent-led onboarding.</span>
                     </p>
                     <div class="mt-8 flex flex-col gap-4">
                         <div class="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -1043,8 +1137,8 @@ Al completar trabajo:
                             </button>
                         </div>
                         <div class="font-mono text-xs text-slate-400">
-                            <span class="lang-es">Primero instala la skill global. Despues activa TrackOps dentro del repo con <code class="bg-white/10 px-1 rounded text-white">trackops init</code>.</span>
-                            <span class="lang-en">Install the global skill first. Then activate TrackOps inside the repository with <code class="bg-white/10 px-1 rounded text-white">trackops init</code>.</span>
+                            <span class="lang-es">Primero instala la skill global. Despues activa TrackOps dentro del repo con <code class="bg-white/10 px-1 rounded text-white">trackops init</code>. Si instalas OPERA, clasificara al usuario y al proyecto antes de decidir como arrancar.</span>
+                            <span class="lang-en">Install the global skill first. Then activate TrackOps inside the repository with <code class="bg-white/10 px-1 rounded text-white">trackops init</code>. If you install OPERA, it classifies the user and the project before deciding how to start.</span>
                         </div>
                         <p id="footer-install-status" class="hidden font-outfit text-xs text-emerald-300"></p>
                         <p id="footer-init-status" class="hidden font-outfit text-xs text-emerald-300"></p>
@@ -1052,8 +1146,8 @@ Al completar trabajo:
                     <div class="mt-8 max-w-2xl border-t border-white/10 pt-6">
                         <span class="disclaimer-title"><span class="lang-es">Descargo de responsabilidad</span><span class="lang-en">Disclaimer</span></span>
                         <p class="font-outfit text-sm md:text-[0.96rem] leading-7 text-slate-300">
-                            <span class="lang-es">Beta publica. Usalo en trabajo real con revision humana y validacion tecnica.</span>
-                            <span class="lang-en">Public beta. Use it in real work with human review and technical validation.</span>
+                            <span class="lang-es">Beta publica. Valida siempre con revision humana, sobre todo cuando el proyecto parte solo de una idea.</span>
+                            <span class="lang-en">Public beta. Always keep human review in the loop, especially when the project starts from an idea only.</span>
                         </p>
                     </div>
                 </div>
@@ -1388,12 +1482,12 @@ Al completar trabajo:
             const payload = lang === 'es'
                 ? {
                     title: 'TrackOps',
-                    text: 'TrackOps es un sistema local de orquestacion y automatizacion operativa de proyectos y desarrollo con agentes IA. Instalalo como skill global y activa el control real por proyecto.',
+                    text: 'TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Instalalo como skill global y deja que OPERA elija entre bootstrap directo o arranque guiado por agente.',
                     url: 'https://baxahaun.github.io/trackops/'
                 }
                 : {
                     title: 'TrackOps',
-                    text: 'TrackOps is a local orchestration and operational automation system for projects and AI-agent development. Install it as a global skill and activate real project control repository by repository.',
+                    text: 'TrackOps is a local orchestration and operational automation system for projects built with AI agents. Install it as a global skill and let OPERA choose between direct bootstrap and agent-led onboarding.',
                     url: 'https://baxahaun.github.io/trackops/'
                 };
 

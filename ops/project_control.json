@@ -30,20 +30,141 @@
         "index": 5
       }
     ],
-    "updatedAt": "2026-03-13T16:49:17.122Z",
+    "updatedAt": "2026-03-14T22:04:03.385Z",
     "executionSource": "project_control.json",
-    "currentFocus": "Consolidar TrackOps como skill global instalable desde skills.sh con activacion local explicita por proyecto",
-    "focusPhase": "A",
-    "deliveryTarget": "Skill global TrackOps lista para distribuirse con bootstrap de primer uso y activacion local estable para orquestador y framework",
+    "currentFocus": "Activar y gobernar proyectos locales asistidos por IA con un contrato operativo explícito, bilingüe y reanudable.",
+    "focusPhase": "P",
+    "deliveryTarget": "Runtime npm de TrackOps con workspace split, dashboard local, onboarding dual y OPERA v3 compilado.",
     "opera": {
       "installed": true,
-      "version": "1.0.0",
+      "version": "1.1.0",
       "installedAt": "2026-03-11T07:53:36.664Z",
       "skills": [
-        "changelog-updater",
-        "commiter",
+        "opera-contract-auditor",
+        "opera-policy-guard",
         "project-starter-skill"
-      ]
+      ],
+      "model": "v3",
+      "stableTag": "stable",
+      "legacyStatus": "supported",
+      "contractVersion": 3,
+      "contractReadiness": "verified",
+      "bootstrap": {
+        "version": 3,
+        "mode": "agent_handoff",
+        "status": "completed",
+        "routeReason": null,
+        "technicalLevel": "senior",
+        "projectState": "advanced",
+        "documentationState": "spec_dossier",
+        "decisionOwnership": "shared",
+        "startedAt": "2026-03-14T21:28:21.895Z",
+        "completedAt": "2026-03-14T21:30:18.162Z",
+        "missingFields": [],
+        "discovery": {
+          "version": 1,
+          "technicalLevel": "senior",
+          "projectState": "advanced",
+          "documentationState": "spec_dossier",
+          "decisionOwnership": "shared",
+          "problemStatement": "Los equipos que trabajan con agentes IA necesitan una capa local que ordene el proyecto, traduzca entre usuario y agente y mantenga el control operativo fuera del producto.",
+          "targetUser": "Desarrolladores senior, equipos técnicos y usuarios no técnicos que construyen proyectos reales con agentes IA.",
+          "singularDesiredOutcome": "Activar y gobernar proyectos locales asistidos por IA con un contrato operativo explícito, bilingüe y reanudable.",
+          "userLanguage": "es",
+          "needsPlainLanguage": false,
+          "recommendedStack": [
+            "node",
+            "cli",
+            "local-dashboard"
+          ],
+          "externalServices": [],
+          "sourceOfTruth": "ops/project_control.json como estado operativo y ops/contract/operating-contract.json como contrato estructurado de maquina.",
+          "payload": "Runtime npm de TrackOps con workspace split, dashboard local, onboarding dual y OPERA v3 compilado.",
+          "behaviorRules": [
+            "No mezclar producto y operacion.",
+            "No exponer secretos en docs, APIs ni dashboard.",
+            "Mantener paridad funcional y editorial entre espanol e ingles."
+          ],
+          "architecturalInvariants": [
+            "El producto vive en app/ y la capa operativa en ops/.",
+            "genesis.md es una vista humana compilada, no la fuente primaria.",
+            "El contrato operativo estructurado gobierna el runtime de OPERA."
+          ],
+          "inputSchema": {
+            "workspace": {
+              "layout": "split|legacy",
+              "locale": "es|en",
+              "bootstrapMode": "auto|direct|handoff"
+            }
+          },
+          "outputSchema": {
+            "runtime": {
+              "contractFile": "ops/contract/operating-contract.json",
+              "policyFile": "ops/policy/autonomy.json",
+              "docs": [
+                "ops/genesis.md",
+                "ops/task_plan.md",
+                "ops/progress.md",
+                "ops/findings.md"
+              ]
+            }
+          },
+          "pipeline": [
+            "bootstrap global del runtime",
+            "activacion local del workspace",
+            "routing entre direct_cli y agent_handoff",
+            "validacion del intake y spec dossier",
+            "compilacion del contrato operativo",
+            "sincronizacion de vistas humanas y dashboard"
+          ],
+          "templates": [
+            "ops/.agent/hub/agent.md",
+            "ops/.agent/hub/router.md",
+            "ops/genesis.md"
+          ]
+        },
+        "handoffFiles": {
+          "markdown": "ops/bootstrap/agent-handoff.md",
+          "json": "ops/bootstrap/agent-handoff.json"
+        },
+        "intakeFiles": {
+          "json": "ops/bootstrap/intake.json",
+          "specDossier": "ops/bootstrap/spec-dossier.md"
+        },
+        "reviewFiles": {
+          "openQuestions": "ops/bootstrap/open-questions.md",
+          "qualityReport": "ops/bootstrap/quality-report.json"
+        },
+        "inference": {
+          "title": "trackops",
+          "description": "Operational project control with task management, document generation, multi-project dashboard, and optional OPERA methodology",
+          "stacks": [
+            "node"
+          ],
+          "services": [],
+          "testCommands": [
+            "npm test"
+          ],
+          "buildCommands": [],
+          "ciProviders": [],
+          "gitRemote": "https://github.com/Baxahaun/trackops.git",
+          "readmeSummary": "<p align=\"center\">\n  <img src=\"docs/assets/logo.svg\" alt=\"TrackOps Logo\" width=\"96\" height=\"96\" />\n</p>",
+          "payloadHint": "https://github.com/Baxahaun/trackops#readme",
+          "sourceOfTruthHint": "Detectados archivos de entorno",
+          "workflowFiles": []
+        },
+        "qualityReport": {
+          "version": 1,
+          "status": "ready",
+          "missingFields": [],
+          "contradictions": [],
+          "contractReadiness": "verified",
+          "validatedAt": "2026-03-14T21:30:18.159Z",
+          "handoffMode": "agent_handoff"
+        }
+      },
+      "contractFile": "ops/contract/operating-contract.json",
+      "qualityStatus": "ready"
     },
     "workspace": {
       "layout": "split",
@@ -61,24 +182,34 @@
       "bridgeMode": "symlink",
       "requiredKeys": [],
       "optionalKeys": [],
-      "lastAuditAt": "2026-03-13T16:49:17.122Z"
+      "lastAuditAt": "2026-03-14T22:04:03.385Z"
+    },
+    "userProfile": {
+      "technicalLevel": "senior",
+      "explanationMode": "expert",
+      "capturedAt": "2026-03-14T21:30:18.165Z"
+    },
+    "discovery": {
+      "projectState": "advanced",
+      "documentationState": "spec_dossier",
+      "availableArtifacts": []
     }
   },
   "checks": {
     "lastBuild": {
       "status": "pass",
-      "date": "2026-03-13",
-      "note": "npm run release:check valida la skill global, la coherencia package.json/skill.json y el empaquetado del release."
+      "date": "2026-03-14",
+      "note": "npm run release:check valida humo, skill, marketplace y empaquetado del runtime OPERA v3."
     },
     "lastTest": {
       "status": "pass",
-      "date": "2026-03-13",
-      "note": "npm test cubre CLI, dashboard y el flujo skill global + activacion local sin romper la base existente."
+      "date": "2026-03-14",
+      "note": "npm test cubre locale, onboarding dual, dashboard, APIs, upgrade estable y compilacion del contrato operativo."
     },
     "lastReview": {
       "status": "pass",
-      "date": "2026-03-13",
-      "note": "La iniciativa split-workspace se archiva como fuera de foco y la fuente de verdad pasa a reflejar el modelo skill global + activacion local."
+      "date": "2026-03-14",
+      "note": "Auditoria final completada: sin hallazgos bloqueantes abiertos y con estado operativo sincronizado."
     }
   },
   "rituals": {
@@ -124,7 +255,7 @@
       "items": [
         "Se añade npm test con prueba minima automatizada del nucleo y del panel.",
         "Se fija .agents/skills/_registry.md como ruta canonica para habilidades.",
-        "OPERA queda como narrativa oficial y ETAPA como alias heredado documentado.",
+        "OPERA v3 queda como narrativa oficial unica del producto.",
         "La documentacion del panel se alinea con el puerto 4173 y las 7 vistas reales.",
         "Se define npm run release:check y la guia basica de versionado."
       ]
@@ -148,37 +279,20 @@
         "El runtime vuelve a separar la instalacion global de la activacion local mediante trackops init y trackops opera install.",
         "El backlog del refactor split-workspace se archiva para que la fuente de verdad solo proponga trabajo alineado con la estrategia actual."
       ]
+    },
+    {
+      "date": "2026-03-14",
+      "title": "Cierre operativo OPERA v3",
+      "items": [
+        "Se cierran las cuatro tareas operativas sembradas por bootstrap: integraciones, estructura, entrega y automatizacion.",
+        "OPERA siembra ahora SOPs, grafo de dependencias y auditorias base en los workspaces gestionados.",
+        "La validacion automatizada queda formalizada con workflows y release:check pasando.",
+        "La narrativa y el estado historico quedan limpios de referencias activas al legado."
+      ]
     }
   ],
   "decisionsPending": [],
   "tasks": [
-    {
-      "id": "ops-bootstrap",
-      "title": "Configurar proyecto con trackops",
-      "phase": "O",
-      "stream": "Operations",
-      "priority": "P0",
-      "status": "completed",
-      "required": true,
-      "dependsOn": [],
-      "summary": "Verificar estructura inicial, ajustar fases y confirmar integracion operativa.",
-      "acceptance": [
-        "La estructura base del proyecto queda validada.",
-        "La fuente de verdad operativa refleja el estado real del producto."
-      ],
-      "history": [
-        {
-          "at": "2026-03-11T07:53:36.370Z",
-          "action": "create",
-          "note": "trackops init"
-        },
-        {
-          "at": "2026-03-12T10:45:00.000Z",
-          "action": "complete",
-          "note": "Diagnostico operativo completo y backlog realineado."
-        }
-      ]
-    },
     {
       "id": "fix-skills-api-404",
       "title": "Corregir 404 en endpoints de AI Skills",
@@ -360,18 +474,18 @@
       ]
     },
     {
-      "id": "unify-opera-etapa-branding",
-      "title": "Unificar la narrativa OPERA/ETAPA en todo el producto",
+      "id": "unify-opera-branding",
+      "title": "Unificar la narrativa OPERA en todo el producto",
       "phase": "R",
       "stream": "Product",
       "priority": "P1",
       "status": "completed",
       "required": true,
       "dependsOn": [],
-      "summary": "El producto comunica OPERA casi en todo, pero package metadata y algunos aliases siguen usando ETAPA.",
+      "summary": "El producto tenia deriva narrativa y de metadata; OPERA debia quedar como modelo unico y vigente.",
       "acceptance": [
-        "README, docs, package metadata y ayuda CLI usan una narrativa coherente.",
-        "Los aliases legacy quedan explicados o retirados de forma deliberada."
+        "README, docs, package metadata y ayuda CLI usan una narrativa coherente y unica.",
+        "Las referencias legacy quedan retiradas o archivadas sin contaminar el flujo activo."
       ],
       "history": [
         {
@@ -382,12 +496,12 @@
         {
           "at": "2026-03-12T12:37:34.745Z",
           "action": "start",
-          "note": "Implementacion iniciada: OPERA como narrativa oficial y ETAPA como alias heredado de compatibilidad."
+          "note": "Implementacion iniciada: consolidar OPERA como narrativa oficial unica."
         },
         {
           "at": "2026-03-12T12:40:04.032Z",
           "action": "complete",
-          "note": "OPERA queda como narrativa oficial; ETAPA pasa a alias heredado documentado para compatibilidad."
+          "note": "OPERA queda como narrativa oficial unica y se retiran las referencias legacy."
         }
       ]
     },
@@ -433,7 +547,7 @@
       "required": false,
       "dependsOn": [
         "add-core-cli-dashboard-smoke-tests",
-        "unify-opera-etapa-branding",
+        "unify-opera-branding",
         "align-dashboard-docs-with-runtime"
       ],
       "summary": "La version 1.0.0, el changelog y la narrativa pre-1.0 no estan alineados y falta una rutina minima de publicacion.",
@@ -468,7 +582,7 @@
       "status": "completed",
       "required": false,
       "dependsOn": [
-        "unify-opera-etapa-branding",
+        "unify-opera-branding",
         "align-dashboard-docs-with-runtime"
       ],
       "summary": "README, UserGUIDE y la web publica declaran el estado beta, incluyen descargo de responsabilidad y mantienen la lectura en espanol e ingles.",
@@ -1105,6 +1219,157 @@
           "note": "Cancelada por cambio estrategico: TrackOps prioriza la skill global instalable y la activacion local explicita; el refactor app/ops queda fuera de foco."
         }
       ]
+    },
+    {
+      "id": "opera-bootstrap",
+      "origin": "bootstrap",
+      "title": "Completar bootstrap OPERA",
+      "phase": "O",
+      "stream": "Operations",
+      "priority": "P0",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [],
+      "summary": "Preparar el handoff al agente para convertir una idea o especificacion parcial en contexto operativo estructurado.",
+      "acceptance": [
+        "El agente genero ops/bootstrap/intake.json.",
+        "El agente genero ops/bootstrap/spec-dossier.md.",
+        "OPERA pudo ingerir el contexto y continuar."
+      ],
+      "history": [
+        {
+          "at": "2026-03-14T21:30:18.166Z",
+          "action": "create",
+          "note": "Sembrada por bootstrap OPERA."
+        }
+      ]
+    },
+    {
+      "id": "opera-prove-integrations",
+      "origin": "bootstrap",
+      "title": "Validar integraciones",
+      "phase": "P",
+      "stream": "Operations",
+      "priority": "P0",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [
+        "opera-bootstrap"
+      ],
+      "summary": "Verificar credenciales, conectividad y shape de respuestas antes de seguir construyendo.",
+      "acceptance": [
+        "Credenciales requeridas verificadas.",
+        "Checks de conectividad pasando.",
+        "Shapes externos validados contra genesis.md.",
+        "Hallazgos documentados."
+      ],
+      "history": [
+        {
+          "at": "2026-03-14T21:30:18.166Z",
+          "action": "create",
+          "note": "Sembrada por bootstrap OPERA."
+        },
+        {
+          "at": "2026-03-14T22:01:36.508Z",
+          "action": "complete",
+          "note": "Audit de integraciones completado: entorno, endpoints y shapes validados con evidence en ops/reviews/integration-audit.md y smoke tests."
+        }
+      ]
+    },
+    {
+      "id": "opera-structure-system",
+      "origin": "bootstrap",
+      "title": "Estructurar el sistema",
+      "phase": "E",
+      "stream": "Operations",
+      "priority": "P1",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [
+        "opera-prove-integrations"
+      ],
+      "summary": "Documentar SOPs, implementar herramientas y capturar el grafo de dependencias.",
+      "acceptance": [
+        "SOPs documentados.",
+        "Herramientas base implementadas.",
+        "Grafo de pipeline documentado.",
+        "Tests de integracion pasando."
+      ],
+      "history": [
+        {
+          "at": "2026-03-14T21:30:18.166Z",
+          "action": "create",
+          "note": "Sembrada por bootstrap OPERA."
+        },
+        {
+          "at": "2026-03-14T22:04:02.835Z",
+          "action": "complete",
+          "note": "SOPs y grafo de dependencias sembrados en ops/architecture; skills auxiliares y estructura OPERA v3 verificadas."
+        }
+      ]
+    },
+    {
+      "id": "opera-refine-delivery",
+      "origin": "bootstrap",
+      "title": "Refinar la entrega",
+      "phase": "R",
+      "stream": "Operations",
+      "priority": "P1",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [
+        "opera-structure-system"
+      ],
+      "summary": "Validar outputs contra templates y pulir el formato de entrega.",
+      "acceptance": [
+        "Outputs validados contra templates.",
+        "Formato de entrega revisado.",
+        "Revision visual completada cuando aplica."
+      ],
+      "history": [
+        {
+          "at": "2026-03-14T21:30:18.166Z",
+          "action": "create",
+          "note": "Sembrada por bootstrap OPERA."
+        },
+        {
+          "at": "2026-03-14T22:01:36.500Z",
+          "action": "complete",
+          "note": "Entrega auditada contra contrato, docs sincronizadas y evidencia registrada en ops/reviews/delivery-audit.md."
+        }
+      ]
+    },
+    {
+      "id": "opera-automate-runtime",
+      "origin": "bootstrap",
+      "title": "Automatizar el runtime",
+      "phase": "A",
+      "stream": "Operations",
+      "priority": "P2",
+      "status": "completed",
+      "required": true,
+      "dependsOn": [
+        "opera-refine-delivery"
+      ],
+      "summary": "Configurar despliegue, triggers y validacion smoke.",
+      "acceptance": [
+        ".tmp limpio.",
+        "Despliegue completado.",
+        "Triggers configurados.",
+        "Smoke test pasando."
+      ],
+      "history": [
+        {
+          "at": "2026-03-14T21:30:18.166Z",
+          "action": "create",
+          "note": "Sembrada por bootstrap OPERA."
+        },
+        {
+          "at": "2026-03-14T22:01:36.525Z",
+          "action": "complete",
+          "note": "Circuito automatizado configurado con workflows de validacion, upgrade estable y smoke suite pasando."
+        }
+      ]
     }
   ],
   "findings": [
@@ -1141,11 +1406,11 @@
       "impact": "Se recupera la coherencia minima de self-dogfooding y la fuente de verdad deja de estar vacia."
     },
     {
-      "id": "opera-etapa-drift",
+      "id": "opera-branding-drift",
       "severity": "medium",
       "status": "resolved",
-      "title": "OPERA queda como narrativa oficial y ETAPA solo como alias heredado",
-      "detail": "La metadata del paquete, la ayuda y la documentacion ya presentan OPERA como referencia principal y explican ETAPA solo por compatibilidad.",
+      "title": "La narrativa operativa y publica converge ya en OPERA v3",
+      "detail": "La metadata del paquete, la ayuda y la documentacion usan ya un modelo unico de OPERA v3 sin referencias activas al legado.",
       "impact": "La identidad del producto queda coherente y se elimina la ambiguedad metodologica."
     },
     {
@@ -1203,6 +1468,30 @@
       "title": "La vista de skills ya protege contra nodos nulos",
       "detail": "loadData aborta de forma segura si faltan los contenedores del DOM antes de tocar innerHTML.",
       "impact": "El bug reportado de TypeError deja de ser trabajo pendiente actual."
+    },
+    {
+      "id": "opera-integration-audit-complete",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "Las integraciones del runtime quedaron auditadas con evidencia explicita",
+      "detail": "El repo ya tiene audit de entorno, endpoints y shapes en ops/reviews/integration-audit.md y smoke tests pasando.",
+      "impact": "Se reduce el riesgo de seguir construyendo sobre integraciones no verificadas."
+    },
+    {
+      "id": "opera-structure-sops-seeded",
+      "severity": "low",
+      "status": "resolved",
+      "title": "OPERA ya siembra SOPs, grafo y auditorias operativas gestionadas",
+      "detail": "installStructure crea ahora arquitectura base y revisiones en ops/architecture y ops/reviews para cualquier proyecto gestionado.",
+      "impact": "La estructura operativa deja de depender de memoria implicita o trabajo manual repetitivo."
+    },
+    {
+      "id": "opera-runtime-automation-guarded",
+      "severity": "low",
+      "status": "resolved",
+      "title": "El runtime ya tiene validacion automatizada y triggers declarados",
+      "detail": "Se anaden workflows de GitHub Actions y la suite release:check cubre humo, skill y empaquetado antes de publicar.",
+      "impact": "La regresion del runtime y del paquete queda mejor blindada."
     }
   ],
   "timeEntries": [

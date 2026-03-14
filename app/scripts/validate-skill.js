@@ -76,6 +76,7 @@ function main() {
     "node scripts/bootstrap-trackops.js",
     "trackops init",
     "trackops opera install",
+    "trackops opera bootstrap --resume",
   ]) {
     if (!skillMd.includes(requiredPhrase)) {
       fail(`skills/trackops/SKILL.md must mention '${requiredPhrase}'.`);

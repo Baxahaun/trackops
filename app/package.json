@@ -47,6 +47,7 @@
     "node": ">=18"
   },
   "scripts": {
+    "postinstall": "node scripts/postinstall-locale.js",
     "test": "node scripts/smoke-tests.js",
     "test:smoke": "node scripts/smoke-tests.js",
     "skill:sync-version": "node scripts/sync-skill-version.js",

@@ -8,7 +8,7 @@
 
 _¿Cuál es el resultado singular deseado de este proyecto?_
 
-> Pending definition.
+> Pendiente de definir.
 
 ---
 
@@ -26,7 +26,7 @@ _¿Qué servicios externos necesitamos? ¿Están listas las claves?_
 
 _¿Dónde viven los datos primarios?_
 
-> Pending definition.
+> Pendiente de definir.
 
 ---
 
@@ -34,7 +34,7 @@ _¿Dónde viven los datos primarios?_
 
 _¿Cómo y dónde debe entregarse el resultado final?_
 
-> Pending definition.
+> Pendiente de definir.
 
 ---
 
@@ -42,7 +42,7 @@ _¿Cómo y dónde debe entregarse el resultado final?_
 
 _Restricciones, tono y reglas específicas del dominio._
 
-- Not defined yet.
+- Aun no definido.
 
 ---
 
@@ -69,7 +69,7 @@ _Restricciones, tono y reglas específicas del dominio._
 
 _Decisiones técnicas inamovibles. Cambiarlas requiere aprobación explícita (Nivel Rojo)._
 
-- Not defined yet.
+- Aun no definido.
 
 ---
 
@@ -77,7 +77,7 @@ _Decisiones técnicas inamovibles. Cambiarlas requiere aprobación explícita (N
 
 _Documenta el grafo de dependencias entre herramientas._
 
-- Not defined yet.
+- Aun no definido.
 
 ---
 
@@ -85,4 +85,4 @@ _Documenta el grafo de dependencias entre herramientas._
 
 _Referencias a las plantillas de output definidas en `templates/`._
 
-- Not defined yet.
+- Aun no definido.

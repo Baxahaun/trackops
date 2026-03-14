@@ -30,9 +30,9 @@ No hay hallazgos abiertos.
 - Detalle: La constitucion ahora recoge el objetivo, integraciones, payload, invariantes y pipeline de TrackOps.
 - Impacto: Se recupera la coherencia minima de self-dogfooding y la fuente de verdad deja de estar vacia.
 
-### [MEDIUM] OPERA queda como narrativa oficial y ETAPA solo como alias heredado
+### [MEDIUM] La narrativa operativa y publica converge ya en OPERA v3
 - Estado: resuelto
-- Detalle: La metadata del paquete, la ayuda y la documentacion ya presentan OPERA como referencia principal y explican ETAPA solo por compatibilidad.
+- Detalle: La metadata del paquete, la ayuda y la documentacion usan ya un modelo unico de OPERA v3 sin referencias activas al legado.
 - Impacto: La identidad del producto queda coherente y se elimina la ambiguedad metodologica.
 
 ### [MEDIUM] La ruta de habilidades queda unificada en .agents/skills
@@ -69,3 +69,18 @@ No hay hallazgos abiertos.
 - Estado: resuelto
 - Detalle: loadData aborta de forma segura si faltan los contenedores del DOM antes de tocar innerHTML.
 - Impacto: El bug reportado de TypeError deja de ser trabajo pendiente actual.
+
+### [MEDIUM] Las integraciones del runtime quedaron auditadas con evidencia explicita
+- Estado: resuelto
+- Detalle: El repo ya tiene audit de entorno, endpoints y shapes en ops/reviews/integration-audit.md y smoke tests pasando.
+- Impacto: Se reduce el riesgo de seguir construyendo sobre integraciones no verificadas.
+
+### [LOW] OPERA ya siembra SOPs, grafo y auditorias operativas gestionadas
+- Estado: resuelto
+- Detalle: installStructure crea ahora arquitectura base y revisiones en ops/architecture y ops/reviews para cualquier proyecto gestionado.
+- Impacto: La estructura operativa deja de depender de memoria implicita o trabajo manual repetitivo.
+
+### [LOW] El runtime ya tiene validacion automatizada y triggers declarados
+- Estado: resuelto
+- Detalle: Se anaden workflows de GitHub Actions y la suite release:check cubre humo, skill y empaquetado antes de publicar.
+- Impacto: La regresion del runtime y del paquete queda mejor blindada.
