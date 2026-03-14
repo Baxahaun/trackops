@@ -583,7 +583,7 @@ function cmdHelp() {
   console.log("    Show this help.");
   console.log("");
   console.log("Global agent workflow:");
-  console.log("  Install with 'npx skills add Baxahaun/trackops --skill trackops --full-depth'");
+  console.log("  Install with 'npx skills add Baxahaun/trackops'");
   console.log("  and the agent/global flags you need, then use 'trackops init' and");
   console.log("  'trackops opera install' explicitly inside each project you want to manage.");
 }

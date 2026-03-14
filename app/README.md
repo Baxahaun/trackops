@@ -47,8 +47,10 @@ El flujo oficial es este:
 TrackOps se distribuye como skill global desde el ecosistema `skills`.
 
 ```bash
-npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
+npx skills add Baxahaun/trackops
 ```
+
+`skills.sh` no indexa una skill solo porque el repo exista. Su FAQ indica que la skill aparece en busqueda y leaderboard cuando usuarios la instalan con `npx skills add <owner/repo>` y la telemetria anonima de la CLI registra esa instalacion.
 
 Targets soportados en la skill:
 
@@ -271,8 +273,10 @@ Official flow:
 TrackOps is distributed as a global skill through the `skills` ecosystem.
 
 ```bash
-npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y
+npx skills add Baxahaun/trackops
 ```
+
+`skills.sh` does not index a skill just because the repository exists. Its FAQ states that search and leaderboard visibility come from anonymous CLI telemetry after users install with `npx skills add <owner/repo>`.
 
 Supported skill targets:
 

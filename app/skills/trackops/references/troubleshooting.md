@@ -8,9 +8,10 @@
 ## skills cannot find the TrackOps skill
 
 - Install from the repository root:
-  `npx skills add Baxahaun/trackops --skill trackops --full-depth --global --agent codex -y`
+  `npx skills add Baxahaun/trackops`
 - Confirm the remote repository already contains the latest committed skill changes.
 - Remember that skills installs from committed Git state, not from uncommitted local changes.
+- Search and leaderboard visibility on `skills.sh` are telemetry-driven according to the official FAQ. A brand-new skill may be installable before it appears in search, and installs made with `DISABLE_TELEMETRY=1` do not contribute to listing.
 
 ## Global npm install failed
 
