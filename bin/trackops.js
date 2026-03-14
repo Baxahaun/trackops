@@ -2,21 +2,38 @@
 
 const path = require("path");
 const config = require("../lib/config");
+const runtimeState = require("../lib/runtime-state");
+const { setLocale, t } = require("../lib/i18n");
 const pkg = require("../package.json");
 
 const command = process.argv[2];
 const args = process.argv.slice(3);
 
+function initCliLocale() {
+  let projectLocale = null;
+  try {
+    const context = config.resolveWorkspaceContext();
+    if (context) {
+      projectLocale = config.getLocale(config.loadControl(context));
+    }
+  } catch (_error) {
+    projectLocale = null;
+  }
+  const doctor = runtimeState.doctorLocale(projectLocale);
+  setLocale(doctor.effectiveLocale);
+}
+
 function resolveRoot() {
   const context = config.resolveWorkspaceContext();
   if (!context) {
-    console.error("No TrackOps workspace found in this directory or any parent.");
+    console.error(t("cli.error.noWorkspace"));
     process.exit(1);
   }
   return context.workspaceRoot;
 }
 
 async function run() {
+  initCliLocale();
   try {
     switch (command) {
       case "init":
@@ -65,7 +82,7 @@ async function run() {
         const root = config.resolveProjectRoot() || process.cwd();
         if (sub === "status") workspace.cmdStatus(root);
         else if (sub === "migrate") workspace.cmdMigrate(root, args.slice(1));
-        else console.log("Usage: trackops workspace <status|migrate>");
+        else console.log(t("cli.usage.workspace"));
         break;
       }
 
@@ -75,12 +92,20 @@ async function run() {
         const root = config.resolveProjectRoot() || process.cwd();
         if (sub === "status") env.cmdStatus(root);
         else if (sub === "sync") env.cmdSync(root);
-        else console.log("Usage: trackops env <status|sync>");
+        else console.log(t("cli.usage.env"));
         break;
       }
 
       case "release":
         require("../lib/release").cmdRelease(config.resolveProjectRoot() || process.cwd(), args);
+        break;
+
+      case "locale":
+        require("../lib/preferences").cmdLocale(args, config.resolveProjectRoot() || process.cwd());
+        break;
+
+      case "doctor":
+        require("../lib/preferences").cmdDoctor(args, config.resolveProjectRoot() || process.cwd());
         break;
 
       case "opera": {
@@ -89,10 +114,11 @@ async function run() {
         const root = config.resolveProjectRoot() || process.cwd();
         if (sub === "install") await opera.cmdInstall(root, args.slice(1));
         else if (sub === "bootstrap") await opera.cmdBootstrap(root, args.slice(1));
+        else if (sub === "handoff") opera.cmdHandoff(root, args.slice(1));
         else if (sub === "status") opera.cmdStatus(root);
         else if (sub === "configure") opera.cmdConfigure(root, args.slice(1));
-        else if (sub === "upgrade") opera.cmdUpgrade(root);
-        else { console.log("Usage: trackops opera <install|bootstrap|status|configure|upgrade>"); }
+        else if (sub === "upgrade") opera.cmdUpgrade(root, args.slice(1));
+        else { console.log(t("cli.usage.opera")); }
         break;
       }
 
@@ -104,7 +130,7 @@ async function run() {
         else if (sub === "list") skills.cmdList(root);
         else if (sub === "remove") skills.cmdRemove(root, args[1]);
         else if (sub === "catalog") skills.cmdCatalog();
-        else { console.log("Usage: trackops skill <install|list|remove|catalog> [name]"); }
+        else { console.log(t("cli.usage.skill")); }
         break;
       }
 
@@ -122,8 +148,8 @@ async function run() {
         break;
 
       default:
-        console.error(`Unknown command: ${command}`);
-        console.error("Run 'trackops help' for usage.");
+        console.error(t("cli.error.unknownCommand", { command }));
+        console.error(t("cli.error.runHelp"));
         process.exit(1);
     }
   } catch (error) {

@@ -4,6 +4,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { spawnSync } = require("child_process");
+const runtimeState = require("../../../lib/runtime-state");
 
 const EXIT_CODES = {
   READY: 0,
@@ -129,10 +130,9 @@ function runInstall(config, prefix) {
 }
 
 function writeRuntimeStamp(config, verification) {
-  const runtimeDir = path.join(getHomeDir(), ".trackops");
-  const runtimeFile = path.join(runtimeDir, "runtime.json");
-  fs.mkdirSync(runtimeDir, { recursive: true });
-  const payload = {
+  const previous = runtimeState.readRuntimeState();
+  const payload = runtimeState.writeRuntimeState({
+    ...previous,
     skill: config.name,
     skillVersion: config.skillVersion,
     runtimePackage: config.npmPackage,
@@ -142,8 +142,8 @@ function writeRuntimeStamp(config, verification) {
     verifiedAt: new Date().toISOString(),
     verifiedWith: verification.installed.via,
     executable: verification.installed.command,
-  };
-  fs.writeFileSync(runtimeFile, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  });
+  return payload;
 }
 
 function printInstallGuidance(prefix) {
@@ -157,7 +157,7 @@ function printInstallGuidance(prefix) {
   console.error("Add your npm global bin directory to PATH, reopen the terminal, and retry.");
 }
 
-function main() {
+async function main() {
   const config = readSkillConfig();
   const prefix = getPrefixOverride();
 
@@ -173,6 +173,7 @@ function main() {
 
   const current = verifyRuntime(config.trackopsVersion, prefix);
   if (current.ok) {
+    await runtimeState.ensureGlobalLocale({ interactive: false });
     writeRuntimeStamp(config, current);
     console.log(`TrackOps runtime ${config.trackopsVersion} is already ready.`);
     process.exit(EXIT_CODES.READY);
@@ -193,6 +194,7 @@ function main() {
     process.exit(EXIT_CODES.UNVERIFIABLE);
   }
 
+  await runtimeState.ensureGlobalLocale({ interactive: false });
   writeRuntimeStamp(config, verification);
   console.log(`TrackOps runtime ${config.trackopsVersion} is ready.`);
   process.exit(EXIT_CODES.READY);

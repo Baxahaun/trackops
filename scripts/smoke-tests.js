@@ -231,6 +231,7 @@ async function main() {
   assert.strictEqual(runtimeStamp.runtimeVersion, packageVersion);
   assert.strictEqual(runtimeStamp.skill, "trackops");
   assert.strictEqual(runtimeStamp.bootstrapPolicy, "first_use");
+  assert.ok(["es", "en"].includes(runtimeStamp.locale), "el bootstrap global debe fijar un idioma");
 
   const installedCli = path.join(bootstrapPrefix, "node_modules", "trackops", "bin", "trackops.js");
   assert.ok(fs.existsSync(installedCli), "el runtime instalado debe existir dentro del prefijo aislado");
@@ -256,9 +257,15 @@ async function main() {
   const versionOutput = runNode([BIN, "--version"], ROOT);
   assert.strictEqual(versionOutput.trim(), packageVersion);
 
+  runNode([BIN, "locale", "set", "en"], tempRoot, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  const localeGet = runNode([BIN, "locale", "get"], tempRoot, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  assert.match(localeGet, /Effective language: en|Idioma efectivo: en/);
+  const localeDoctor = runNode([BIN, "doctor", "locale"], tempRoot, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  assert.match(localeDoctor, /Source: global|Origen: global/);
+
   const splitProject = path.join(tempRoot, "split-demo");
   fs.mkdirSync(splitProject, { recursive: true });
-  runNode([BIN, "init"], splitProject);
+  runNode([BIN, "init", "--locale", "es"], splitProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
 
   assert.ok(fs.existsSync(path.join(splitProject, ".trackops-workspace.json")));
   assert.ok(fs.existsSync(path.join(splitProject, ".env")));
@@ -273,6 +280,11 @@ async function main() {
   const splitControl = readJson(path.join(splitProject, "ops", "project_control.json"));
   assert.strictEqual(splitControl.meta.workspace.layout, "split");
   assert.strictEqual(splitControl.meta.environment.rootEnvFile, ".env");
+  assert.strictEqual(splitControl.meta.locale, "es");
+
+  const projectLocaleDoctor = runNode([BIN, "doctor", "locale"], splitProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  assert.match(projectLocaleDoctor, /Project language: es|Idioma del proyecto: es/);
+  assert.match(projectLocaleDoctor, /Source: project|Origen: proyecto/);
 
   const statusFromWorkspace = runNode([BIN, "status"], splitProject);
   const statusFromApp = runNode([BIN, "status"], path.join(splitProject, "app"));
@@ -311,27 +323,113 @@ async function main() {
   assert.ok(fs.existsSync(path.join(splitProject, "ops", "genesis.md")));
   assert.ok(fs.existsSync(path.join(splitProject, "ops", ".agent", "hub", "agent.md")));
   assert.ok(fs.existsSync(path.join(splitProject, "ops", ".agents", "skills", "_registry.md")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "bootstrap", "agent-handoff.md")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "bootstrap", "agent-handoff.json")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "bootstrap", "open-questions.md")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "architecture", "runtime-operations.md")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "architecture", "dependency-graph.md")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "architecture", "runtime-automation.md")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "policy", "autonomy.json")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "reviews", "integration-audit.md")));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "reviews", "delivery-audit.md")));
   assert.ok(!fs.existsSync(path.join(splitProject, "genesis.md")));
 
   const operaControl = readJson(path.join(splitProject, "ops", "project_control.json"));
   assert.strictEqual(operaControl.meta.locale, "en");
   assert.strictEqual(operaControl.meta.opera.installed, true);
+  assert.strictEqual(operaControl.meta.opera.bootstrap.mode, "agent_handoff");
+  assert.strictEqual(operaControl.meta.opera.bootstrap.status, "awaiting_agent");
+  assert.ok(operaControl.meta.opera.skills.includes("project-starter-skill"));
+  assert.ok(operaControl.meta.opera.skills.includes("opera-contract-auditor"));
+  assert.ok(operaControl.meta.opera.skills.includes("opera-policy-guard"));
   assert.ok(operaControl.meta.environment.requiredKeys.includes("OPENAI_API_KEY"));
   const envRootText = fs.readFileSync(path.join(splitProject, ".env"), "utf8");
   assert.match(envRootText, /OPENAI_API_KEY=/);
 
-  const defaultPortFree = await isPortFree(4173);
+  const handoffPrint = runNode([BIN, "opera", "handoff", "--print"], splitProject);
+  assert.match(handoffPrint, /project-starter-skill/);
+  const handoffJson = JSON.parse(runNode([BIN, "opera", "handoff", "--json"], splitProject));
+  assert.strictEqual(handoffJson.skill, "project-starter-skill");
+
+  const directProject = path.join(tempRoot, "direct-demo");
+  fs.mkdirSync(directProject, { recursive: true });
+  runNode([BIN, "init", "--locale", "en"], directProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  writeJson(path.join(directProject, "app", "package.json"), { name: "direct-demo", version: "1.0.0" });
+  runNode([
+    BIN,
+    "opera",
+    "install",
+    "--locale",
+    "en",
+    "--non-interactive",
+    "--bootstrap-mode",
+    "direct",
+    "--technical-level",
+    "senior",
+    "--project-state",
+    "existing_repo",
+    "--docs-state",
+    "spec_dossier",
+    "--decision-ownership",
+    "user",
+  ], directProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  const directControl = readJson(path.join(directProject, "ops", "project_control.json"));
+  assert.strictEqual(directControl.meta.opera.bootstrap.mode, "direct_cli");
+  assert.strictEqual(directControl.meta.opera.bootstrap.status, "awaiting_intake");
+
+  writeJson(path.join(splitProject, "ops", "bootstrap", "intake.json"), {
+    version: 1,
+    technicalLevel: "low",
+    projectState: "idea",
+    documentationState: "none",
+    decisionOwnership: "agent",
+    problemStatement: "users need a simple way to book and pay online",
+    targetUser: "small studio owners",
+    singularDesiredOutcome: "let users create and pay for bookings",
+    userLanguage: "en",
+    needsPlainLanguage: true,
+    recommendedStack: ["nextjs"],
+    externalServices: ["OpenAI", "Stripe"],
+    sourceOfTruth: "primary bookings database",
+    payload: "bookings dashboard",
+    behaviorRules: ["keep explanations simple"],
+    architecturalInvariants: ["keep app and ops separated"],
+    inputSchema: { booking: { email: "string" } },
+    outputSchema: { confirmation: { id: "string" } },
+    pipeline: ["create booking", "confirm payment"],
+    templates: ["booking-confirmation"],
+  });
+  fs.writeFileSync(
+    path.join(splitProject, "ops", "bootstrap", "spec-dossier.md"),
+    "# Spec dossier\n\n## Problem statement\nusers need a simple way to book and pay online\n\n## Target user\nsmall studio owners\n\n## Singular desired outcome\nlet users create and pay for bookings\n\n## Delivery target\nbookings dashboard\n\n## Source of truth\nprimary bookings database\n",
+    "utf8",
+  );
+  runNode([BIN, "opera", "bootstrap", "--resume"], splitProject);
+  const resumedControl = readJson(path.join(splitProject, "ops", "project_control.json"));
+  assert.strictEqual(resumedControl.meta.opera.bootstrap.status, "completed");
+  assert.strictEqual(resumedControl.meta.currentFocus, "let users create and pay for bookings");
+  assert.ok(resumedControl.meta.environment.requiredKeys.includes("STRIPE_SECRET_KEY"));
+  assert.ok(fs.existsSync(path.join(splitProject, "ops", "contract", "operating-contract.json")));
+  const operatingContract = readJson(path.join(splitProject, "ops", "contract", "operating-contract.json"));
+  assert.strictEqual(operatingContract.version, 3);
+  assert.strictEqual(operatingContract.userModel.language, "en");
+  assert.strictEqual(operatingContract.userModel.decisionOwnership, "agent");
+
   const defaultDashboard = startDashboard(splitProject);
 
   try {
     const ready = await waitForDashboard(defaultDashboard);
     const state = await get(ready.port, "/api/state");
     const envPayload = await get(ready.port, "/api/env");
+    const operaBootstrapPayload = await get(ready.port, "/api/opera/bootstrap");
+    const operaHandoffPayload = await get(ready.port, "/api/opera/handoff");
     const localSkills = await get(ready.port, "/api/skills/local");
     const discoverSkills = await get(ready.port, "/api/skills/discover");
 
     assert.strictEqual(state.status, 200);
     assert.strictEqual(envPayload.status, 200);
+    assert.strictEqual(operaBootstrapPayload.status, 200);
+    assert.strictEqual(operaHandoffPayload.status, 200);
     assert.strictEqual(localSkills.status, 200);
     assert.strictEqual(discoverSkills.status, 200);
 
@@ -347,9 +445,14 @@ async function main() {
     assert.ok(envState.requiredKeys.includes("OPENAI_API_KEY"));
     assert.ok(envState.missingKeys.includes("OPENAI_API_KEY"));
 
-    if (defaultPortFree) {
-      assert.strictEqual(ready.port, 4173, `se esperaba usar 4173 cuando estaba libre:\n${ready.output}`);
-    }
+    const bootstrapState = JSON.parse(operaBootstrapPayload.body);
+    assert.strictEqual(bootstrapState.status, "completed");
+    assert.strictEqual(bootstrapState.contractVersion, 3);
+    assert.strictEqual(bootstrapState.contractReadiness, "verified");
+    const handoffState = JSON.parse(operaHandoffPayload.body);
+    assert.ok(handoffState.markdown.includes("project-starter-skill"));
+    assert.ok(handoffState.openQuestionsFile.endsWith("open-questions.md"));
+
   } finally {
     await stopDashboard(defaultDashboard);
   }
@@ -419,6 +522,28 @@ async function main() {
   const migratedPackage = readJson(path.join(legacyProject, "app", "package.json"));
   assert.ok(!migratedPackage.scripts || !migratedPackage.scripts["ops:status"]);
   assert.match(git(["branch", "--list"], legacyProject), /backup\/trackops-workspace-/);
+
+  const legacyUnsupportedProject = path.join(tempRoot, "legacy-unsupported");
+  fs.mkdirSync(legacyUnsupportedProject, { recursive: true });
+  initGitRepo(legacyUnsupportedProject);
+  runNode([BIN, "init", "--locale", "en"], legacyUnsupportedProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  const legacyUnsupportedControlPath = path.join(legacyUnsupportedProject, "ops", "project_control.json");
+  const legacyUnsupportedControl = readJson(legacyUnsupportedControlPath);
+  legacyUnsupportedControl.meta.opera = {
+    installed: true,
+    version: "0.9.0",
+  };
+  writeJson(legacyUnsupportedControlPath, legacyUnsupportedControl);
+  const legacyStatusOutput = runNode([BIN, "opera", "status"], legacyUnsupportedProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  assert.match(legacyStatusOutput, /legacy_unsupported/);
+  const upgradeWithoutReset = runNodeResult([BIN, "opera", "upgrade", "--stable"], legacyUnsupportedProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  assert.strictEqual(upgradeWithoutReset.status, 0);
+  assert.match(`${upgradeWithoutReset.stdout}\n${upgradeWithoutReset.stderr}`, /legacy/i);
+  runNode([BIN, "opera", "upgrade", "--stable", "--reset"], legacyUnsupportedProject, { TRACKOPS_BOOTSTRAP_HOME: bootstrapHome });
+  const upgradedLegacyControl = readJson(legacyUnsupportedControlPath);
+  assert.strictEqual(upgradedLegacyControl.meta.opera.legacyStatus, "supported");
+  assert.strictEqual(upgradedLegacyControl.meta.opera.stableTag, "stable");
+  assert.ok(fs.existsSync(path.join(legacyUnsupportedProject, "ops", ".tmp", "upgrade-backups")));
 
   const releaseProject = path.join(tempRoot, "release-demo");
   fs.mkdirSync(releaseProject, { recursive: true });

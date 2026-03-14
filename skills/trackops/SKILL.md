@@ -7,58 +7,83 @@ metadata:
   triggers:
     - "install trackops"
     - "skills.sh"
-    - "bootstrap trackops"
     - "trackops init"
     - "trackops opera install"
+    - "opera handoff"
 ---
 
 # TrackOps
 
-Use this skill in two layers:
+Use this skill in two layers.
 
-1. Global skill layer
-   Install it with:
+## 1. Global skill layer
 
-   ```bash
-   npx skills add Baxahaun/trackops
-   ```
+Install it with:
 
-   Replace `codex` with any supported target: `antigravity`, `claude-code`, `codex`, `cursor`, `gemini-cli`, `github-copilot`, or `kiro-cli`.
+```bash
+npx skills add Baxahaun/trackops
+```
 
-   Before relying on the CLI, run:
+Before relying on the CLI, run:
 
-   ```bash
-   node scripts/bootstrap-trackops.js
-   ```
+```bash
+node scripts/bootstrap-trackops.js
+```
 
-2. Local project layer
-   Activate TrackOps inside the current repository with:
+That bootstrap ensures the `trackops` runtime and records state in `~/.trackops/runtime.json`.
 
-   ```bash
-   trackops init
-   ```
+## 2. Local project layer
 
-   Add OPERA only when explicitly requested:
+Inside a repository:
 
-   ```bash
-   trackops opera install
-   ```
+```bash
+trackops init
+trackops opera install
+```
 
 Core rules:
 
-- Treat the global skill install as non-invasive.
-- In split workspaces, use `ops/project_control.json` as the operational source of truth.
-- In legacy repos, use `project_control.json` at the repository root.
-- Prefer `trackops status`, `trackops next`, and `trackops sync` over hand-editing generated docs.
-- Treat `trackops init --with-opera` as a shortcut, not as the primary mental model.
-- TrackOps manages `/.env` and `/.env.example` at workspace root. Do not print or persist secret values.
-- Remember that skills installs from committed Git state.
+- treat the global skill install as non-invasive
+- use `ops/contract/operating-contract.json` as the machine contract when it exists
+- use `ops/project_control.json` as the operational source of truth for backlog and state
+- use `ops/policy/autonomy.json` before approval-sensitive actions
+- use `/.env` and `/.env.example` as the environment contract
+- keep generated operational docs under `ops/`
+- support `trackops locale get|set` and `trackops doctor locale` when language matters
+
+## OPERA onboarding
+
+OPERA no longer assumes every user is technical.
+
+When OPERA starts, TrackOps classifies:
+
+- user technical level
+- current project state
+- available documentation
+
+Then it chooses one of two routes:
+
+- `direct bootstrap`
+  for technical users and already-defined repositories
+- `agent handoff`
+  for early ideas, non-technical users, or weak documentation
+
+If TrackOps routes bootstrap to the agent:
+
+- read `ops/bootstrap/agent-handoff.md`
+- or print it with `trackops opera handoff --print`
+- the agent must produce:
+  - `ops/bootstrap/intake.json`
+  - `ops/bootstrap/spec-dossier.md`
+  - `ops/bootstrap/open-questions.md` when important gaps remain
+- then resume with:
+
+```bash
+trackops opera bootstrap --resume
+```
 
 Read references only when needed:
 
 - `references/activation.md`
-  for install and activation flow
 - `references/workflow.md`
-  for day-to-day repo operation
 - `references/troubleshooting.md`
-  for bootstrap or environment issues

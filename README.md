@@ -5,7 +5,7 @@
 <h1 align="center">TrackOps</h1>
 
 <p align="center">
-  <strong>Local orchestration and operational automation for AI-agent projects.</strong>
+  <strong>Local orchestration and operational automation for projects built with AI agents.</strong>
 </p>
 
 <p align="center">
@@ -22,93 +22,77 @@
 
 ## Español
 
-TrackOps es un sistema local de orquestación y automatización operativa de proyectos y desarrollo con agentes IA.
+TrackOps es un sistema local de orquestación y automatización operativa para proyectos y desarrollo asistido por agentes IA.
 
-Prepara a tus agentes, ordena el trabajo del proyecto y mantiene separadas la aplicación real y la capa operativa, sin depender de una nube externa.
+Hace tres cosas:
+
+1. prepara a tu agente con una skill global
+2. activa control operativo dentro de cada repo
+3. media entre el usuario y el agente cuando el proyecto todavía está poco definido
 
 ### Modelo actual
 
-TrackOps funciona con dos capas:
+TrackOps trabaja en dos capas:
 
 1. `skill global`
    se instala una vez en tu agente o CLI
 2. `activación local por proyecto`
-   se ejecuta cuando quieres gestionar un repo concreto
+   se ejecuta cuando decides gestionar un repo concreto
 
-El flujo oficial es este:
+La activación local tiene dos caminos:
 
-1. instala la skill global
-2. deja que la skill asegure el runtime en primer uso
-3. activa TrackOps en un repo con `trackops init`
-4. añade OPERA solo si lo necesitas con `trackops opera install`
+- `arranque asistido por agente`
+  para ideas tempranas, usuarios poco técnicos o documentación insuficiente
+- `bootstrap directo`
+  para proyectos ya definidos y usuarios técnicos
 
 ### Instalación global
 
-TrackOps se distribuye como skill global desde el ecosistema `skills`.
+TrackOps se distribuye como skill global:
 
 ```bash
 npx skills add Baxahaun/trackops
 ```
 
-`skills.sh` no indexa una skill solo porque el repo exista. Su FAQ indica que la skill aparece en busqueda y leaderboard cuando usuarios la instalan con `npx skills add <owner/repo>` y la telemetria anonima de la CLI registra esa instalacion.
+La skill:
 
-Targets soportados en la skill:
-
-- `antigravity`
-- `claude-code`
-- `codex`
-- `cursor`
-- `gemini-cli`
-- `github-copilot`
-- `kiro-cli`
-
-La skill global:
-
-- hace disponible TrackOps para tu agente
-- asegura el runtime npm en primer uso
+- prepara el agente
+- asegura el runtime en el primer uso real
 - no modifica repos por sí sola
 
-### Bootstrap del runtime
+### Primer uso
 
-En el primer uso real, la skill ejecuta su bootstrap:
+En el primer uso, la skill ejecuta:
 
 ```bash
 node scripts/bootstrap-trackops.js
 ```
 
-Ese bootstrap:
+Ese bootstrap valida `Node.js >= 18`, valida `npm`, instala o actualiza `trackops` y registra el estado en `~/.trackops/runtime.json`.
 
-- valida `Node.js >= 18`
-- valida `npm`
-- instala o actualiza `trackops`
-- verifica el comando
-- registra el estado en `~/.trackops/runtime.json`
+### Activación local
 
-Contrato de la skill: [skills/trackops/skill.json](./skills/trackops/skill.json)
-
-### Activación local por proyecto
-
-Cuando quieres gestionar un repo:
+Dentro de un repo:
 
 ```bash
 trackops init
 trackops opera install
 ```
 
-Semántica oficial:
+Semántica:
 
 - `trackops init`
-  crea por defecto un workspace split con `app/`, `ops/`, `/.env`, `/.env.example` y `.trackops-workspace.json`
+  activa TrackOps en el repo
 - `trackops opera install`
-  añade OPERA sobre un proyecto ya inicializado y escribe solo en `ops/`
+  añade OPERA cuando quieres el framework operativo completo
 - `trackops init --with-opera`
-  existe como atajo explícito
+  existe como atajo
 - `trackops init --legacy-layout`
   existe solo por compatibilidad
 
 ### Workspace split
 
-TrackOps separa tu producto real en `app/` y la operación en `ops/`, para que no se mezclen.
+Por defecto, TrackOps separa producto y operación:
 
 ```text
 mi-proyecto/
@@ -116,41 +100,98 @@ mi-proyecto/
 ├── .env
 ├── .env.example
 ├── app/
-│   ├── .env
 │   └── ...producto real...
 └── ops/
     ├── project_control.json
+    ├── contract/
+    │   └── operating-contract.json
+    ├── policy/
+    │   └── autonomy.json
     ├── task_plan.md
     ├── progress.md
     ├── findings.md
     ├── genesis.md
-    ├── .agent/hub/
-    ├── .agents/skills/
+    ├── bootstrap/
+    ├── .agent/
+    ├── .agents/
     ├── .githooks/
     └── .tmp/
 ```
 
 Fuente de verdad operativa:
 
-- split layout: `ops/project_control.json`
-- legacy layout: `project_control.json`
+- layout split: `ops/project_control.json`
+- layout legacy: `project_control.json`
+
+### Dos formas de arrancar OPERA
+
+#### Tengo una idea
+
+Si el usuario no es técnico, el proyecto está en fase idea, o no hay documentación suficiente, OPERA no sigue con preguntas de arquitectura en terminal. En su lugar:
+
+1. pregunta nivel técnico, estado del proyecto y documentación disponible
+2. genera un handoff en `ops/bootstrap/agent-handoff.md`
+3. espera a que el agente produzca:
+   - `ops/bootstrap/intake.json`
+   - `ops/bootstrap/spec-dossier.md`
+   - `ops/bootstrap/open-questions.md` si quedan huecos importantes
+4. reanudas con:
+
+```bash
+trackops opera bootstrap --resume
+```
+
+#### Ya tengo un repo
+
+Si el usuario es técnico y el proyecto ya tiene suficiente contexto, OPERA sigue por bootstrap directo, compila `ops/contract/operating-contract.json` y recompila `ops/genesis.md`.
+
+También puedes forzar el modo:
+
+```bash
+trackops opera install --bootstrap-mode handoff
+trackops opera install --bootstrap-mode direct
+```
+
+Flags disponibles:
+
+- `--technical-level low|medium|high|senior`
+- `--project-state idea|draft|existing_repo|advanced`
+- `--docs-state none|notes|sos|spec_dossier|repo_docs`
+- `--decision-ownership user|shared|agent`
 
 ### Entorno y secretos
 
 TrackOps gestiona un contrato explícito de entorno:
 
 - `/.env`
-  archivo real de secretos del workspace
+  secretos reales del workspace
 - `/.env.example`
   contrato público de variables
 - `app/.env`
-  puente de compatibilidad para herramientas del producto
+  puente de compatibilidad
 
-Comandos principales:
+Comandos:
 
 ```bash
 trackops env status
 trackops env sync
+```
+
+TrackOps nunca imprime ni persiste valores sensibles en docs, dashboard o `project_control.json`.
+
+### Idioma
+
+TrackOps puede trabajar con:
+
+- idioma global en `~/.trackops/runtime.json`
+- idioma por proyecto en `ops/project_control.json`
+
+Comandos:
+
+```bash
+trackops locale get
+trackops locale set es
+trackops doctor locale
 ```
 
 ### Trabajo diario
@@ -163,14 +204,12 @@ trackops env status
 trackops dashboard
 ```
 
-Reglas operativas:
+Reglas:
 
 - usa `trackops status` para leer foco, fase y bloqueadores
-- usa `trackops next` para identificar la siguiente tarea lista
+- usa `trackops next` para ver la siguiente tarea lista
 - usa `trackops sync` para regenerar docs operativos
 - no edites a mano `task_plan.md`, `progress.md` ni `findings.md`
-
-El dashboard es local, encuentra un puerto libre si el preferido está ocupado y puede copiar la URL al portapapeles.
 
 ### CLI principal
 
@@ -178,57 +217,40 @@ El dashboard es local, encuentra un puerto libre si el preferido está ocupado y
 
 | Comando | Descripción |
 |---|---|
-| `trackops init [--with-opera] [--locale es\|en] [--name "..."] [--no-bootstrap] [--legacy-layout]` | Inicializa TrackOps en el repo actual |
-| `trackops status` | Muestra el estado operativo actual |
-| `trackops next` | Muestra las siguientes tareas listas |
-| `trackops sync` | Regenera la documentación operativa |
-| `trackops workspace status` | Muestra layout, roots y configuración del workspace |
-| `trackops workspace migrate` | Migra un proyecto legacy al layout `app/` + `ops/` |
-| `trackops env status` | Audita claves requeridas, presentes y faltantes sin mostrar valores |
-| `trackops env sync` | Crea o regenera `/.env`, `/.env.example` y el puente `app/.env` |
-| `trackops release [--push]` | Publica la rama configurada a partir de `app/` |
-| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Lanza el dashboard local |
-| `trackops version` | Imprime la versión instalada |
+| `trackops init [--with-opera] [--locale es\|en] [--name "..."] [--no-bootstrap] [--legacy-layout]` | Inicializa TrackOps |
+| `trackops status` | Muestra estado operativo |
+| `trackops next` | Muestra la siguiente cola priorizada |
+| `trackops sync` | Regenera docs operativos |
+| `trackops workspace status` | Muestra layout y roots |
+| `trackops workspace migrate` | Migra un proyecto legacy |
+| `trackops env status` | Audita claves presentes y faltantes |
+| `trackops env sync` | Regenera `/.env`, `/.env.example` y el puente |
+| `trackops locale get\|set [es\|en]` | Lee o fija el idioma global |
+| `trackops doctor locale` | Explica el origen del idioma efectivo |
+| `trackops release [--push]` | Publica la rama configurada desde `app/` |
+| `trackops dashboard` | Lanza el dashboard local |
 
 #### OPERA
 
 | Comando | Descripción |
 |---|---|
-| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Instala OPERA en el proyecto actual |
-| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Reanuda el bootstrap OPERA |
-| `trackops opera status` | Muestra el estado de instalación y bootstrap |
-| `trackops opera configure [--phases '...'] [--locale es\|en]` | Reconfigura fases o idioma |
-| `trackops opera upgrade` | Actualiza los templates OPERA a la versión del paquete |
+| `trackops opera install [--bootstrap-mode ...] [--technical-level ...] [--project-state ...] [--docs-state ...] [--decision-ownership ...]` | Instala OPERA y decide la ruta de bootstrap |
+| `trackops opera bootstrap [--resume]` | Continúa el bootstrap o ingiere el resultado del agente |
+| `trackops opera handoff [--print\|--json]` | Muestra el handoff listo para copiar al agente |
+| `trackops opera status` | Muestra estado de instalación y bootstrap |
+| `trackops opera configure` | Reconfigura idioma o fases |
+| `trackops opera upgrade --stable [--reset]` | Reescribe artefactos gestionados a la versión estable actual |
 
-#### Skills del proyecto
+### Skills del proyecto
 
-`trackops skill ...` gestiona skills nativas del proyecto. En split layout viven en `ops/.agents/skills/`.
+Hay dos conceptos distintos:
 
-```bash
-trackops skill catalog
-trackops skill install commiter
-trackops skill list
-trackops skill remove commiter
-```
+- la skill global `trackops`
+  prepara el sistema
+- `trackops skill ...`
+  gestiona skills nativas del proyecto en `ops/.agents/skills/`
 
-### Vía alternativa sin skill global
-
-Si no quieres usar la distribución por skill:
-
-```bash
-npx trackops init
-npx trackops dashboard
-```
-
-O instala el paquete globalmente con npm:
-
-```bash
-npm install -g trackops
-trackops init
-trackops opera install
-```
-
-### Publicación y validación
+### Publicación
 
 Antes de publicar:
 
@@ -240,7 +262,7 @@ npm run skill:smoke
 npm run release:check
 ```
 
-En proyectos split, `trackops release` publica solo el contenido de `app/` hacia la rama configurada e incluye `.env.example`. No publica `/.env`, `ops/` ni `.trackops-workspace.json`.
+`trackops release` publica solo `app/`, incluye `.env.example` y no publica `/.env`, `ops/` ni `.trackops-workspace.json`.
 
 Guía ampliada: [UserGUIDE.md](./UserGUIDE.md)
 
@@ -250,91 +272,60 @@ Guía ampliada: [UserGUIDE.md](./UserGUIDE.md)
 
 TrackOps is a local orchestration and operational automation system for projects and AI-agent development.
 
-It prepares your agents, organizes project execution, and keeps the real app separate from the operational layer, without depending on an external cloud.
+It does three things:
+
+1. prepares your agent with a global skill
+2. activates operational control inside each repository
+3. mediates between the user and the agent when the project is still loosely defined
 
 ### Current model
 
 TrackOps works in two layers:
 
 1. `global skill`
-   installed once in your agent or CLI
+   installed once in the agent or CLI
 2. `local per-project activation`
-   run only when you want to manage a specific repository
+   run when you decide to manage a specific repository
 
-Official flow:
+Local activation has two paths:
 
-1. install the global skill
-2. let the skill ensure the runtime on first use
-3. activate TrackOps in a repo with `trackops init`
-4. add OPERA only when needed with `trackops opera install`
+- `agent-led start`
+  for early ideas, non-technical users, or weak documentation
+- `direct bootstrap`
+  for already defined projects and technical users
 
 ### Global install
 
-TrackOps is distributed as a global skill through the `skills` ecosystem.
+Install the global skill with:
 
 ```bash
 npx skills add Baxahaun/trackops
 ```
 
-`skills.sh` does not index a skill just because the repository exists. Its FAQ states that search and leaderboard visibility come from anonymous CLI telemetry after users install with `npx skills add <owner/repo>`.
+The skill prepares the agent, ensures the runtime on first use, and does not mutate repositories by itself.
 
-Supported skill targets:
+### First use
 
-- `antigravity`
-- `claude-code`
-- `codex`
-- `cursor`
-- `gemini-cli`
-- `github-copilot`
-- `kiro-cli`
-
-The global skill:
-
-- makes TrackOps available to your agent
-- ensures the npm runtime on first use
-- does not mutate repositories by itself
-
-### Runtime bootstrap
-
-On first real use, the skill runs:
+On first use the skill runs:
 
 ```bash
 node scripts/bootstrap-trackops.js
 ```
 
-That bootstrap:
+It validates `Node.js >= 18`, validates `npm`, installs or updates `trackops`, and records state in `~/.trackops/runtime.json`.
 
-- validates `Node.js >= 18`
-- validates `npm`
-- installs or updates `trackops`
-- verifies the command
-- records state in `~/.trackops/runtime.json`
+### Local activation
 
-Skill contract: [skills/trackops/skill.json](./skills/trackops/skill.json)
-
-### Local per-project activation
-
-When you want to manage a repository:
+Inside a repository:
 
 ```bash
 trackops init
 trackops opera install
 ```
 
-Official semantics:
-
-- `trackops init`
-  creates a split workspace by default with `app/`, `ops/`, `/.env`, `/.env.example`, and `.trackops-workspace.json`
-- `trackops opera install`
-  adds OPERA to an initialized project and writes only inside `ops/`
-- `trackops init --with-opera`
-  exists as an explicit shortcut
-- `trackops init --legacy-layout`
-  exists only for compatibility
-
 ### Split workspace
 
-TrackOps separates your real product into `app/` and operations into `ops/`, so they do not get mixed.
+TrackOps separates product and operations by default:
 
 ```text
 my-project/
@@ -342,16 +333,19 @@ my-project/
 ├── .env
 ├── .env.example
 ├── app/
-│   ├── .env
-│   └── ...real product...
 └── ops/
     ├── project_control.json
+    ├── contract/
+    │   └── operating-contract.json
+    ├── policy/
+    │   └── autonomy.json
     ├── task_plan.md
     ├── progress.md
     ├── findings.md
     ├── genesis.md
-    ├── .agent/hub/
-    ├── .agents/skills/
+    ├── bootstrap/
+    ├── .agent/
+    ├── .agents/
     ├── .githooks/
     └── .tmp/
 ```
@@ -361,22 +355,59 @@ Operational source of truth:
 - split layout: `ops/project_control.json`
 - legacy layout: `project_control.json`
 
+### Two ways to start OPERA
+
+#### I only have an idea
+
+If the user is not technical, the project is still in idea stage, or documentation is weak, OPERA does not keep asking architecture questions in the terminal. Instead it:
+
+1. asks for technical level, project state, and available documentation
+2. writes a handoff in `ops/bootstrap/agent-handoff.md`
+3. waits for the agent to produce:
+   - `ops/bootstrap/intake.json`
+   - `ops/bootstrap/spec-dossier.md`
+   - `ops/bootstrap/open-questions.md` when important gaps remain
+4. resumes with:
+
+```bash
+trackops opera bootstrap --resume
+```
+
+#### I already have a repository
+
+If the user is technical and the project already has enough context, OPERA continues with direct bootstrap, compiles `ops/contract/operating-contract.json`, and recompiles `ops/genesis.md`.
+
+You can also force the mode:
+
+```bash
+trackops opera install --bootstrap-mode handoff
+trackops opera install --bootstrap-mode direct
+```
+
 ### Environment and secrets
 
-TrackOps manages an explicit environment contract:
+TrackOps manages:
 
 - `/.env`
-  real secrets file for the workspace
+  real workspace secrets
 - `/.env.example`
   public variable contract
 - `app/.env`
-  compatibility bridge for product tooling
+  compatibility bridge
 
-Main commands:
+### Language
+
+TrackOps can work with:
+
+- a global language in `~/.trackops/runtime.json`
+- a per-project language in `ops/project_control.json`
+
+Commands:
 
 ```bash
-trackops env status
-trackops env sync
+trackops locale get
+trackops locale set en
+trackops doctor locale
 ```
 
 ### Daily workflow
@@ -389,83 +420,12 @@ trackops env status
 trackops dashboard
 ```
 
-Operating rules:
-
-- use `trackops status` to inspect focus, phase, and blockers
-- use `trackops next` to find the next ready task
-- use `trackops sync` to regenerate operational docs
-- do not hand-edit `task_plan.md`, `progress.md`, or `findings.md`
-
-The dashboard is local, finds a free port if the preferred one is busy, and can copy the URL to the clipboard.
-
 ### Main CLI
 
-#### Core
+Core and OPERA commands follow the same contract as the Spanish section above, including `trackops opera handoff` and `trackops opera bootstrap --resume`.
 
-| Command | Description |
-|---|---|
-| `trackops init [--with-opera] [--locale es\|en] [--name "..."] [--no-bootstrap] [--legacy-layout]` | Initialize TrackOps in the current repo |
-| `trackops status` | Show the current operational state |
-| `trackops next` | Show the next ready tasks |
-| `trackops sync` | Regenerate operational docs |
-| `trackops workspace status` | Show workspace layout, roots, and publish configuration |
-| `trackops workspace migrate` | Migrate a legacy project to the `app/` + `ops/` layout |
-| `trackops env status` | Audit required, present, and missing keys without showing values |
-| `trackops env sync` | Create or regenerate `/.env`, `/.env.example`, and the `app/.env` bridge |
-| `trackops release [--push]` | Publish the configured branch from `app/` |
-| `trackops dashboard [--port N] [--host HOST] [--public] [--strict-port]` | Launch the local dashboard |
-| `trackops version` | Print the installed version |
+### Publishing
 
-#### OPERA
-
-| Command | Description |
-|---|---|
-| `trackops opera install [--locale es\|en] [--non-interactive] [--no-bootstrap]` | Install OPERA in the current project |
-| `trackops opera bootstrap [--locale es\|en] [--non-interactive]` | Resume the OPERA bootstrap |
-| `trackops opera status` | Show install and bootstrap state |
-| `trackops opera configure [--phases '...'] [--locale es\|en]` | Reconfigure phases or locale |
-| `trackops opera upgrade` | Update OPERA templates to the package version |
-
-#### Project skills
-
-`trackops skill ...` manages project-native skills. In split layout they live under `ops/.agents/skills/`.
-
-```bash
-trackops skill catalog
-trackops skill install commiter
-trackops skill list
-trackops skill remove commiter
-```
-
-### Alternative path without the global skill
-
-If you do not want to use the skill distribution path:
-
-```bash
-npx trackops init
-npx trackops dashboard
-```
-
-Or install the package globally with npm:
-
-```bash
-npm install -g trackops
-trackops init
-trackops opera install
-```
-
-### Publish and validate
-
-Before publishing:
-
-```bash
-trackops workspace status
-trackops env status
-npm run skill:validate
-npm run skill:smoke
-npm run release:check
-```
-
-In split projects, `trackops release` publishes only the contents of `app/` to the configured branch and includes `.env.example`. It never publishes `/.env`, `ops/`, or `.trackops-workspace.json`.
+`trackops release` publishes only `app/`, includes `.env.example`, and never publishes `/.env`, `ops/`, or `.trackops-workspace.json`.
 
 Extended guide: [UserGUIDE.md](./UserGUIDE.md)
