@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrackOps — Orquestacion operativa local para proyectos con agentes IA</title>
-    <meta name="description" content="TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Instala la skill global, activa cada repo por separado y deja que OPERA elija entre bootstrap directo o arranque guiado por agente.">
+    <meta name="description" content="TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Instala la skill global, instala el runtime de forma explicita, activa cada repo por separado y deja que OPERA elija entre bootstrap directo o arranque guiado por agente.">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -267,9 +267,9 @@
 
         .hero-command-body {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.8rem;
-            min-height: 3.25rem;
+            min-height: 4.6rem;
             overflow: hidden;
             font-family: "JetBrains Mono", monospace;
             font-size: 0.95rem;
@@ -285,6 +285,7 @@
 
         .hero-command-text {
             min-width: 0;
+            white-space: pre-wrap;
         }
 
         .hero-caret {
@@ -641,8 +642,8 @@
                 </p>
 
                 <p class="gsap-reveal mt-10 text-lg md:text-xl text-gray-200 max-w-3xl font-outfit font-light leading-relaxed">
-                    <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Prepara al agente, ordena el proyecto y actua como intermediario entre la idea del usuario y una ejecucion con estructura real.</span>
-                    <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects built with AI agents. It prepares the agent, organizes the project, and acts as the layer between a user's idea and a structured execution flow.</span>
+                    <span class="lang-es">TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Prepara al agente, instala el runtime con un paso explicito, ordena el proyecto y actua como intermediario entre la idea del usuario y una ejecucion con estructura real.</span>
+                    <span class="lang-en">TrackOps is a local orchestration and operational automation system for projects built with AI agents. It prepares the agent, installs the runtime through an explicit step, organizes the project, and acts as the layer between a user's idea and a structured execution flow.</span>
                 </p>
 
                 <div class="gsap-reveal mt-10 hero-meta-row">
@@ -652,11 +653,11 @@
                     </p>
                 </div>
 
-                <div class="gsap-reveal mt-12 hero-command-shell" role="group" aria-label="Global skill installation command">
+                <div class="gsap-reveal mt-12 hero-command-shell" role="group" aria-label="Global TrackOps setup commands">
                     <div class="hero-command-topline">
-                        <span class="lang-es">Instala la skill global una sola vez</span>
-                        <span class="lang-en">Install the global skill once</span>
-                        <button type="button" class="hero-copy-button" data-copy-text="npx skills add Baxahaun/trackops" data-status-target="#hero-command-status" title="Copy to clipboard" aria-label="Copy to clipboard">
+                        <span class="lang-es">Instala la skill y el runtime una sola vez</span>
+                        <span class="lang-en">Install the skill and runtime once</span>
+                        <button type="button" class="hero-copy-button" data-copy-text="npx skills add Baxahaun/trackops&#10;npm install -g trackops" data-status-target="#hero-command-status" title="Copy to clipboard" aria-label="Copy to clipboard">
                             <svg viewBox="0 0 16 16" height="16" width="16" aria-hidden="true">
                                 <path fill="currentColor" fill-rule="evenodd" d="M2.75.5C1.78.5 1 1.28 1 2.25v7.5c0 .97.78 1.75 1.75 1.75H4.5V10H2.75a.25.25 0 0 1-.25-.25v-7.5c0-.14.11-.25.25-.25h5.5c.14 0 .25.11.25.25V3H10v-.75C10 1.28 9.22.5 8.25.5zm5 4C6.78 4.5 6 5.28 6 6.25v7.5c0 .97.78 1.75 1.75 1.75h5.5c.97 0 1.75-.78 1.75-1.75v-7.5c0-.97-.78-1.75-1.75-1.75zM7.5 6.25c0-.14.11-.25.25-.25h5.5c.14 0 .25.11.25.25v7.5q-.02.23-.25.25h-5.5a.25.25 0 0 1-.25-.25z" clip-rule="evenodd"></path>
                             </svg>
@@ -664,14 +665,14 @@
                     </div>
                     <div class="hero-command-body">
                         <span class="hero-prompt" aria-hidden="true">$</span>
-                        <span id="hero-install-command" class="hero-command-text" data-command="npx skills add Baxahaun/trackops"></span>
+                        <span id="hero-install-command" class="hero-command-text" data-command="npx skills add Baxahaun/trackops&#10;npm install -g trackops"></span>
                         <span class="hero-caret" aria-hidden="true"></span>
                     </div>
                 </div>
 
                 <p class="gsap-reveal mt-5 max-w-3xl font-outfit text-sm md:text-base leading-7 text-slate-300">
-                    <span class="lang-es">Despues, activa cada proyecto con <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. Si necesitas OPERA, instala <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: primero clasifica al usuario y el contexto, y luego decide entre bootstrap directo o handoff al agente.</span>
-                    <span class="lang-en">Then activate each project with <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. If you need OPERA, add <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: it classifies the user and context first, then decides between direct bootstrap and agent handoff.</span>
+                    <span class="lang-es">La skill queda como capa de instrucciones auditable. El runtime se instala con npm de forma explicita. Despues, activa cada proyecto con <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. Si necesitas OPERA, instala <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: primero clasifica al usuario y el contexto, y luego decide entre bootstrap directo o handoff al agente.</span>
+                    <span class="lang-en">The skill stays as an auditable instruction layer. The runtime is installed explicitly with npm. Then activate each project with <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. If you need OPERA, add <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: it classifies the user and context first, then decides between direct bootstrap and agent handoff.</span>
                 </p>
 
                 <p id="hero-command-status" class="hidden gsap-reveal mt-3 font-outfit text-sm text-emerald-300"></p>
@@ -824,7 +825,7 @@
                     <span class="lang-es">Tu agente sabe exactamente qué hacer. Siempre.</span><span class="lang-en">Your agent knows exactly what to do. Always.</span>
                 </p>
                 <p class="font-outfit text-lg text-gray-300 leading-relaxed mb-6">
-                    <span class="lang-es">La skill global prepara al agente. La activacion local le da un contrato operativo claro dentro del repo. Y cuando el usuario no sabe aun traducir su idea a una especificacion, TrackOps crea un handoff para que el agente haga discovery antes de ejecutar. En el layout moderno, el agente lee el estado en <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span><span class="lang-en">The global skill prepares the agent. Local activation gives it a clear operating contract inside the repo. And when the user cannot yet translate the idea into a workable specification, TrackOps creates a handoff so the agent can do discovery before execution. In the modern layout, the agent reads state from <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span>
+                    <span class="lang-es">La skill global prepara al agente. El runtime se instala aparte con un paso visible. La activacion local le da un contrato operativo claro dentro del repo. Y cuando el usuario no sabe aun traducir su idea a una especificacion, TrackOps crea un handoff para que el agente haga discovery antes de ejecutar. En el layout moderno, el agente lee el estado en <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span><span class="lang-en">The global skill prepares the agent. The runtime is installed separately through a visible step. Local activation gives it a clear operating contract inside the repo. And when the user cannot yet translate the idea into a workable specification, TrackOps creates a handoff so the agent can do discovery before execution. In the modern layout, the agent reads state from <code class="bg-white/10 px-2 py-1 rounded text-sm text-accent">ops/</code>:</span>
                 </p>
                 <ul class="flex flex-col gap-4 font-outfit text-gray-200 mt-8">
                     <li class="flex items-start gap-4">
@@ -1000,7 +1001,7 @@ Al completar trabajo:
             <div class="md:w-1/2">
                 <h3 class="font-serif italic text-4xl text-navy mb-4"><span class="lang-es">Ecosistema de Skills</span><span class="lang-en">Skills Ecosystem</span></h3>
                 <p class="font-outfit text-slate-700 mb-6 leading-relaxed">
-                    <span class="lang-es">La skill global de TrackOps prepara al agente para trabajar con el runtime y activar repositorios. Despues, cada proyecto puede anadir skills nativas para protocolos concretos como commits, changelog o arranque guiado. No compiten entre si: una prepara el sistema, otra estructura discovery, y las demas enriquecen la ejecucion diaria.</span><span class="lang-en">The global TrackOps skill prepares the agent to work with the runtime and activate repositories. After that, each project can add native skills for concrete protocols such as commits, changelog, or guided project start. They do not compete: one prepares the system, another structures discovery, and the rest enrich day-to-day execution.</span>
+                    <span class="lang-es">La skill global de TrackOps prepara al agente para trabajar con el runtime y activar repositorios. El runtime se instala por separado con npm y despues cada proyecto puede anadir skills nativas para protocolos concretos como commits, changelog o arranque guiado. No compiten entre si: una prepara el sistema, otra estructura discovery, y las demas enriquecen la ejecucion diaria.</span><span class="lang-en">The global TrackOps skill prepares the agent to work with the runtime and activate repositories. The runtime is installed separately with npm, and after that each project can add native skills for concrete protocols such as commits, changelog, or guided project start. They do not compete: one prepares the system, another structures discovery, and the rest enrich day-to-day execution.</span>
                 </p>
                 <div class="bg-[#0A0F1E] rounded-xl p-4 font-mono text-xs inline-block mb-8 border border-slate-800" style="color: #e2e8f0">
                     <p><span style="color: #64748b"><span class="lang-es"># Anadir una skill nativa del proyecto</span><span class="lang-en"># Add a native project skill</span></span></p>
@@ -1035,10 +1036,10 @@ Al completar trabajo:
 
             <div class="grid gap-6 md:grid-cols-2">
                 <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿TrackOps modifica todos mis repos?</span><span class="lang-en">Does TrackOps modify all my repositories?</span></h3>
+                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Por que la skill y el runtime se instalan por separado?</span><span class="lang-en">Why are the skill and the runtime installed separately?</span></h3>
                     <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">No. La skill global solo prepara al agente y al runtime. Cada repo se activa de forma explícita con <code class="bg-slate-100 px-1.5 py-0.5 rounded">trackops init</code>.</span>
-                        <span class="lang-en">No. The global skill only prepares the agent and the runtime. Each repository is activated explicitly with <code class="bg-slate-100 px-1.5 py-0.5 rounded">trackops init</code>.</span>
+                        <span class="lang-es">Porque la skill debe mantenerse como capa de instrucciones auditable y el runtime debe instalarse con un paso npm visible y verificable. Asi ganas control, trazabilidad y una cadena de confianza mas clara.</span>
+                        <span class="lang-en">Because the skill should remain an auditable instruction layer and the runtime should be installed through a visible and verifiable npm step. That gives you better control, traceability, and a clearer trust chain.</span>
                     </p>
                 </article>
 
@@ -1125,10 +1126,10 @@ Al completar trabajo:
                     </p>
                     <div class="mt-8 flex flex-col gap-4">
                         <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-                            <button type="button" class="control-pill text-white" data-copy-text="npx skills add Baxahaun/trackops" data-status-target="#footer-install-status">
+                            <button type="button" class="control-pill text-white" data-copy-text="npx skills add Baxahaun/trackops&#10;npm install -g trackops" data-status-target="#footer-install-status">
                                 <i data-lucide="copy" class="w-4 h-4" aria-hidden="true"></i>
-                                <span class="lang-es">Copiar skill global</span>
-                                <span class="lang-en">Copy global skill</span>
+                                <span class="lang-es">Copiar setup global</span>
+                                <span class="lang-en">Copy global setup</span>
                             </button>
                             <button type="button" class="control-pill text-white" data-copy-text="trackops init" data-status-target="#footer-init-status">
                                 <i data-lucide="copy" class="w-4 h-4" aria-hidden="true"></i>
@@ -1137,8 +1138,8 @@ Al completar trabajo:
                             </button>
                         </div>
                         <div class="font-mono text-xs text-slate-400">
-                            <span class="lang-es">Primero instala la skill global. Despues activa TrackOps dentro del repo con <code class="bg-white/10 px-1 rounded text-white">trackops init</code>. Si instalas OPERA, clasificara al usuario y al proyecto antes de decidir como arrancar.</span>
-                            <span class="lang-en">Install the global skill first. Then activate TrackOps inside the repository with <code class="bg-white/10 px-1 rounded text-white">trackops init</code>. If you install OPERA, it classifies the user and the project before deciding how to start.</span>
+                            <span class="lang-es">Primero instala la skill global y el runtime con npm. Despues activa TrackOps dentro del repo con <code class="bg-white/10 px-1 rounded text-white">trackops init</code>. Si instalas OPERA, clasificara al usuario y al proyecto antes de decidir como arrancar.</span>
+                            <span class="lang-en">Install the global skill and the runtime with npm first. Then activate TrackOps inside the repository with <code class="bg-white/10 px-1 rounded text-white">trackops init</code>. If you install OPERA, it classifies the user and the project before deciding how to start.</span>
                         </div>
                         <p id="footer-install-status" class="hidden font-outfit text-xs text-emerald-300"></p>
                         <p id="footer-init-status" class="hidden font-outfit text-xs text-emerald-300"></p>
@@ -1482,12 +1483,12 @@ Al completar trabajo:
             const payload = lang === 'es'
                 ? {
                     title: 'TrackOps',
-                    text: 'TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Instalalo como skill global y deja que OPERA elija entre bootstrap directo o arranque guiado por agente.',
+                        text: 'TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos con agentes IA. Instala la skill global, instala el runtime de forma explicita y deja que OPERA elija entre bootstrap directo o arranque guiado por agente.',
                     url: 'https://baxahaun.github.io/trackops/'
                 }
                 : {
                     title: 'TrackOps',
-                    text: 'TrackOps is a local orchestration and operational automation system for projects built with AI agents. Install it as a global skill and let OPERA choose between direct bootstrap and agent-led onboarding.',
+                        text: 'TrackOps is a local orchestration and operational automation system for projects built with AI agents. Install the global skill, install the runtime explicitly, and let OPERA choose between direct bootstrap and agent-led onboarding.',
                     url: 'https://baxahaun.github.io/trackops/'
                 };
 

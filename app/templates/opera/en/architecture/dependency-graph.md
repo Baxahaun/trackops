@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart TD
-    A[Global runtime bootstrap] --> B[trackops init]
+    A[Explicit global runtime install] --> B[trackops init]
     B --> C[trackops opera install]
     C --> D{Routing}
     D -->|direct_cli| E[Direct intake]

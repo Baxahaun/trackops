@@ -2,19 +2,21 @@
 
 ## Global install
 
-Install the marketplace skill:
-
 ```bash
 npx skills add Baxahaun/trackops
+npm install -g trackops
+trackops --version
 ```
 
-On first use, ensure the runtime with the bundled skill script:
+The global skill installs instructions for the agent.
 
-```bash
-node scripts/bootstrap-trackops.js
-```
+The `trackops` runtime is installed separately through npm so the step stays visible, auditable, and easy to verify.
 
-The global skill must not create repository files on its own.
+Before continuing:
+
+- confirm that `trackops --version` returns a valid version
+- if it does not, fix PATH or reinstall `trackops`
+- the skill must not try to install the runtime by itself
 
 ## Local activation
 

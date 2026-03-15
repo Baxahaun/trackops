@@ -1,6 +1,6 @@
 ---
 name: "trackops"
-description: "Global TrackOps skill for installing and activating local project orchestration with OPERA, environment management, and agent handoff. Use it when the user wants to install TrackOps from skills.sh, bootstrap the runtime with `node scripts/bootstrap-trackops.js`, run `trackops init`, run `trackops opera install`, inspect `trackops opera handoff`, or work through the operational flow of a repository."
+description: "Global TrackOps skill for preparing the agent, requiring explicit npm runtime installation, and guiding local TrackOps and OPERA activation inside each repository."
 ---
 
 # TrackOps
@@ -15,19 +15,19 @@ Install the marketplace skill with:
 npx skills add Baxahaun/trackops
 ```
 
-Before relying on the CLI, run the bundled skill script:
+Then confirm that the `trackops` runtime exists. If it is missing, ask the user to install it explicitly:
 
 ```bash
-node scripts/bootstrap-trackops.js
+npm install -g trackops
+trackops --version
 ```
 
-That bootstrap:
+Rules:
 
-- ensures the npm `trackops` runtime
-- verifies that the global binary can be executed
-- records state in `~/.trackops/runtime.json`
-
-It must not create repository files on its own.
+- the skill must not install packages or execute remote code by itself
+- the runtime is installed through a visible and auditable npm step
+- the skill may verify `trackops --version`, but it must not chain silent installs
+- the skill must not create repository files by itself
 
 ## Local project layer
 
@@ -40,7 +40,8 @@ trackops opera install
 
 Core rules:
 
-- treat the global install as non-invasive
+- treat the global skill as an instruction layer
+- treat runtime installation as explicit and separate
 - use `ops/contract/operating-contract.json` as the machine contract when it exists
 - use `ops/project_control.json` as the operational source of truth
 - use `ops/policy/autonomy.json` before approval-sensitive actions
@@ -81,6 +82,6 @@ trackops opera bootstrap --resume
 
 ## Which reference to read and when
 
-- read `locales/en/references/activation.md` only for installation, first use, locale bootstrap, and repository activation
+- read `locales/en/references/activation.md` only for installation, runtime verification, locale bootstrap, and repository activation
 - read `locales/en/references/workflow.md` only when TrackOps is already active and you need day-to-day repository operations
-- read `locales/en/references/troubleshooting.md` only when installation, bootstrap, resume, or environment contract handling fails
+- read `locales/en/references/troubleshooting.md` only when explicit installation, `trackops` detection, resume, or environment contract handling fails

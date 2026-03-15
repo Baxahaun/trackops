@@ -104,6 +104,7 @@ Explica el flujo correcto:
 
 ```bash
 npx skills add Baxahaun/trackops
+npm install -g trackops
 trackops init
 trackops opera install
 ```
@@ -122,6 +123,7 @@ Explica el flujo correcto:
 
 ```bash
 npx skills add Baxahaun/trackops
+npm install -g trackops
 trackops init
 trackops opera install
 ```

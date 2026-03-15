@@ -1,24 +1,24 @@
 # TrackOps User Guide
 
 <p align="center">
-  <a href="#español">Español</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#english">English</a>
+  <a href="#espanol">Espanol</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="#english">English</a>
 </p>
 
 ---
 
-## Español
+## Espanol
 
-### 1. Qué es TrackOps hoy
+### 1. Que es TrackOps hoy
 
-TrackOps es un sistema local de orquestación y automatización operativa para proyectos y desarrollo asistido por agentes IA.
+TrackOps es un sistema local de orquestacion y automatizacion operativa para proyectos y desarrollo asistido por agentes IA.
 
-No solo organiza tareas. También:
+No solo organiza tareas. Tambien:
 
 - prepara al agente
-- separa producto y operación
-- decide cuándo el arranque debe pasar por el agente y cuándo puede seguir por terminal
+- separa producto y operacion
+- decide cuando el arranque debe pasar por el agente y cuando puede seguir por terminal
 
-### 2. Instalación global
+### 2. Instalacion global
 
 La entrada principal es la skill global:
 
@@ -26,13 +26,20 @@ La entrada principal es la skill global:
 npx skills add Baxahaun/trackops
 ```
 
-Luego, en el primer uso real, la skill asegura el runtime con:
+Despues instala el runtime de forma explicita:
 
 ```bash
-node scripts/bootstrap-trackops.js
+npm install -g trackops
+trackops --version
 ```
 
-### 3. Activación local
+Esta separacion es intencional:
+
+- la skill queda auditable como capa de instrucciones
+- la instalacion del runtime queda visible y controlada por el usuario
+- no hay bootstrap remoto ejecutado desde la propia skill
+
+### 3. Activacion local
 
 Cuando quieres gestionar un repo:
 
@@ -43,9 +50,9 @@ trackops opera install
 
 `trackops init` activa el orquestador local.
 
-`trackops opera install` añade OPERA cuando quieres el framework completo.
+`trackops opera install` anade OPERA cuando quieres el framework completo.
 
-### 4. Qué crea TrackOps
+### 4. Que crea TrackOps
 
 En el layout moderno:
 
@@ -62,7 +69,7 @@ ops/.githooks/
 ops/.tmp/
 ```
 
-Si instalas OPERA, además tendrás:
+Si instalas OPERA, ademas tendras:
 
 ```text
 ops/genesis.md
@@ -77,35 +84,35 @@ ops/.agents/skills/project-starter-skill/
 
 ### 5. Dos caminos de onboarding
 
-TrackOps empieza preguntando tres cosas:
+TrackOps empieza preguntando:
 
-- nivel técnico del usuario
+- nivel tecnico del usuario
 - estado actual del proyecto
-- documentación disponible
+- documentacion disponible
 
 Con eso decide el camino.
 
-#### Camino A — Idea inicial o usuario no técnico
+#### Camino A - Idea inicial o usuario no tecnico
 
-Si el usuario tiene una idea difusa, es poco técnico, o no hay documentación suficiente:
+Si el usuario tiene una idea difusa, es poco tecnico, o no hay documentacion suficiente:
 
-- TrackOps no sigue con preguntas técnicas en terminal
+- TrackOps no sigue con preguntas tecnicas en terminal
 - crea un handoff en `ops/bootstrap/agent-handoff.md`
-- el agente usa ese handoff para hacer discovery y estructuración
+- el agente usa ese handoff para hacer discovery y estructuracion
 - el agente debe generar:
   - `ops/bootstrap/intake.json`
   - `ops/bootstrap/spec-dossier.md`
-  - `ops/bootstrap/open-questions.md` si todavía quedan preguntas abiertas
+  - `ops/bootstrap/open-questions.md` si todavia quedan preguntas abiertas
 
-Después reanudas con:
+Despues reanudas con:
 
 ```bash
 trackops opera bootstrap --resume
 ```
 
-#### Camino B — Repo existente o usuario técnico
+#### Camino B - Repo existente o usuario tecnico
 
-Si el usuario es técnico y el proyecto ya tiene suficiente contexto:
+Si el usuario es tecnico y el proyecto ya tiene suficiente contexto:
 
 - OPERA sigue por bootstrap directo
 - compila el contrato operativo
@@ -119,14 +126,14 @@ trackops opera install --bootstrap-mode handoff
 trackops opera install --bootstrap-mode direct
 ```
 
-Y también pasar el perfil por flags:
+Y tambien pasar el perfil por flags:
 
 ```bash
 trackops opera install --technical-level low --project-state idea --docs-state none
 trackops opera install --technical-level senior --project-state existing_repo --docs-state repo_docs
 ```
 
-### 6. Cómo usar el handoff
+### 6. Como usar el handoff
 
 Cuando TrackOps derive el bootstrap al agente:
 
@@ -146,13 +153,13 @@ trackops opera handoff --json
 4. deja que el agente genere `intake.json` y `spec-dossier.md`
 5. reanuda con `trackops opera bootstrap --resume`
 
-### 7. Qué debe hacer el agente
+### 7. Que debe hacer el agente
 
 El agente, usando `project-starter-skill`, debe:
 
-- adaptar el lenguaje al nivel técnico del usuario
-- leer y consolidar documentación si existe
-- construir una primera especificación si no existe
+- adaptar el lenguaje al nivel tecnico del usuario
+- leer y consolidar documentacion si existe
+- construir una primera especificacion si no existe
 - no volver a ejecutar `trackops init`
 - no recrear el workspace
 - escribir:
@@ -166,7 +173,7 @@ TrackOps mantiene tres piezas:
 - `/.env`
   archivo real del workspace
 - `/.env.example`
-  contrato público
+  contrato publico
 - `app/.env`
   puente de compatibilidad
 
@@ -181,7 +188,7 @@ trackops env sync
 
 ### 8.1 Idioma
 
-TrackOps puede guardar un idioma global y también fijar uno por proyecto.
+TrackOps puede guardar un idioma global y tambien fijar uno por proyecto.
 
 ```bash
 trackops locale get
@@ -223,19 +230,22 @@ npm run release:check
 
 ### FAQ
 
-**¿La skill global activa todos mis repos?**  
-No. Solo prepara la máquina y el agente.
+**Por que la skill y el runtime se instalan por separado?**  
+Porque la skill debe mantenerse auditable como capa de instrucciones y el runtime debe instalarse con un paso npm visible y verificable.
 
-**¿OPERA siempre pregunta cosas técnicas por terminal?**  
-No. Si falta contexto o el usuario no es técnico, deriva el arranque al agente.
+**La skill global activa todos mis repos?**  
+No. La skill global prepara al agente, pero cada repo se activa de forma explicita con `trackops init`.
 
-**¿Puedo trabajar en español o en inglés?**  
-Sí. TrackOps y OPERA pueden guardar un idioma global y también fijar uno por proyecto.
+**OPERA siempre pregunta cosas tecnicas por terminal?**  
+No. Si falta contexto o el usuario no es tecnico, deriva el arranque al agente.
 
-**¿Dónde vive el handoff?**  
+**Puedo trabajar en espanol o en ingles?**  
+Si. TrackOps y OPERA pueden guardar un idioma global y tambien fijar uno por proyecto.
+
+**Donde vive el handoff?**  
 En `ops/bootstrap/agent-handoff.md` y `ops/bootstrap/agent-handoff.json`.
 
-**¿Dónde queda el estado operativo real?**  
+**Donde queda el estado operativo real?**  
 En `ops/project_control.json` en layout split.
 
 ---
@@ -256,11 +266,18 @@ Primary entry point:
 npx skills add Baxahaun/trackops
 ```
 
-First real use ensures the runtime with:
+Then install the runtime explicitly:
 
 ```bash
-node scripts/bootstrap-trackops.js
+npm install -g trackops
+trackops --version
 ```
+
+This split is intentional:
+
+- the skill stays auditable as an instruction layer
+- runtime installation stays visible and user-controlled
+- there is no remote bootstrap executed from the skill itself
 
 ### 3. Local activation
 
@@ -309,7 +326,7 @@ TrackOps always starts by classifying:
 - current project state
 - available documentation
 
-#### Path A — Early idea or non-technical user
+#### Path A - Early idea or non-technical user
 
 If the project is still an idea, the user is non-technical, or documentation is weak:
 
@@ -325,7 +342,7 @@ If the project is still an idea, the user is non-technical, or documentation is 
 trackops opera bootstrap --resume
 ```
 
-#### Path B — Existing repo or technical user
+#### Path B - Existing repo or technical user
 
 If the user is technical and the project already has enough context:
 
@@ -406,3 +423,17 @@ npm run release:check
 ```
 
 `trackops release` publishes only `app/`. It never publishes `/.env`, `ops/`, or `.trackops-workspace.json`.
+
+### FAQ
+
+**Why are the skill and the runtime installed separately?**  
+Because the skill should remain auditable as an instruction layer, while the runtime should be installed through a visible and verifiable npm step.
+
+**Does the global skill activate all repositories?**  
+No. The global skill prepares the agent, but each repository is activated explicitly with `trackops init`.
+
+**Does OPERA always ask technical questions in the terminal?**  
+No. If context is weak or the user is non-technical, it routes onboarding to the agent.
+
+**Can I work in Spanish or English?**  
+Yes. TrackOps and OPERA can store one global language and also override it per project.

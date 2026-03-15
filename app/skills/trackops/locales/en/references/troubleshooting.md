@@ -5,18 +5,24 @@
 - Install Node 18+ if Node is missing or too old.
 - Install a Node distribution that includes npm if npm is missing.
 
-## Global install command failed
+## The skill is installed, but `trackops` does not start
 
-- Install from committed GitHub state:
+- Confirm that the global skill exists:
   `npx skills add Baxahaun/trackops`
-- Then ensure the local runtime with:
-  `node scripts/bootstrap-trackops.js`
-- If the install succeeded but the CLI still looks unavailable, confirm that `~/.trackops/runtime.json` exists.
+- Install or reinstall the runtime explicitly:
+  `npm install -g trackops`
+- Verify:
+  `trackops --version`
+- If the binary still does not respond:
+  - check Node.js (`>= 18`)
+  - check that `npm` exists and works
+  - check PATH and reopen the terminal
 
-## Runtime bootstrap failed
+## Explicit runtime installation fails
 
-- Re-run `node scripts/bootstrap-trackops.js`.
-- If npm global permissions fail, configure a user-writable npm prefix instead of using `sudo`.
+- Re-run `npm install -g trackops`.
+- If `npm` errors, fix that first; the skill cannot continue without the CLI.
+- If the issue is global permissions, use the recommended method for your system or a user-controlled npm prefix.
 
 ## OPERA routed bootstrap to the agent
 

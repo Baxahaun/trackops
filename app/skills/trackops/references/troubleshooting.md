@@ -2,28 +2,34 @@
 
 ## Faltan prerequisitos
 
-- Instala Node 18+ si Node falta o es demasiado antiguo.
-- Instala una distribucion de Node que incluya npm si falta npm.
+- Instala Node 18+ si Node no existe o es demasiado antiguo.
+- Instala una distribucion de Node que incluya npm si npm no existe.
 
-## Fallo al instalar la skill global
+## La skill se instalo, pero `trackops` no arranca
 
-- Instala desde el estado committeado de GitHub:
+- Confirma que la skill global existe:
   `npx skills add Baxahaun/trackops`
-- Luego asegura el runtime local con:
-  `node scripts/bootstrap-trackops.js`
-- Si la instalacion salio bien pero el CLI sigue sin aparecer, confirma que `~/.trackops/runtime.json` exista.
+- Instala o reinstala el runtime de forma explicita:
+  `npm install -g trackops`
+- Verifica:
+  `trackops --version`
+- Si el binario sigue sin responder:
+  - revisa Node.js (`>= 18`)
+  - revisa que `npm` exista y funcione
+  - revisa PATH y reabre la terminal
 
-## Fallo en el bootstrap del runtime
+## La instalacion explicita del runtime falla
 
-- Reejecuta `node scripts/bootstrap-trackops.js`.
-- Si fallan los permisos globales de npm, configura un prefix de usuario en lugar de usar `sudo`.
+- Reejecuta `npm install -g trackops`.
+- Si `npm` devuelve error, resuelvelo primero; la skill no puede continuar sin el CLI.
+- Si el problema es de permisos globales, usa el metodo recomendado para tu sistema o un prefijo npm controlado por el usuario.
 
-## OPERA ha derivado el bootstrap al agente
+## OPERA derivo el bootstrap al agente
 
-Es el comportamiento esperado cuando:
+Esto es esperado cuando:
 
 - el usuario no es tecnico
-- el proyecto sigue en fase idea
+- el proyecto esta en fase idea
 - la documentacion es debil
 
 Usa:
@@ -33,11 +39,11 @@ trackops opera handoff --print
 trackops opera bootstrap --resume
 ```
 
-## El resume no completa
+## `trackops opera bootstrap --resume` no avanza
 
 TrackOps no inventa contexto faltante.
 
-Comprueba que ambos archivos existan y contengan datos utilizables:
+Comprueba que existan ambos archivos y contengan datos utiles:
 
 - `ops/bootstrap/intake.json`
 - `ops/bootstrap/spec-dossier.md`
@@ -46,4 +52,4 @@ Comprueba que ambos archivos existan y contengan datos utilizables:
 
 - Ejecuta `trackops env status`.
 - Ejecuta `trackops env sync`.
-- Si el bridge mode es `copy`, no edites `app/.env` directamente.
+- Si el modo bridge es `copy`, no edites `app/.env` directamente.

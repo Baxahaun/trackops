@@ -2,23 +2,25 @@
 
 ## Instalacion global
 
-Instala la skill del marketplace:
-
 ```bash
 npx skills add Baxahaun/trackops
+npm install -g trackops
+trackops --version
 ```
 
-En primer uso, asegura el runtime con el script empaquetado de la skill:
+La skill global instala instrucciones para el agente.
 
-```bash
-node scripts/bootstrap-trackops.js
-```
+El runtime `trackops` se instala aparte con npm para que el paso sea visible, auditable y facil de verificar.
 
-La skill global no debe crear archivos dentro de repositorios por si sola.
+Antes de seguir:
+
+- confirma que `trackops --version` devuelve una version valida
+- si no aparece, resuelve PATH o reinstala `trackops`
+- la skill no debe intentar instalar el runtime por su cuenta
 
 ## Activacion local
 
-Dentro de un repositorio:
+Dentro del repo:
 
 ```bash
 trackops init
@@ -39,9 +41,9 @@ OPERA siempre empieza clasificando:
 
 - nivel tecnico
 - estado del proyecto
-- estado de la documentacion
+- estado de documentacion
 
-Si el proyecto aun esta verde o el usuario no es tecnico, TrackOps escribe:
+Si el proyecto esta en fase temprana o el usuario es no tecnico, TrackOps escribe:
 
 - `ops/bootstrap/agent-handoff.md`
 - `ops/bootstrap/agent-handoff.json`
@@ -52,7 +54,7 @@ El agente debe producir:
 - `ops/bootstrap/spec-dossier.md`
 - `ops/bootstrap/open-questions.md` cuando haga falta
 
-Cuando el quality gate pasa, OPERA compila:
+Cuando pasa el quality gate, OPERA compila:
 
 - `ops/contract/operating-contract.json`
 - `ops/genesis.md`
@@ -68,6 +70,6 @@ Controles de idioma:
 
 ```bash
 trackops locale get
-trackops locale set en
+trackops locale set es
 trackops doctor locale
 ```
