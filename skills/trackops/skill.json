@@ -1,11 +1,11 @@
 {
   "name": "trackops",
-  "shortDescription": "Global TrackOps skill for local project orchestration, agent coordination, bilingual onboarding, and operational automation.",
-  "description": "Installs TrackOps as a global skill, ensures the runtime on first use, lets users choose Spanish or English, activates local project orchestration, and routes OPERA onboarding into either direct bootstrap or agent-led discovery.",
-  "skillVersion": "2.0.1",
-  "trackopsVersion": "2.0.1",
+  "shortDescription": "Global TrackOps skill for secure agent guidance, explicit runtime install, bilingual onboarding, and local project orchestration.",
+  "description": "Installs TrackOps as a global skill, requires explicit runtime installation with npm, lets users choose Spanish or English, activates local project orchestration, and routes OPERA onboarding into either direct bootstrap or agent-led discovery.",
+  "skillVersion": "2.0.2",
+  "trackopsVersion": "2.0.2",
   "npmPackage": "trackops",
-  "bootstrapPolicy": "first_use",
+  "bootstrapPolicy": "explicit_install",
   "supportedAgentsV1": [
     "antigravity",
     "claude-code",

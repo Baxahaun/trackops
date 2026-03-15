@@ -11,7 +11,6 @@ const { spawn, spawnSync } = require("child_process");
 const ROOT = path.resolve(__dirname, "..");
 const BIN = path.join(ROOT, "bin", "trackops.js");
 const SKILL_VALIDATE = path.join(ROOT, "scripts", "validate-skill.js");
-const SKILL_BOOTSTRAP = path.join(ROOT, "skills", "trackops", "scripts", "bootstrap-trackops.js");
 
 function getNpmCommand() {
   return process.platform === "win32" ? "npm.cmd" : "npm";
@@ -220,33 +219,18 @@ async function main() {
   const bootstrapEnv = {
     TRACKOPS_BOOTSTRAP_HOME: bootstrapHome,
     TRACKOPS_BOOTSTRAP_PREFIX: bootstrapPrefix,
-    TRACKOPS_BOOTSTRAP_INSTALL_SOURCE: tarballPath,
   };
 
-  const firstBootstrap = runCommand(process.execPath, [SKILL_BOOTSTRAP], tempRoot, bootstrapEnv);
-  assert.strictEqual(firstBootstrap.status, 0, firstBootstrap.stderr || firstBootstrap.stdout || "bootstrap skill fallo");
-  assert.match(firstBootstrap.stdout, /TrackOps runtime .* is ready/i);
+  const explicitInstall = runNpm(["install", "-g", "--prefix", bootstrapPrefix, tarballPath], tempRoot, bootstrapEnv);
+  assert.strictEqual(explicitInstall.status, 0, explicitInstall.stderr || explicitInstall.stdout || "instalacion global explicita fallo");
 
   const runtimeStamp = readJson(path.join(bootstrapHome, ".trackops", "runtime.json"));
-  assert.strictEqual(runtimeStamp.runtimeVersion, packageVersion);
-  assert.strictEqual(runtimeStamp.skill, "trackops");
-  assert.strictEqual(runtimeStamp.bootstrapPolicy, "first_use");
   assert.ok(["es", "en"].includes(runtimeStamp.locale), "el bootstrap global debe fijar un idioma");
 
   const installedCli = path.join(bootstrapPrefix, "node_modules", "trackops", "bin", "trackops.js");
   assert.ok(fs.existsSync(installedCli), "el runtime instalado debe existir dentro del prefijo aislado");
   const installedVersion = runNode([installedCli, "--version"], tempRoot);
   assert.strictEqual(installedVersion.trim(), packageVersion);
-
-  const secondBootstrap = runCommand(process.execPath, [SKILL_BOOTSTRAP], tempRoot, bootstrapEnv);
-  assert.strictEqual(secondBootstrap.status, 0, secondBootstrap.stderr || secondBootstrap.stdout || "bootstrap idempotente fallo");
-  assert.match(secondBootstrap.stdout, /already ready/i);
-
-  const untouchedRepo = path.join(tempRoot, "untouched-repo");
-  fs.mkdirSync(untouchedRepo, { recursive: true });
-  const bootstrapNoRepoMutation = runCommand(process.execPath, [SKILL_BOOTSTRAP], untouchedRepo, bootstrapEnv);
-  assert.strictEqual(bootstrapNoRepoMutation.status, 0, bootstrapNoRepoMutation.stderr || bootstrapNoRepoMutation.stdout || "bootstrap repetido fallo");
-  assert.ok(!fs.existsSync(path.join(untouchedRepo, "project_control.json")), "la skill global no debe crear artefactos de proyecto por si sola");
 
   const helpOutput = runNode([BIN, "help"], ROOT);
   assert.doesNotMatch(helpOutput, /\btrackops agent\b/i);

@@ -1,6 +1,12 @@
 # Workflow
 
-Once TrackOps is active in a repository:
+Precondition:
+
+- the global skill is already installed
+- `trackops --version` responds correctly
+- the repository was already activated with `trackops init`
+
+Use TrackOps when the repository is already managed and you need day-to-day operations.
 
 1. Run `trackops status`.
 2. Run `trackops next`.
@@ -10,17 +16,17 @@ Once TrackOps is active in a repository:
 
 Operational rules:
 
-- In split workspaces, use `ops/project_control.json` as the source of truth.
-- Generated operational docs live in `ops/`.
-- Product code lives in `app/`.
-- Real secrets live in `/.env`.
-- Public environment contract lives in `/.env.example`.
-- `app/.env` is only a compatibility bridge.
+- in split workspaces, use `ops/project_control.json` as the source of truth
+- generated operational docs live in `ops/`
+- product code lives in `app/`
+- real secrets live in `/.env`
+- public environment contract lives in `/.env.example`
+- `app/.env` is only a compatibility bridge
 
 If OPERA is installed:
 
-- `ops/contract/operating-contract.json` holds the machine contract.
-- `ops/genesis.md` holds the compiled human view.
-- `ops/policy/autonomy.json` holds the executable autonomy policy.
-- `ops/bootstrap/` holds onboarding artifacts.
-- `ops/.agent/hub/` and `ops/.agents/skills/` hold managed agent artifacts.
+- `ops/contract/operating-contract.json` holds the machine contract
+- `ops/genesis.md` holds the compiled human view
+- `ops/policy/autonomy.json` holds the executable autonomy policy
+- `ops/bootstrap/` holds onboarding artifacts
+- `ops/.agent/hub/` and `ops/.agents/skills/` hold managed agent artifacts

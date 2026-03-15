@@ -97,6 +97,7 @@ Explain the correct flow:
 
 ```bash
 npx skills add Baxahaun/trackops
+npm install -g trackops
 trackops init
 trackops opera install
 ```

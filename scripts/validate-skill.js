@@ -10,7 +10,6 @@ const SKILL_FILE = path.join(SKILL_DIR, "skill.json");
 const REQUIRED_FILES = [
   path.join(SKILL_DIR, "SKILL.md"),
   path.join(SKILL_DIR, "skill.json"),
-  path.join(SKILL_DIR, "scripts", "bootstrap-trackops.js"),
   path.join(SKILL_DIR, "references", "activation.md"),
   path.join(SKILL_DIR, "references", "workflow.md"),
   path.join(SKILL_DIR, "references", "troubleshooting.md"),
@@ -48,8 +47,8 @@ function main() {
     fail(`skills/trackops/skill.json must target npm package '${pkg.name}'.`);
   }
 
-  if (skill.bootstrapPolicy !== "first_use") {
-    fail("skills/trackops/skill.json must use bootstrapPolicy 'first_use'.");
+  if (skill.bootstrapPolicy !== "explicit_install") {
+    fail("skills/trackops/skill.json must use bootstrapPolicy 'explicit_install'.");
   }
 
   const supportedAgents = Array.isArray(skill.supportedAgentsV1) ? skill.supportedAgentsV1 : [];
@@ -73,7 +72,8 @@ function main() {
 
   for (const requiredPhrase of [
     "npx skills add Baxahaun/trackops",
-    "node scripts/bootstrap-trackops.js",
+    "npm install -g trackops",
+    "trackops --version",
     "trackops init",
     "trackops opera install",
     "trackops opera bootstrap --resume",
@@ -81,6 +81,20 @@ function main() {
     if (!skillMd.includes(requiredPhrase)) {
       fail(`skills/trackops/SKILL.md must mention '${requiredPhrase}'.`);
     }
+  }
+
+  for (const forbiddenPhrase of [
+    "node scripts/bootstrap-trackops.js",
+    "ensures the runtime on first use",
+    "asegura el runtime en el primer uso",
+  ]) {
+    if (skillMd.includes(forbiddenPhrase)) {
+      fail(`skills/trackops/SKILL.md must not mention '${forbiddenPhrase}'.`);
+    }
+  }
+
+  if (fs.existsSync(path.join(SKILL_DIR, "scripts", "bootstrap-trackops.js"))) {
+    fail("skills/trackops must not publish scripts/bootstrap-trackops.js.");
   }
 
   console.log("skills/trackops validated successfully.");

@@ -108,9 +108,9 @@ function main() {
   assert.ok(installed.length >= 1, `trackops skill was not installed under ${homeRoot}`);
 
   const installedSkillDir = installed[0];
-  assert.ok(fs.existsSync(path.join(installedSkillDir, "scripts", "bootstrap-trackops.js")));
   assert.ok(fs.existsSync(path.join(installedSkillDir, "references", "activation.md")));
   assert.ok(fs.existsSync(path.join(installedSkillDir, "skill.json")));
+  assert.ok(!fs.existsSync(path.join(installedSkillDir, "scripts", "bootstrap-trackops.js")));
 
   fs.rmSync(tempRoot, { recursive: true, force: true });
   console.log("skills marketplace smoke OK");
