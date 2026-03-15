@@ -1,13 +1,40 @@
 ---
 name: "trackops"
-description: "Global TrackOps skill for preparing the agent, requiring explicit npm runtime installation, and guiding local TrackOps and OPERA activation inside each repository."
+description: "Global TrackOps skill for explaining what TrackOps does, requiring explicit npm runtime installation, and guiding local project and OPERA activation inside each repository."
 ---
 
 # TrackOps
 
 Use this localized file when the conversation and project should run in English.
 
-## Global layer
+TrackOps is for working with agents on real projects without mixing the product itself with the operational layer.
+
+Use this skill when someone:
+
+- wants to start a project with AI agents
+- already has a repository and needs operational structure
+- needs to activate TrackOps and, if needed, OPERA
+- wants the same workflow in English or Spanish
+
+## What this skill does
+
+This skill:
+
+- explains what TrackOps is and when to use it
+- requires an explicit and visible runtime installation
+- guides per-repository activation
+- helps route OPERA into either `direct bootstrap` or `agent handoff`
+
+## What this skill does not do
+
+This skill does not:
+
+- install packages by itself
+- execute remote code silently
+- modify a repository before the runtime exists
+- replace the `trackops` runtime
+
+## Quick flow
 
 Install the marketplace skill with:
 
@@ -29,7 +56,7 @@ Rules:
 - the skill may verify `trackops --version`, but it must not chain silent installs
 - the skill must not create repository files by itself
 
-## Local project layer
+## Project activation
 
 Inside the repository:
 
@@ -49,7 +76,7 @@ Core rules:
 - keep generated operational docs under `ops/`
 - use `trackops locale get|set` and `trackops doctor locale` when language matters
 
-## OPERA onboarding
+## How OPERA enters the flow
 
 OPERA no longer assumes every user is technical.
 
@@ -79,6 +106,14 @@ If TrackOps routes bootstrap to the agent:
 ```bash
 trackops opera bootstrap --resume
 ```
+
+## What someone arriving from skills.sh should understand
+
+- the global skill installs instructions into the agent
+- the runtime is installed separately with npm
+- `trackops init` activates the project
+- `trackops opera install` adds the full operating framework only when needed
+- TrackOps separates product and operations so the repository stays manageable
 
 ## Which reference to read and when
 

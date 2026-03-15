@@ -1,7 +1,7 @@
 interface:
   display_name: "TrackOps"
-  short_description: "Guide explicit TrackOps install and activate OPERA"
-  default_prompt: "Use $trackops to install the global skill, require explicit npm installation of the TrackOps runtime, and then activate TrackOps and OPERA in this repository."
+  short_description: "Explain TrackOps and guide explicit install"
+  default_prompt: "Use $trackops to explain what TrackOps does, require explicit npm installation of the TrackOps runtime, and then activate TrackOps and OPERA in this repository."
 
 policy:
   allow_implicit_invocation: true
