@@ -1,3 +1,7 @@
 interface:
   display_name: "TrackOps"
-  short_description: "Global TrackOps skill for local project orchestration, bilingual onboarding, agent coordination, and operational automation"
+  short_description: "Bootstrap TrackOps and activate OPERA"
+  default_prompt: "Use $trackops to bootstrap the TrackOps runtime and activate OPERA in this repository."
+
+policy:
+  allow_implicit_invocation: true

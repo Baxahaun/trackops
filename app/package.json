@@ -1,6 +1,6 @@
 {
   "name": "trackops",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Operational project control with task management, document generation, multi-project dashboard, and optional OPERA methodology",
   "main": "lib/control.js",
   "bin": {
