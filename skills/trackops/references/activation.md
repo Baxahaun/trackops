@@ -73,3 +73,18 @@ trackops locale get
 trackops locale set es
 trackops doctor locale
 ```
+
+## Desinstalacion
+
+Global:
+
+```bash
+npx skills remove --global trackops -y
+npm uninstall -g trackops
+```
+
+Local:
+
+- no existe todavia `trackops uninstall`
+- revisa y elimina manualmente `.trackops-workspace.json`, `ops/` y `app/.env` si solo era bridge
+- no borres `/.env` ni `/.env.example` sin revisar si el proyecto sigue necesitandolos

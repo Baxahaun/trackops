@@ -73,3 +73,18 @@ trackops locale get
 trackops locale set en
 trackops doctor locale
 ```
+
+## Uninstall
+
+Global:
+
+```bash
+npx skills remove --global trackops -y
+npm uninstall -g trackops
+```
+
+Local:
+
+- there is no `trackops uninstall` command yet
+- review and remove `.trackops-workspace.json`, `ops/`, and `app/.env` if it was only the bridge
+- do not delete `/.env` or `/.env.example` without checking whether the project still needs them

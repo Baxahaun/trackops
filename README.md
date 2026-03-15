@@ -67,6 +67,125 @@ Esta separacion es intencional:
 - el runtime se instala con un paso visible y verificable
 - no hay instalacion transitiva oculta desde la propia skill
 
+Si `npm install -g trackops` se ejecuta en modo interactivo, TrackOps intenta pedir el idioma global en ese momento. Si tu terminal o npm no muestran ese prompt, puedes fijarlo manualmente despues:
+
+```bash
+trackops locale set es
+trackops locale set en
+```
+
+### Flujo completo recomendado
+
+1. Instala la skill global:
+
+```bash
+npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y
+```
+
+2. Instala el runtime:
+
+```bash
+npm install -g trackops@latest
+trackops --version
+```
+
+3. Entra en el repo que quieres gestionar:
+
+```bash
+cd ruta/a/tu/proyecto
+```
+
+4. Activa TrackOps y elige el idioma del proyecto cuando el CLI lo pida:
+
+```bash
+trackops init
+```
+
+5. Instala OPERA:
+
+```bash
+trackops opera install
+```
+
+6. Responde el intake inicial con estos valores:
+
+- nivel tecnico:
+  `low|medium|high|senior`
+  tambien acepta `bajo|medio|alto`
+- estado del proyecto:
+  `idea|draft|existing_repo|advanced`
+- documentacion:
+  `none|notes|sos|spec_dossier|repo_docs`
+- propiedad de decision:
+  `user|shared|agent`
+  tambien acepta `usuario|compartido|agente`
+
+7. Si OPERA deriva al agente:
+
+```bash
+trackops opera handoff --print
+```
+
+Pega ese contexto en el agente, deja que genere:
+
+- `ops/bootstrap/intake.json`
+- `ops/bootstrap/spec-dossier.md`
+- `ops/bootstrap/open-questions.md` si faltan decisiones
+
+Y despues reanuda:
+
+```bash
+trackops opera bootstrap --resume
+```
+
+8. Si OPERA completa bootstrap directo, revisa estado y continua con:
+
+```bash
+trackops opera status
+trackops next
+trackops sync
+```
+
+### Desinstalacion global y local
+
+#### Quitar la instalacion global
+
+Quita la skill global del agente:
+
+```bash
+npx skills remove --global trackops -y
+```
+
+Quita el runtime global:
+
+```bash
+npm uninstall -g trackops
+```
+
+Verifica:
+
+```bash
+npx skills ls -g
+trackops --version
+```
+
+#### Quitar TrackOps de un proyecto
+
+Hoy no existe un comando `trackops uninstall` para el repo. La retirada local es manual.
+
+En un workspace split, revisa y elimina solo lo que de verdad quieras retirar:
+
+- `.trackops-workspace.json`
+- `ops/`
+- `app/.env` si era solo bridge
+
+Revisa con cuidado antes de borrar:
+
+- `/.env`
+- `/.env.example`
+
+Esos archivos pueden seguir siendo utiles para tu proyecto aunque dejes de usar TrackOps.
+
 ### Activacion local
 
 Dentro de un repo:
@@ -137,6 +256,8 @@ Si el usuario no es tecnico, el proyecto esta en fase idea, o no hay documentaci
 ```bash
 trackops opera bootstrap --resume
 ```
+
+La terminal tambien debe decirte este siguiente paso al terminar el handoff.
 
 #### Ya tengo un repo
 
@@ -288,6 +409,83 @@ This split is intentional:
 - the runtime is installed through a visible and verifiable step
 - there is no hidden transitive install from the skill itself
 
+If `npm install -g trackops` runs interactively, TrackOps tries to ask for the global language at that moment. If your terminal or npm do not show that prompt, set it manually afterwards:
+
+```bash
+trackops locale set es
+trackops locale set en
+```
+
+### Recommended full flow
+
+1. Install the global skill:
+
+```bash
+npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y
+```
+
+2. Install the runtime:
+
+```bash
+npm install -g trackops@latest
+trackops --version
+```
+
+3. Enter the repository you want to manage:
+
+```bash
+cd path/to/your/project
+```
+
+4. Activate TrackOps and choose the project language when the CLI asks:
+
+```bash
+trackops init
+```
+
+5. Install OPERA:
+
+```bash
+trackops opera install
+```
+
+6. Answer the initial intake with these values:
+
+- technical level:
+  `low|medium|high|senior`
+- project state:
+  `idea|draft|existing_repo|advanced`
+- documentation:
+  `none|notes|sos|spec_dossier|repo_docs`
+- decision ownership:
+  `user|shared|agent`
+
+7. If OPERA routes to the agent:
+
+```bash
+trackops opera handoff --print
+```
+
+Paste that context into the agent and let it generate:
+
+- `ops/bootstrap/intake.json`
+- `ops/bootstrap/spec-dossier.md`
+- `ops/bootstrap/open-questions.md` when decisions are still missing
+
+Then resume with:
+
+```bash
+trackops opera bootstrap --resume
+```
+
+8. If OPERA completes direct bootstrap, review status and continue with:
+
+```bash
+trackops opera status
+trackops next
+trackops sync
+```
+
 ### Local activation
 
 Inside a repository:
@@ -357,6 +555,46 @@ You can also force the mode:
 trackops opera install --bootstrap-mode handoff
 trackops opera install --bootstrap-mode direct
 ```
+
+### Global and local removal
+
+#### Remove the global install
+
+Remove the global skill from the agent:
+
+```bash
+npx skills remove --global trackops -y
+```
+
+Remove the global runtime:
+
+```bash
+npm uninstall -g trackops
+```
+
+Verify:
+
+```bash
+npx skills ls -g
+trackops --version
+```
+
+#### Remove TrackOps from a project
+
+There is no `trackops uninstall` command for the repository yet. Local removal is manual.
+
+In a split workspace, review and remove only what you really want to retire:
+
+- `.trackops-workspace.json`
+- `ops/`
+- `app/.env` if it was only the compatibility bridge
+
+Review carefully before deleting:
+
+- `/.env`
+- `/.env.example`
+
+Those files may still be useful to the project even if you stop using TrackOps.
 
 ### Environment and secrets
 

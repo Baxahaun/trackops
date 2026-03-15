@@ -229,6 +229,7 @@
 
   "bootstrap.header": "Bootstrap OPERA",
   "bootstrap.subtitle": "Primero clasifica al usuario y el estado del proyecto. TrackOps decidira si continuar por terminal o derivar el arranque al agente.",
+  "bootstrap.instructions": "Responde con low|medium|high|senior o con sus equivalentes bajo|medio|alto. Si no sabes una respuesta, pulsa Enter para aceptar el valor por defecto.",
   "bootstrap.question.technicalLevel": "Nivel tecnico del usuario",
   "bootstrap.question.projectState": "Estado actual del proyecto",
   "bootstrap.question.docsState": "Documentacion disponible",
@@ -250,6 +251,9 @@
   "bootstrap.pending": "Bootstrap OPERA guardado como pendiente. Reanuda con 'trackops opera bootstrap --resume'.",
   "bootstrap.awaitingAgent": "Bootstrap OPERA derivado al agente. Completa el handoff y reanuda con 'trackops opera bootstrap --resume'.",
   "bootstrap.handoffFile": "Archivo de handoff",
+  "bootstrap.next.handoff": "Siguiente paso: ejecuta 'trackops opera handoff --print', pega el contexto en tu agente y vuelve cuando existan ops/bootstrap/intake.json y ops/bootstrap/spec-dossier.md.",
+  "bootstrap.next.directCompleted": "Siguiente paso: revisa 'trackops opera status' y continua el trabajo normal con 'trackops next' y 'trackops sync'.",
+  "bootstrap.next.directPending": "Siguiente paso: completa los datos pendientes y reanuda con 'trackops opera bootstrap --resume'.",
   "bootstrap.infer.envSourceHint": "Detectados archivos de entorno",
   "bootstrap.noneDefined": "Aun no definido.",
   "bootstrap.pendingValue": "Pendiente de definir.",
