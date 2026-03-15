@@ -53,3 +53,15 @@ Check that both files exist and contain usable data:
 - Run `trackops env status`.
 - Run `trackops env sync`.
 - If bridge mode is `copy`, do not edit `app/.env` directly.
+
+## I want to remove TrackOps completely
+
+- Remove the global skill:
+  `npx skills remove --global trackops -y`
+- Remove the global runtime:
+  `npm uninstall -g trackops`
+- Inside the repository, local removal is still manual:
+  - review `.trackops-workspace.json`
+  - review `ops/`
+  - review `app/.env` if it was only the bridge
+- Do not delete `/.env` or `/.env.example` before checking whether the project still depends on them

@@ -229,6 +229,7 @@
 
   "bootstrap.header": "OPERA bootstrap",
   "bootstrap.subtitle": "Classify the user and the project first. TrackOps will decide whether to continue in the terminal or route discovery to the agent.",
+  "bootstrap.instructions": "Answer with low|medium|high|senior, or press Enter to keep the default value when you are unsure.",
   "bootstrap.question.technicalLevel": "User technical level",
   "bootstrap.question.projectState": "Current project state",
   "bootstrap.question.docsState": "Available documentation",
@@ -250,6 +251,9 @@
   "bootstrap.pending": "OPERA bootstrap saved as pending. Resume with 'trackops opera bootstrap --resume'.",
   "bootstrap.awaitingAgent": "OPERA bootstrap has been routed to the agent. Complete the handoff and resume with 'trackops opera bootstrap --resume'.",
   "bootstrap.handoffFile": "Handoff file",
+  "bootstrap.next.handoff": "Next step: run 'trackops opera handoff --print', paste the context into your agent, and come back when ops/bootstrap/intake.json and ops/bootstrap/spec-dossier.md exist.",
+  "bootstrap.next.directCompleted": "Next step: review 'trackops opera status' and continue normal work with 'trackops next' and 'trackops sync'.",
+  "bootstrap.next.directPending": "Next step: complete the missing data and resume with 'trackops opera bootstrap --resume'.",
   "bootstrap.infer.envSourceHint": "Environment files detected",
   "bootstrap.noneDefined": "Not defined yet.",
   "bootstrap.pendingValue": "Pending definition.",

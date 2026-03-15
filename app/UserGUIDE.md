@@ -39,6 +39,13 @@ Esta separacion es intencional:
 - la instalacion del runtime queda visible y controlada por el usuario
 - no hay bootstrap remoto ejecutado desde la propia skill
 
+Si el `postinstall` global no te pregunta idioma, fijalo manualmente:
+
+```bash
+trackops locale set es
+trackops locale set en
+```
+
 ### 3. Activacion local
 
 Cuando quieres gestionar un repo:
@@ -51,6 +58,69 @@ trackops opera install
 `trackops init` activa el orquestador local.
 
 `trackops opera install` anade OPERA cuando quieres el framework completo.
+
+### 3.1 Flujo completo sin huecos
+
+Este es el recorrido lineal recomendado:
+
+```bash
+npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y
+npm install -g trackops@latest
+trackops --version
+cd ruta/a/tu/proyecto
+trackops init
+trackops opera install
+```
+
+Durante `trackops init`, si no pasas `--locale`, TrackOps debe ofrecer el idioma del proyecto.
+
+Durante `trackops opera install`, responde asi:
+
+- nivel tecnico:
+  `low|medium|high|senior`
+  tambien acepta `bajo|medio|alto`
+- estado del proyecto:
+  `idea|draft|existing_repo|advanced`
+- documentacion:
+  `none|notes|sos|spec_dossier|repo_docs`
+- decisiones:
+  `user|shared|agent`
+  tambien acepta `usuario|compartido|agente`
+
+### 3.2 Como desinstalarlo
+
+#### Desinstalacion global
+
+Quita la skill global:
+
+```bash
+npx skills remove --global trackops -y
+```
+
+Quita el runtime global:
+
+```bash
+npm uninstall -g trackops
+```
+
+Comprueba que ya no queden restos:
+
+```bash
+npx skills ls -g
+trackops --version
+```
+
+#### Desinstalacion local
+
+No existe aun un comando `trackops uninstall` para el repo.
+
+Si quieres retirar TrackOps de un proyecto, hazlo manualmente revisando:
+
+- `.trackops-workspace.json`
+- `ops/`
+- `app/.env` si solo era el bridge de compatibilidad
+
+No borres automaticamente `/.env` ni `/.env.example` sin revisarlos primero, porque pueden seguir formando parte del proyecto aunque dejes de usar TrackOps.
 
 ### 4. Que crea TrackOps
 
@@ -152,6 +222,8 @@ trackops opera handoff --json
 3. pega ese contexto en el chat del agente
 4. deja que el agente genere `intake.json` y `spec-dossier.md`
 5. reanuda con `trackops opera bootstrap --resume`
+
+Despues del handoff, la terminal debe decirte explicitamente que ese es el siguiente paso.
 
 ### 7. Que debe hacer el agente
 
@@ -279,6 +351,13 @@ This split is intentional:
 - runtime installation stays visible and user-controlled
 - there is no remote bootstrap executed from the skill itself
 
+If global `postinstall` does not ask for the language, set it manually:
+
+```bash
+trackops locale set es
+trackops locale set en
+```
+
 ### 3. Local activation
 
 Inside a repository:
@@ -287,6 +366,67 @@ Inside a repository:
 trackops init
 trackops opera install
 ```
+
+### 3.1 Full flow without gaps
+
+This is the recommended linear path:
+
+```bash
+npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y
+npm install -g trackops@latest
+trackops --version
+cd path/to/your/project
+trackops init
+trackops opera install
+```
+
+During `trackops init`, if you do not pass `--locale`, TrackOps should offer the project language.
+
+During `trackops opera install`, answer like this:
+
+- technical level:
+  `low|medium|high|senior`
+- project state:
+  `idea|draft|existing_repo|advanced`
+- documentation:
+  `none|notes|sos|spec_dossier|repo_docs`
+- decisions:
+  `user|shared|agent`
+
+### 3.2 How to uninstall it
+
+#### Global uninstall
+
+Remove the global skill:
+
+```bash
+npx skills remove --global trackops -y
+```
+
+Remove the global runtime:
+
+```bash
+npm uninstall -g trackops
+```
+
+Check that nothing is left:
+
+```bash
+npx skills ls -g
+trackops --version
+```
+
+#### Local uninstall
+
+There is no `trackops uninstall` command for the repository yet.
+
+If you want to remove TrackOps from a project, do it manually by reviewing:
+
+- `.trackops-workspace.json`
+- `ops/`
+- `app/.env` if it was only the compatibility bridge
+
+Do not automatically delete `/.env` or `/.env.example` without reviewing them first, because the project may still depend on them even if you stop using TrackOps.
 
 ### 4. What TrackOps creates
 
@@ -431,6 +571,9 @@ Because the skill should remain auditable as an instruction layer, while the run
 
 **Does the global skill activate all repositories?**  
 No. The global skill prepares the agent, but each repository is activated explicitly with `trackops init`.
+
+**How do I uninstall TrackOps?**  
+Globally, remove the skill with `npx skills remove --global trackops -y` and the runtime with `npm uninstall -g trackops`. Inside a repository, local removal is still manual.
 
 **Does OPERA always ask technical questions in the terminal?**  
 No. If context is weak or the user is non-technical, it routes onboarding to the agent.

@@ -130,6 +130,16 @@
             border-radius: 4px;
         }
 
+        ::selection {
+            background: rgba(99, 102, 241, 0.82);
+            color: #ffffff;
+        }
+
+        ::-moz-selection {
+            background: rgba(99, 102, 241, 0.82);
+            color: #ffffff;
+        }
+
         /* Garantizar visibilidad de elementos animados por GSAP
            Si ScrollTrigger no se dispara (elemento ya en viewport al cargar),
            los elementos no quedarán en opacity:0 gracias a este fallback */
@@ -361,6 +371,284 @@
             display: block;
             filter: brightness(0) invert(1);
             opacity: 0.96;
+        }
+
+        .install-sequence {
+            background:
+                radial-gradient(circle at top left, rgba(129, 140, 248, 0.12), transparent 32%),
+                linear-gradient(180deg, #f5f7fb 0%, #eef2ff 100%);
+        }
+
+        .install-sequence-shell {
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(255, 255, 255, 0.84);
+            border-radius: 2rem;
+            box-shadow: 0 28px 80px rgba(15, 23, 42, 0.1);
+            backdrop-filter: blur(18px);
+        }
+
+        .install-sequence-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .install-sequence-step {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 0.2rem 0 0.2rem 1.25rem;
+            border-top: 0;
+            border-right: 0;
+            border-bottom: 0;
+            border-left: 1px solid rgba(148, 163, 184, 0.28);
+            background: transparent;
+            opacity: 0.62;
+            text-align: left;
+            cursor: pointer;
+            transition: opacity 0.25s ease, border-color 0.25s ease, transform 0.25s ease, color 0.25s ease;
+        }
+
+        .install-sequence-step::before {
+            content: "";
+            position: absolute;
+            left: -0.4rem;
+            top: 0.35rem;
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 9999px;
+            background: #cbd5e1;
+            box-shadow: 0 0 0 5px rgba(226, 232, 240, 0.9);
+            transition: background-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .install-sequence-step.is-active {
+            opacity: 1;
+            border-color: rgba(99, 102, 241, 0.52);
+            transform: translateX(0.25rem);
+        }
+
+        .install-sequence-step:hover {
+            opacity: 0.88;
+        }
+
+        .install-sequence-step:focus-visible {
+            outline: 2px solid rgba(99, 102, 241, 0.55);
+            outline-offset: 0.45rem;
+            border-radius: 1rem;
+        }
+
+        .install-sequence-step.is-active::before {
+            background: #6366f1;
+            box-shadow: 0 0 0 5px rgba(129, 140, 248, 0.18);
+        }
+
+        .install-step-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.25rem;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            color: #6366f1;
+        }
+
+        .install-step-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.45rem;
+            font-family: Satoshi, sans-serif;
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .install-step-copy {
+            margin: 0;
+            font-family: Outfit, sans-serif;
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        .install-demo {
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            background: #0a0f1e;
+            border-radius: 1.75rem;
+            padding: 1.25rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        }
+
+        .install-demo-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .install-demo-label {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .install-demo-stepname {
+            font-family: Outfit, sans-serif;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .install-demo-copy {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: 0;
+            border-radius: 0.75rem;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .install-demo-copy:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .install-demo-screen {
+            min-height: 22rem;
+            padding: 1.2rem 1.15rem;
+            border-radius: 1.2rem;
+            background:
+                linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(8, 12, 24, 0.98) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            overflow: hidden;
+        }
+
+        .install-demo-screen pre {
+            margin: 0;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.9rem;
+            line-height: 1.86;
+            color: #f8fafc;
+            white-space: pre-wrap;
+        }
+
+        .install-demo-status {
+            margin-top: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            font-family: Outfit, sans-serif;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .install-demo-status strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .install-demo-controls {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .install-demo-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .install-demo-nav button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+            color: #e2e8f0;
+            border-radius: 9999px;
+            padding: 0.65rem 1rem;
+            font-family: Outfit, sans-serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .install-demo-nav button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(129, 140, 248, 0.42);
+        }
+
+        .install-demo-nav button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .faq-accordion-item {
+            border: 2px solid #e2e8f0;
+            border-radius: 1.75rem;
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            overflow: hidden;
+        }
+
+        .faq-accordion-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.5rem 1.75rem;
+            border: 0;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .faq-accordion-trigger:focus-visible {
+            outline: 2px solid rgba(99, 102, 241, 0.5);
+            outline-offset: -2px;
+        }
+
+        .faq-accordion-title {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .faq-accordion-icon {
+            flex-shrink: 0;
+            width: 1.1rem;
+            height: 1.1rem;
+            color: #6366f1;
+            transition: transform 0.2s ease;
+        }
+
+        .faq-accordion-trigger[aria-expanded="true"] .faq-accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-accordion-panel {
+            padding: 0 1.75rem 1.5rem;
+        }
+
+        .faq-accordion-panel[hidden] {
+            display: none;
         }
 
         @keyframes hero-caret-blink {
@@ -671,8 +959,8 @@
                 </div>
 
                 <p class="gsap-reveal mt-5 max-w-3xl font-outfit text-sm md:text-base leading-7 text-slate-300">
-                    <span class="lang-es">La skill queda como capa de instrucciones auditable. El runtime se instala con npm de forma explicita. Despues, activa cada proyecto con <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. Si necesitas OPERA, instala <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: primero clasifica al usuario y el contexto, y luego decide entre bootstrap directo o handoff al agente.</span>
-                    <span class="lang-en">The skill stays as an auditable instruction layer. The runtime is installed explicitly with npm. Then activate each project with <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code>. If you need OPERA, add <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: it classifies the user and context first, then decides between direct bootstrap and agent handoff.</span>
+                    <span class="lang-es">La skill queda como capa de instrucciones auditable. El runtime se instala con npm de forma explicita. Despues, entra en tu repo y ejecuta <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code> para elegir idioma y activar el proyecto. Si necesitas OPERA, ejecuta <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: primero clasifica al usuario y el contexto, y luego decide entre bootstrap directo o handoff al agente.</span>
+                    <span class="lang-en">The skill stays as an auditable instruction layer. The runtime is installed explicitly with npm. Then enter your repository and run <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops init</code> to choose the project language and activate it. If you need OPERA, run <code class="bg-white/10 px-1.5 py-0.5 rounded text-[12px]">trackops opera install</code>: it classifies the user and context first, then decides between direct bootstrap and agent handoff.</span>
                 </p>
 
                 <p id="hero-command-status" class="hidden gsap-reveal mt-3 font-outfit text-sm text-emerald-300"></p>
@@ -745,6 +1033,110 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <section class="install-sequence relative z-20 px-8 py-20 md:px-16 lg:px-24 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto install-sequence-shell px-8 py-10 md:px-10 md:py-12">
+            <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+                <div>
+                    <p class="font-mono text-xs uppercase tracking-[0.35em] text-slate-400 mb-4"><span class="lang-es">Instalacion completa</span><span class="lang-en">Complete install</span></p>
+                    <h2 class="font-serif italic text-3xl md:text-4xl text-navy mb-4 max-w-xl leading-[0.98]"><span class="lang-es">Un flujo entero, sin adivinar pasos</span><span class="lang-en">One full flow, no guesswork</span></h2>
+                    <p class="font-outfit text-base md:text-[1.05rem] leading-7 max-w-xl" style="color:#334155;">
+                        <span class="lang-es">Primero añades la skill global. Después instalas el runtime. Luego activas el repo y, si hace falta, instalas OPERA localmente.</span>
+                        <span class="lang-en">First you add the global skill. Then you install the runtime. After that you activate the repo and, when needed, install OPERA locally.</span>
+                    </p>
+
+                    <p class="font-outfit text-sm md:text-[0.96rem] leading-7 mt-4 max-w-xl" style="color:#475569;">
+                        <span class="lang-es">Cambia de paso manualmente. Solo la terminal se anima, para que puedas entender exactamente qué verás antes de ejecutarlo.</span>
+                        <span class="lang-en">Move through the steps manually. Only the terminal animates, so you can understand exactly what you will see before running it.</span>
+                    </p>
+
+                    <div class="install-sequence-list mt-6" aria-label="TrackOps installation sequence">
+                        <button type="button" class="install-sequence-step is-active" data-install-sequence-step="0">
+                            <div class="install-step-title">
+                                <span class="install-step-index">01</span>
+                                <span><span class="lang-es">Skill global</span><span class="lang-en">Global skill</span></span>
+                            </div>
+                            <p class="install-step-copy">
+                                <span class="lang-es">Añade la capa de instrucciones al agente. Todavía no toca el runtime ni modifica repositorios.</span>
+                                <span class="lang-en">Adds the instruction layer to the agent. It does not install the runtime or modify repositories yet.</span>
+                            </p>
+                        </button>
+
+                        <button type="button" class="install-sequence-step" data-install-sequence-step="1">
+                            <div class="install-step-title">
+                                <span class="install-step-index">02</span>
+                                <span><span class="lang-es">Runtime global</span><span class="lang-en">Global runtime</span></span>
+                            </div>
+                            <p class="install-step-copy">
+                                <span class="lang-es">Instala el binario real con npm. Este paso es visible, auditable y ocurre una sola vez por máquina.</span>
+                                <span class="lang-en">Installs the real CLI with npm. This step is visible, auditable, and happens only once per machine.</span>
+                            </p>
+                        </button>
+
+                        <button type="button" class="install-sequence-step" data-install-sequence-step="2">
+                            <div class="install-step-title">
+                                <span class="install-step-index">03</span>
+                                <span><span class="lang-es">Activación del proyecto</span><span class="lang-en">Project activation</span></span>
+                            </div>
+                            <p class="install-step-copy">
+                                <span class="lang-es">Dentro del repo, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops init</code> pregunta idioma y crea el workspace split.</span>
+                                <span class="lang-en">Inside the repository, <code class="bg-slate-100 px-1.5 py-0.5 rounded text-sm font-mono text-navy">trackops init</code> asks for language and creates the split workspace.</span>
+                            </p>
+                        </button>
+
+                        <button type="button" class="install-sequence-step" data-install-sequence-step="3">
+                            <div class="install-step-title">
+                                <span class="install-step-index">04</span>
+                                <span><span class="lang-es">OPERA local</span><span class="lang-en">Local OPERA</span></span>
+                            </div>
+                            <p class="install-step-copy">
+                                <span class="lang-es">OPERA clasifica el contexto y decide entre bootstrap directo o handoff. Si deriva al agente, la propia terminal te dice el siguiente comando.</span>
+                                <span class="lang-en">OPERA classifies the context and chooses between direct bootstrap and handoff. If it routes to the agent, the terminal itself tells you the next command.</span>
+                            </p>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="install-demo">
+                    <div class="install-demo-topline">
+                        <div>
+                            <div class="install-demo-label"><span class="lang-es">Demo guiada</span><span class="lang-en">Guided demo</span></div>
+                            <div id="install-sequence-stepname" class="install-demo-stepname"></div>
+                        </div>
+                        <button type="button" class="install-demo-copy" data-copy-current-install data-copy-text="npx skills add Baxahaun/trackops --skill trackops --agent &quot;*&quot; --global -y" data-status-target="#install-sequence-status" title="Copy current command" aria-label="Copy current command">
+                            <svg viewBox="0 0 16 16" height="16" width="16" aria-hidden="true">
+                                <path fill="currentColor" fill-rule="evenodd" d="M2.75.5C1.78.5 1 1.28 1 2.25v7.5c0 .97.78 1.75 1.75 1.75H4.5V10H2.75a.25.25 0 0 1-.25-.25v-7.5c0-.14.11-.25.25-.25h5.5c.14 0 .25.11.25.25V3H10v-.75C10 1.28 9.22.5 8.25.5zm5 4C6.78 4.5 6 5.28 6 6.25v7.5c0 .97.78 1.75 1.75 1.75h5.5c.97 0 1.75-.78 1.75-1.75v-7.5c0-.97-.78-1.75-1.75-1.75zM7.5 6.25c0-.14.11-.25.25-.25h5.5c.14 0 .25.11.25.25v7.5q-.02.23-.25.25h-5.5a.25.25 0 0 1-.25-.25z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="install-demo-screen">
+                        <pre id="install-sequence-terminal" aria-live="polite"></pre>
+                    </div>
+                    <div class="install-demo-controls">
+                        <div class="install-demo-nav">
+                            <button type="button" id="install-sequence-prev">
+                                <span class="lang-es">Paso anterior</span>
+                                <span class="lang-en">Previous step</span>
+                            </button>
+                            <button type="button" id="install-sequence-next-button">
+                                <span class="lang-es">Siguiente paso</span>
+                                <span class="lang-en">Next step</span>
+                            </button>
+                        </div>
+                        <span class="font-outfit text-sm text-slate-300">
+                            <span class="lang-es">También puedes hacer clic en cualquier paso de la izquierda.</span>
+                            <span class="lang-en">You can also click any step on the left.</span>
+                        </span>
+                    </div>
+                    <div class="install-demo-status">
+                        <span id="install-sequence-caption"></span>
+                        <strong id="install-sequence-next"></strong>
+                    </div>
+                    <p id="install-sequence-status" class="hidden mt-3 font-outfit text-sm text-emerald-300"></p>
+                </div>
             </div>
         </div>
     </section>
@@ -1034,77 +1426,135 @@ Al completar trabajo:
                 </p>
             </div>
 
-            <div class="grid gap-6 md:grid-cols-2">
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Por que la skill y el runtime se instalan por separado?</span><span class="lang-en">Why are the skill and the runtime installed separately?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">Porque la skill debe mantenerse como capa de instrucciones auditable y el runtime debe instalarse con un paso npm visible y verificable. Asi ganas control, trazabilidad y una cadena de confianza mas clara.</span>
-                        <span class="lang-en">Because the skill should remain an auditable instruction layer and the runtime should be installed through a visible and verifiable npm step. That gives you better control, traceability, and a clearer trust chain.</span>
-                    </p>
+            <div class="grid gap-5 md:grid-cols-2">
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-1">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Por que la skill y el runtime se instalan por separado?</span><span class="lang-en">Why are the skill and the runtime installed separately?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-1" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">Porque la skill debe mantenerse como capa de instrucciones auditable y el runtime debe instalarse con un paso npm visible y verificable. Asi ganas control, trazabilidad y una cadena de confianza mas clara.</span>
+                            <span class="lang-en">Because the skill should remain an auditable instruction layer and the runtime should be installed through a visible and verifiable npm step. That gives you better control, traceability, and a clearer trust chain.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué diferencia hay entre TrackOps y OPERA?</span><span class="lang-en">What is the difference between TrackOps and OPERA?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">TrackOps activa y mantiene la capa operativa del proyecto. OPERA es el framework opcional que hace discovery, compila el contrato operativo y gobierna el arranque.</span>
-                        <span class="lang-en">TrackOps activates and maintains the operational layer of the project. OPERA is the optional framework that handles discovery, compiles the operating contract, and governs onboarding.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-2">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Qué diferencia hay entre TrackOps y OPERA?</span><span class="lang-en">What is the difference between TrackOps and OPERA?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-2" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">TrackOps activa y mantiene la capa operativa del proyecto. OPERA es el framework opcional que hace discovery, compila el contrato operativo y gobierna el arranque.</span>
+                            <span class="lang-en">TrackOps activates and maintains the operational layer of the project. OPERA is the optional framework that handles discovery, compiles the operating contract, and governs onboarding.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa si solo tengo una idea?</span><span class="lang-en">What happens if I only have an idea?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">OPERA no te fuerza a contestar arquitectura en terminal. Genera un handoff para el agente, el agente estructura el discovery y luego TrackOps reanuda con ese contexto.</span>
-                        <span class="lang-en">OPERA does not force you to answer architecture questions in the terminal. It generates a handoff for the agent, the agent structures discovery, and then TrackOps resumes from that context.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-3">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Qué pasa si solo tengo una idea?</span><span class="lang-en">What happens if I only have an idea?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-3" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">OPERA no te fuerza a contestar arquitectura en terminal. Genera un handoff para el agente, el agente estructura el discovery y luego TrackOps reanuda con ese contexto.</span>
+                            <span class="lang-en">OPERA does not force you to answer architecture questions in the terminal. It generates a handoff for the agent, the agent structures discovery, and then TrackOps resumes from that context.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Dónde vive el estado real?</span><span class="lang-en">Where does the real state live?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">El backlog y el estado operativo viven en <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/project_control.json</code>. Si OPERA ya compiló contrato, la fuente de verdad de máquina vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/contract/operating-contract.json</code>.</span>
-                        <span class="lang-en">Backlog and operational state live in <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/project_control.json</code>. If OPERA has already compiled a contract, the machine source of truth lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/contract/operating-contract.json</code>.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-4">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Dónde vive el estado real?</span><span class="lang-en">Where does the real state live?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-4" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">El backlog y el estado operativo viven en <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/project_control.json</code>. Si OPERA ya compiló contrato, la fuente de verdad de máquina vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/contract/operating-contract.json</code>.</span>
+                            <span class="lang-en">Backlog and operational state live in <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/project_control.json</code>. If OPERA has already compiled a contract, the machine source of truth lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/contract/operating-contract.json</code>.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa con `.env` y las claves?</span><span class="lang-en">What happens to `.env` and credentials?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">Los secretos reales viven en <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code>. El contrato público vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code>. TrackOps audita nombres de claves y nunca expone valores.</span>
-                        <span class="lang-en">Real secrets live in <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code>. The public contract lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code>. TrackOps audits key names and never exposes values.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-5">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Qué pasa con `.env` y las claves?</span><span class="lang-en">What happens to `.env` and credentials?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-5" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">Los secretos reales viven en <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code>. El contrato público vive en <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code>. TrackOps audita nombres de claves y nunca expone valores.</span>
+                            <span class="lang-en">Real secrets live in <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code>. The public contract lives in <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code>. TrackOps audits key names and never exposes values.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Puedo usarlo en español o en inglés?</span><span class="lang-en">Can I use it in Spanish or English?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">Sí. Puedes fijar un idioma global para TrackOps y también sobrescribirlo por proyecto cuando haga falta.</span>
-                        <span class="lang-en">Yes. You can set a global language for TrackOps and also override it per project when needed.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-6">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Puedo usarlo en español o en inglés?</span><span class="lang-en">Can I use it in Spanish or English?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-6" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">Sí. Puedes fijar un idioma global para TrackOps y también sobrescribirlo por proyecto cuando haga falta.</span>
+                            <span class="lang-en">Yes. You can set a global language for TrackOps and also override it per project when needed.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa si ya tengo un repo avanzado?</span><span class="lang-en">What if I already have an advanced repo?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">TrackOps activa el workspace, detecta el contexto disponible y, si el proyecto ya está suficientemente definido, OPERA entra por bootstrap directo. No intenta redescubrir lo que ya está claro.</span>
-                        <span class="lang-en">TrackOps activates the workspace, detects the available context, and if the project is already defined enough, OPERA enters through direct bootstrap. It does not rediscover what is already clear.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-7">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Cómo se desinstala TrackOps?</span><span class="lang-en">How do I uninstall TrackOps?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-7" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">La retirada global se hace con <code class="bg-slate-100 px-1.5 py-0.5 rounded">npx skills remove --global trackops -y</code> y <code class="bg-slate-100 px-1.5 py-0.5 rounded">npm uninstall -g trackops</code>. La retirada local del repo sigue siendo manual: revisa <code class="bg-slate-100 px-1.5 py-0.5 rounded">.trackops-workspace.json</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/</code> y <code class="bg-slate-100 px-1.5 py-0.5 rounded">app/.env</code> si era solo bridge. No borres <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code> ni <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code> sin revisarlos.</span>
+                            <span class="lang-en">Global removal uses <code class="bg-slate-100 px-1.5 py-0.5 rounded">npx skills remove --global trackops -y</code> and <code class="bg-slate-100 px-1.5 py-0.5 rounded">npm uninstall -g trackops</code>. Local repository removal is still manual: review <code class="bg-slate-100 px-1.5 py-0.5 rounded">.trackops-workspace.json</code>, <code class="bg-slate-100 px-1.5 py-0.5 rounded">ops/</code>, and <code class="bg-slate-100 px-1.5 py-0.5 rounded">app/.env</code> if it was only the bridge. Do not delete <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env</code> or <code class="bg-slate-100 px-1.5 py-0.5 rounded">/.env.example</code> without reviewing them first.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Qué pasa con proyectos OPERA antiguos?</span><span class="lang-en">What happens to older OPERA projects?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">TrackOps no intenta reinterpretar contratos legacy de forma silenciosa. Los marca como legacy y ofrece un reset explícito al modelo estable actual, con backup de los artefactos gestionados.</span>
-                        <span class="lang-en">TrackOps does not silently reinterpret legacy contracts. It marks them as legacy and offers an explicit reset to the current stable model, with backups of managed artifacts.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-8">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Qué pasa si ya tengo un repo avanzado?</span><span class="lang-en">What if I already have an advanced repo?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-8" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">TrackOps activa el workspace, detecta el contexto disponible y, si el proyecto ya está suficientemente definido, OPERA entra por bootstrap directo. No intenta redescubrir lo que ya está claro.</span>
+                            <span class="lang-en">TrackOps activates the workspace, detects the available context, and if the project is already defined enough, OPERA enters through direct bootstrap. It does not rediscover what is already clear.</span>
+                        </p>
+                    </div>
                 </article>
 
-                <article class="border-2 border-slate-200 rounded-[1.75rem] bg-white p-8 shadow-sm">
-                    <h3 class="font-sans font-bold text-xl text-navy mb-3"><span class="lang-es">¿Necesito OPERA para usar TrackOps?</span><span class="lang-en">Do I need OPERA to use TrackOps?</span></h3>
-                    <p class="font-outfit text-slate-700 leading-7">
-                        <span class="lang-es">No. TrackOps puede funcionar como capa de control operativo, layout split, dashboard, release y contrato de entorno. OPERA es la capa opcional que compila discovery y contexto en un contrato operativo más fuerte para agentes.</span>
-                        <span class="lang-en">No. TrackOps can work as the operational control layer, split layout, dashboard, release flow and environment contract. OPERA is the optional layer that compiles discovery and context into a stronger operational contract for agents.</span>
-                    </p>
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-9">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Qué pasa con proyectos OPERA antiguos?</span><span class="lang-en">What happens to older OPERA projects?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-9" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">TrackOps no intenta reinterpretar contratos legacy de forma silenciosa. Los marca como legacy y ofrece un reset explícito al modelo estable actual, con backup de los artefactos gestionados.</span>
+                            <span class="lang-en">TrackOps does not silently reinterpret legacy contracts. It marks them as legacy and offers an explicit reset to the current stable model, with backups of managed artifacts.</span>
+                        </p>
+                    </div>
+                </article>
+
+                <article class="faq-accordion-item">
+                    <button type="button" class="faq-accordion-trigger" aria-expanded="false" aria-controls="faq-panel-10">
+                        <span class="faq-accordion-title"><span class="lang-es">¿Necesito OPERA para usar TrackOps?</span><span class="lang-en">Do I need OPERA to use TrackOps?</span></span>
+                        <svg class="faq-accordion-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3.22 5.97a.75.75 0 0 1 1.06-.03L8 9.48l3.72-3.54a.75.75 0 1 1 1.03 1.09l-4.24 4.03a.75.75 0 0 1-1.03 0L3.25 7.03a.75.75 0 0 1-.03-1.06z"/></svg>
+                    </button>
+                    <div id="faq-panel-10" class="faq-accordion-panel" hidden>
+                        <p class="font-outfit text-slate-700 leading-7">
+                            <span class="lang-es">No. TrackOps puede funcionar como capa de control operativo, layout split, dashboard, release y contrato de entorno. OPERA es la capa opcional que compila discovery y contexto en un contrato operativo más fuerte para agentes.</span>
+                            <span class="lang-en">No. TrackOps can work as the operational control layer, split layout, dashboard, release flow and environment contract. OPERA is the optional layer that compiles discovery and context into a stronger operational contract for agents.</span>
+                        </p>
+                    </div>
                 </article>
             </div>
         </div>
@@ -1375,6 +1825,117 @@ Al completar trabajo:
             return document.documentElement.lang === 'en' ? 'en' : 'es';
         }
 
+        const installSequenceContent = {
+            es: [
+                {
+                    name: 'Paso 1 · Skill global',
+                    command: 'npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y',
+                    transcript: [
+                        '$ npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y',
+                        '',
+                        '› Skill "trackops" instalada globalmente en tus agentes.',
+                        '› El runtime todavia no esta instalado.',
+                    ],
+                    caption: 'La skill prepara al agente. Aun no toca el runtime.',
+                    next: 'Siguiente: instala el runtime con npm'
+                },
+                {
+                    name: 'Paso 2 · Runtime global',
+                    command: 'npm install -g trackops@latest',
+                    transcript: [
+                        '$ npm install -g trackops@latest',
+                        '',
+                        '› TrackOps CLI instalado globalmente.',
+                        '› Verifica con: trackops --version',
+                    ],
+                    caption: 'El binario real se instala aqui, de forma visible.',
+                    next: 'Siguiente: entra en tu repo y ejecuta trackops init'
+                },
+                {
+                    name: 'Paso 3 · Inicializacion del proyecto',
+                    command: 'trackops init',
+                    transcript: [
+                        '$ trackops init',
+                        '',
+                        '? Elige idioma del proyecto [es/en] (es): es',
+                        '› Workspace split creado: app/ + ops/',
+                        '› TrackOps activado en este repositorio.',
+                    ],
+                    caption: 'Aqui se fija el idioma del proyecto y nace el workspace operativo.',
+                    next: 'Siguiente: instala OPERA localmente'
+                },
+                {
+                    name: 'Paso 4 · OPERA local',
+                    command: 'trackops opera install',
+                    transcript: [
+                        '$ trackops opera install',
+                        '',
+                        '? Nivel tecnico del usuario [low|medium|high|senior] (medium): bajo',
+                        '? Estado actual del proyecto [idea|draft|existing_repo|advanced] (idea): idea',
+                        '? Documentacion disponible [none|notes|sos|spec_dossier|repo_docs] (none): none',
+                        '› Decision de arranque: handoff al agente (agent_handoff)',
+                        '› Siguiente comando: trackops opera handoff --print',
+                    ],
+                    caption: 'OPERA decide si continuar en la terminal o abrir un handoff para que el agente haga el discovery.',
+                    next: 'Si abre handoff: trackops opera handoff --print'
+                }
+            ],
+            en: [
+                {
+                    name: 'Step 1 · Global skill',
+                    command: 'npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y',
+                    transcript: [
+                        '$ npx skills add Baxahaun/trackops --skill trackops --agent "*" --global -y',
+                        '',
+                        '› "trackops" installed globally in your agents.',
+                        '› The runtime is not installed yet.',
+                    ],
+                    caption: 'The skill prepares the agent. It does not install the runtime yet.',
+                    next: 'Next: install the runtime with npm'
+                },
+                {
+                    name: 'Step 2 · Global runtime',
+                    command: 'npm install -g trackops@latest',
+                    transcript: [
+                        '$ npm install -g trackops@latest',
+                        '',
+                        '› TrackOps CLI installed globally.',
+                        '› Verify with: trackops --version',
+                    ],
+                    caption: 'The real CLI is installed here, through an explicit step.',
+                    next: 'Next: enter your repo and run trackops init'
+                },
+                {
+                    name: 'Step 3 · Project initialization',
+                    command: 'trackops init',
+                    transcript: [
+                        '$ trackops init',
+                        '',
+                        '? Choose project language [es/en] (en): en',
+                        '› Split workspace created: app/ + ops/',
+                        '› TrackOps is now active in this repository.',
+                    ],
+                    caption: 'This is where project language and workspace activation happen.',
+                    next: 'Next: install OPERA locally'
+                },
+                {
+                    name: 'Step 4 · Local OPERA',
+                    command: 'trackops opera install',
+                    transcript: [
+                        '$ trackops opera install',
+                        '',
+                        '? User technical level [low|medium|high|senior] (medium): low',
+                        '? Current project state [idea|draft|existing_repo|advanced] (idea): idea',
+                        '? Available documentation [none|notes|sos|spec_dossier|repo_docs] (none): none',
+                        '› Onboarding decision: handoff to the agent (agent_handoff)',
+                        '› Next command: trackops opera handoff --print',
+                    ],
+                    caption: 'OPERA decides whether to continue in the terminal or open a handoff so the agent can handle discovery.',
+                    next: 'If it opens a handoff: trackops opera handoff --print'
+                }
+            ]
+        };
+
         function startHeroInstallTyping() {
             const commandNode = document.getElementById('hero-install-command');
             if (!commandNode) return;
@@ -1407,6 +1968,135 @@ Al completar trabajo:
             }
 
             window.setTimeout(runCycle, 240);
+        }
+
+        function startInstallSequenceDemo() {
+            const terminal = document.getElementById('install-sequence-terminal');
+            const stepName = document.getElementById('install-sequence-stepname');
+            const caption = document.getElementById('install-sequence-caption');
+            const next = document.getElementById('install-sequence-next');
+            const copyButton = document.querySelector('[data-copy-current-install]');
+            const stepNodes = Array.from(document.querySelectorAll('[data-install-sequence-step]'));
+            const prevButton = document.getElementById('install-sequence-prev');
+            const nextButton = document.getElementById('install-sequence-next-button');
+
+            if (!terminal || !stepName || !caption || !next || !copyButton) return;
+
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let stepIndex = 0;
+            let timer = null;
+            let renderToken = 0;
+
+            function getSequence() {
+                return installSequenceContent[currentSiteLang()] || installSequenceContent.es;
+            }
+
+            function setActiveStep(index) {
+                stepNodes.forEach((node, nodeIndex) => {
+                    node.classList.toggle('is-active', nodeIndex === index);
+                });
+            }
+
+            function updateNavigation(index, length) {
+                if (prevButton) prevButton.disabled = index <= 0;
+                if (nextButton) nextButton.disabled = index >= length - 1;
+            }
+
+            function renderStep(index, instant = false) {
+                const sequence = getSequence();
+                const step = sequence[index];
+                if (!step) return;
+
+                setActiveStep(index);
+                updateNavigation(index, sequence.length);
+                stepName.textContent = step.name;
+                caption.textContent = step.caption;
+                next.textContent = step.next;
+                copyButton.setAttribute('data-copy-text', step.command);
+                copyButton.setAttribute('data-status-target', '#install-sequence-status');
+
+                const fullText = step.transcript.join('\n');
+                terminal.scrollTop = 0;
+                if (instant || reduceMotion) {
+                    terminal.textContent = fullText;
+                    return;
+                }
+
+                if (timer) {
+                    window.clearTimeout(timer);
+                }
+
+                terminal.textContent = '';
+                let charIndex = 0;
+                const stepDelay = Math.max(14, Math.floor(2100 / Math.max(fullText.length, 1)));
+                renderToken += 1;
+                const currentToken = renderToken;
+
+                function typeNext() {
+                    if (currentToken !== renderToken) return;
+                    terminal.textContent = fullText.slice(0, charIndex);
+                    if (charIndex < fullText.length) {
+                        charIndex += 1;
+                        timer = window.setTimeout(typeNext, stepDelay);
+                    }
+                }
+
+                typeNext();
+            }
+
+            function goToStep(index, instant = false) {
+                const sequence = getSequence();
+                const nextIndex = Math.max(0, Math.min(index, sequence.length - 1));
+                stepIndex = nextIndex;
+                renderStep(stepIndex, instant);
+            }
+
+            stepNodes.forEach((node) => {
+                node.addEventListener('click', () => {
+                    const rawIndex = Number(node.getAttribute('data-install-sequence-step'));
+                    if (Number.isFinite(rawIndex)) {
+                        goToStep(rawIndex);
+                    }
+                });
+            });
+
+            if (prevButton) {
+                prevButton.addEventListener('click', () => {
+                    goToStep(stepIndex - 1);
+                });
+            }
+
+            if (nextButton) {
+                nextButton.addEventListener('click', () => {
+                    goToStep(stepIndex + 1);
+                });
+            }
+
+            renderStep(stepIndex, reduceMotion);
+
+            const langObservers = [document.getElementById('lang-toggle'), document.getElementById('lang-toggle-mobile')].filter(Boolean);
+            langObservers.forEach((node) => {
+                node.addEventListener('click', () => {
+                    window.setTimeout(() => {
+                        goToStep(stepIndex, true);
+                    }, 10);
+                });
+            });
+        }
+
+        function initFaqAccordions() {
+            const triggers = Array.from(document.querySelectorAll('.faq-accordion-trigger'));
+            triggers.forEach((trigger) => {
+                const panelId = trigger.getAttribute('aria-controls');
+                const panel = panelId ? document.getElementById(panelId) : null;
+                if (!panel) return;
+
+                trigger.addEventListener('click', () => {
+                    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+                    trigger.setAttribute('aria-expanded', String(!isExpanded));
+                    panel.hidden = isExpanded;
+                });
+            });
         }
 
         function getSiteMessages() {
@@ -1518,6 +2208,8 @@ Al completar trabajo:
         });
 
         startHeroInstallTyping();
+        startInstallSequenceDemo();
+        initFaqAccordions();
 
         const walletCopyButton = document.querySelector('[data-copy-wallet]');
         const walletCopyStatus = document.getElementById('support-copy-status');

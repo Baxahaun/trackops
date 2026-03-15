@@ -49,6 +49,29 @@ async function promptForLocale(defaultLocale) {
   }
 }
 
+async function maybePromptForLocale(defaultLocale, options = {}) {
+  const initial = normalizeLocale(defaultLocale) || detectSystemLocale();
+  if (!isInteractive()) return initial;
+
+  const promptMode = String(options.promptMode || "always").trim().toLowerCase();
+  if (promptMode === "never") return initial;
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  try {
+    const answer = await rl.question(
+      `Choose project language / Elige idioma del proyecto [es/en] (${initial}, Enter = keep): `,
+    );
+    const normalized = normalizeLocale(answer);
+    return normalized || initial;
+  } finally {
+    rl.close();
+  }
+}
+
 function resolveLocale(preferred, fallback) {
   return normalizeLocale(preferred) || normalizeLocale(fallback) || detectSystemLocale();
 }
@@ -59,5 +82,6 @@ module.exports = {
   detectSystemLocale,
   isInteractive,
   promptForLocale,
+  maybePromptForLocale,
   resolveLocale,
 };
