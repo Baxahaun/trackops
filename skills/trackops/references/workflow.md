@@ -1,26 +1,26 @@
 # Workflow
 
-Once TrackOps is active in a repository:
+Una vez que TrackOps esta activo en un repositorio:
 
-1. Run `trackops status`.
-2. Run `trackops next`.
-3. Move task state with `trackops task ...`.
-4. Run `trackops sync` after meaningful changes.
-5. Run `trackops env status` when credentials matter.
+1. Ejecuta `trackops status`.
+2. Ejecuta `trackops next`.
+3. Mueve el estado de tareas con `trackops task ...`.
+4. Ejecuta `trackops sync` tras cambios relevantes.
+5. Ejecuta `trackops env status` cuando importen las credenciales.
 
-Operational rules:
+Reglas operativas:
 
-- In split workspaces, use `ops/project_control.json` as the source of truth.
-- Generated operational docs live in `ops/`.
-- Product code lives in `app/`.
-- Real secrets live in `/.env`.
-- Public environment contract lives in `/.env.example`.
-- `app/.env` is only a compatibility bridge.
+- En workspaces split, usa `ops/project_control.json` como fuente de verdad.
+- La documentacion operativa generada vive en `ops/`.
+- El codigo de producto vive en `app/`.
+- Los secretos reales viven en `/.env`.
+- El contrato publico de entorno vive en `/.env.example`.
+- `app/.env` es solo un puente de compatibilidad.
 
-If OPERA is installed:
+Si OPERA esta instalado:
 
-- `ops/contract/operating-contract.json` holds the machine contract.
-- `ops/genesis.md` holds the compiled human view.
-- `ops/policy/autonomy.json` holds the executable autonomy policy.
-- `ops/bootstrap/` holds onboarding artifacts.
-- `ops/.agent/hub/` and `ops/.agents/skills/` hold managed agent artifacts.
+- `ops/contract/operating-contract.json` contiene el contrato de maquina.
+- `ops/genesis.md` contiene la vista humana compilada.
+- `ops/policy/autonomy.json` contiene la politica ejecutable.
+- `ops/bootstrap/` contiene los artefactos de onboarding.
+- `ops/.agent/hub/` y `ops/.agents/skills/` contienen artefactos gestionados de agentes.

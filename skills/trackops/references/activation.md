@@ -1,31 +1,31 @@
-# Activation
+# Activacion
 
-## Global install
+## Instalacion global
 
-Install the marketplace skill:
+Instala la skill del marketplace:
 
 ```bash
 npx skills add Baxahaun/trackops
 ```
 
-On first use, ensure the runtime with:
+En primer uso, asegura el runtime con el script empaquetado de la skill:
 
 ```bash
 node scripts/bootstrap-trackops.js
 ```
 
-The global skill must not create repository files by itself.
+La skill global no debe crear archivos dentro de repositorios por si sola.
 
-## Local activation
+## Activacion local
 
-Inside a repository:
+Dentro de un repositorio:
 
 ```bash
 trackops init
 trackops opera install
 ```
 
-By default, `trackops init` creates a split workspace with:
+Por defecto, `trackops init` crea un workspace split con:
 
 - `app/`
 - `ops/`
@@ -33,38 +33,38 @@ By default, `trackops init` creates a split workspace with:
 - `/.env.example`
 - `.trackops-workspace.json`
 
-## OPERA routing
+## Routing de OPERA
 
-OPERA always starts by classifying:
+OPERA siempre empieza clasificando:
 
-- technical level
-- project state
-- documentation state
+- nivel tecnico
+- estado del proyecto
+- estado de la documentacion
 
-If the project is still early or the user is non-technical, TrackOps writes:
+Si el proyecto aun esta verde o el usuario no es tecnico, TrackOps escribe:
 
 - `ops/bootstrap/agent-handoff.md`
 - `ops/bootstrap/agent-handoff.json`
 
-The agent then produces:
+El agente debe producir:
 
 - `ops/bootstrap/intake.json`
 - `ops/bootstrap/spec-dossier.md`
-- `ops/bootstrap/open-questions.md` when needed
+- `ops/bootstrap/open-questions.md` cuando haga falta
 
-When the quality gate passes, OPERA compiles:
+Cuando el quality gate pasa, OPERA compila:
 
 - `ops/contract/operating-contract.json`
 - `ops/genesis.md`
 - `ops/policy/autonomy.json`
 
-Resume with:
+Reanuda con:
 
 ```bash
 trackops opera bootstrap --resume
 ```
 
-Locale controls:
+Controles de idioma:
 
 ```bash
 trackops locale get

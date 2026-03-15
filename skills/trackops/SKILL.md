@@ -1,89 +1,86 @@
 ---
 name: "trackops"
-description: "Global TrackOps skill that prepares your agent for local project orchestration and operational automation, ensures the runtime on first use, and guides per-project activation with optional OPERA."
-metadata:
-  version: "2.0.0"
-  type: "global"
-  triggers:
-    - "install trackops"
-    - "skills.sh"
-    - "trackops init"
-    - "trackops opera install"
-    - "opera handoff"
+description: "Skill global de TrackOps para instalar y activar la orquestacion local de proyectos con OPERA, entorno y handoff a agentes. Usala cuando el usuario quiera instalar TrackOps desde skills.sh, bootstrapear el runtime con `node scripts/bootstrap-trackops.js`, ejecutar `trackops init`, ejecutar `trackops opera install`, revisar `trackops opera handoff`, o trabajar sobre el flujo operativo de un repositorio."
 ---
 
 # TrackOps
 
-Use this skill in two layers.
+Si la conversacion y el proyecto deben trabajar en ingles, lee `locales/en/SKILL.md` antes de seguir.
 
-## 1. Global skill layer
+## Capa global
 
-Install it with:
+Instala la skill del marketplace con:
 
 ```bash
 npx skills add Baxahaun/trackops
 ```
 
-Before relying on the CLI, run:
+Antes de depender del CLI, ejecuta el script empaquetado de la skill:
 
 ```bash
 node scripts/bootstrap-trackops.js
 ```
 
-That bootstrap ensures the `trackops` runtime and records state in `~/.trackops/runtime.json`.
+Ese bootstrap:
 
-## 2. Local project layer
+- asegura el runtime npm de `trackops`
+- valida que el binario global sea ejecutable
+- registra estado en `~/.trackops/runtime.json`
 
-Inside a repository:
+No debe crear archivos dentro de un repositorio por si solo.
+
+## Capa local del proyecto
+
+Dentro del repositorio:
 
 ```bash
 trackops init
 trackops opera install
 ```
 
-Core rules:
+Reglas base:
 
-- treat the global skill install as non-invasive
-- use `ops/contract/operating-contract.json` as the machine contract when it exists
-- use `ops/project_control.json` as the operational source of truth for backlog and state
-- use `ops/policy/autonomy.json` before approval-sensitive actions
-- use `/.env` and `/.env.example` as the environment contract
-- keep generated operational docs under `ops/`
-- support `trackops locale get|set` and `trackops doctor locale` when language matters
+- trata la instalacion global como no invasiva
+- usa `ops/contract/operating-contract.json` como contrato de maquina cuando exista
+- usa `ops/project_control.json` como fuente de verdad operativa
+- usa `ops/policy/autonomy.json` antes de acciones sensibles
+- usa `/.env` y `/.env.example` como contrato de entorno
+- deja la documentacion operativa generada dentro de `ops/`
+- usa `trackops locale get|set` y `trackops doctor locale` cuando el idioma importe
 
-## OPERA onboarding
+## Onboarding de OPERA
 
-OPERA no longer assumes every user is technical.
+OPERA ya no asume que todo usuario es tecnico.
 
-When OPERA starts, TrackOps classifies:
+TrackOps clasifica:
 
-- user technical level
-- current project state
-- available documentation
+- nivel tecnico del usuario
+- estado actual del proyecto
+- documentacion disponible
 
-Then it chooses one of two routes:
+Luego elige una de dos rutas:
 
 - `direct bootstrap`
-  for technical users and already-defined repositories
+  para usuarios tecnicos y repos ya definidos
 - `agent handoff`
-  for early ideas, non-technical users, or weak documentation
+  para ideas tempranas, usuarios no tecnicos o documentacion debil
 
-If TrackOps routes bootstrap to the agent:
+Si TrackOps deriva al agente:
 
-- read `ops/bootstrap/agent-handoff.md`
-- or print it with `trackops opera handoff --print`
-- the agent must produce:
+- lee `ops/bootstrap/agent-handoff.md`
+- o imprimelo con `trackops opera handoff --print`
+- exige como salida:
   - `ops/bootstrap/intake.json`
   - `ops/bootstrap/spec-dossier.md`
-  - `ops/bootstrap/open-questions.md` when important gaps remain
-- then resume with:
+  - `ops/bootstrap/open-questions.md` cuando queden huecos importantes
+- reanuda con:
 
 ```bash
 trackops opera bootstrap --resume
 ```
 
-Read references only when needed:
+## Que referencia leer y cuando
 
-- `references/activation.md`
-- `references/workflow.md`
-- `references/troubleshooting.md`
+- lee `references/activation.md` solo para instalacion, primer uso, locale bootstrap y activacion de un repo
+- lee `references/workflow.md` solo cuando TrackOps ya esta activo y haga falta operar el dia a dia del repositorio
+- lee `references/troubleshooting.md` solo cuando fallen la instalacion, el bootstrap, el resume o el contrato de entorno

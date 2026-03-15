@@ -1,49 +1,49 @@
 # Troubleshooting
 
-## Missing prerequisites
+## Faltan prerequisitos
 
-- Install Node 18+ if Node is missing or too old.
-- Install a Node distribution that includes npm if npm is missing.
+- Instala Node 18+ si Node falta o es demasiado antiguo.
+- Instala una distribucion de Node que incluya npm si falta npm.
 
-## Global install command failed
+## Fallo al instalar la skill global
 
-- Install from committed GitHub state:
+- Instala desde el estado committeado de GitHub:
   `npx skills add Baxahaun/trackops`
-- Then ensure the local runtime with:
+- Luego asegura el runtime local con:
   `node scripts/bootstrap-trackops.js`
-- If the install succeeded but the CLI still looks unavailable, confirm that `~/.trackops/runtime.json` exists.
+- Si la instalacion salio bien pero el CLI sigue sin aparecer, confirma que `~/.trackops/runtime.json` exista.
 
-## Runtime bootstrap failed
+## Fallo en el bootstrap del runtime
 
-- Re-run `node scripts/bootstrap-trackops.js`.
-- If npm global permissions fail, configure a user-writable npm prefix instead of using `sudo`.
+- Reejecuta `node scripts/bootstrap-trackops.js`.
+- Si fallan los permisos globales de npm, configura un prefix de usuario en lugar de usar `sudo`.
 
-## OPERA routed bootstrap to the agent
+## OPERA ha derivado el bootstrap al agente
 
-This is expected when:
+Es el comportamiento esperado cuando:
 
-- the user is non-technical
-- the project is still in idea stage
-- documentation is weak
+- el usuario no es tecnico
+- el proyecto sigue en fase idea
+- la documentacion es debil
 
-Use:
+Usa:
 
 ```bash
 trackops opera handoff --print
 trackops opera bootstrap --resume
 ```
 
-## Resume does not complete
+## El resume no completa
 
-TrackOps will not invent missing context.
+TrackOps no inventa contexto faltante.
 
-Check that both files exist and contain usable data:
+Comprueba que ambos archivos existan y contengan datos utilizables:
 
 - `ops/bootstrap/intake.json`
 - `ops/bootstrap/spec-dossier.md`
 
-## Environment looks inconsistent
+## El entorno parece inconsistente
 
-- Run `trackops env status`.
-- Run `trackops env sync`.
-- If bridge mode is `copy`, do not edit `app/.env` directly.
+- Ejecuta `trackops env status`.
+- Ejecuta `trackops env sync`.
+- Si el bridge mode es `copy`, no edites `app/.env` directamente.
