@@ -30,6 +30,7 @@ y el proyecto mantiene versionado pragmatico mientras se consolida la politica f
 
 ## [2026-03-15]
 
+- 📝 ♻️ refactor(skill): separa skill y runtime (`c0c12c3`)
 - 📚 **(skill)** refina skill trackops (`1811197`)
 - 🔧 **(git)** ignora env privado local (`9f8028c`)
 
